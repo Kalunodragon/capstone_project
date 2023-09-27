@@ -6,7 +6,7 @@ class CreateShifts < ActiveRecord::Migration[7.0]
       t.integer :start_time
       t.integer :off_time
 
-      t.timestamps
+      # t.timestamps
     end
   end
 end

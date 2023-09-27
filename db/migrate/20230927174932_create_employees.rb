@@ -11,7 +11,7 @@ class CreateEmployees < ActiveRecord::Migration[7.0]
       t.date :date_of_birth
       t.boolean :admin
       
-      t.timestamps
+      # t.timestamps
     end
   end
 end

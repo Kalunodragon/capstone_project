@@ -14,7 +14,7 @@ class CreateSchedules < ActiveRecord::Migration[7.0]
       t.integer :saturday_shift
       t.integer :number_available
 
-      t.timestamps
+      # t.timestamps
     end
   end
 end
