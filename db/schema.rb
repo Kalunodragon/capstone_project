@@ -29,8 +29,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_175021) do
     t.date "seniority_date"
     t.date "date_of_birth"
     t.boolean "admin"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "schedules", force: :cascade do |t|
@@ -46,8 +44,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_175021) do
     t.integer "friday_shift"
     t.integer "saturday_shift"
     t.integer "number_available"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "shifts", force: :cascade do |t|
@@ -55,8 +51,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_175021) do
     t.boolean "day_off"
     t.integer "start_time"
     t.integer "off_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end
