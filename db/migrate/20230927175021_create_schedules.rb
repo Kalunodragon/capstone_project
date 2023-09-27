@@ -1,6 +1,8 @@
 class CreateSchedules < ActiveRecord::Migration[7.0]
   def change
     create_table :schedules do |t|
+      t.date :bid_open
+      t.date :bid_close
       t.date :start_date
       t.date :end_date
       t.integer :sunday_shift

@@ -34,6 +34,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_175021) do
   end
 
   create_table "schedules", force: :cascade do |t|
+    t.date "bid_open"
+    t.date "bid_close"
     t.date "start_date"
     t.date "end_date"
     t.integer "sunday_shift"
