@@ -8,7 +8,7 @@
 
 require 'date'
 
-p Date.new(1992,5,2)
+p Date.today
 
 p "--- Starting Seed Generator ---"
 p " "
