@@ -13,7 +13,7 @@ p Date.new(1992,5,2)
 p "--- Starting Seed Generator ---"
 p " "
 p "Generating Employees"
-    Employee.create(first_name:"Andrew", last_name:"Onulak", department:"Ramp", phone_number:7325759043, email:"test@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1992,5,2), admin:false)
+    Employee.create(first_name:"Andrew", last_name:"Onulak", department:"Ramp", phone_number:7325759043, email:"test@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1992,5,2), admin:false, password:"testing")
 p "Finished generating Employees"
 p " "
 p "Generating Shifts"
