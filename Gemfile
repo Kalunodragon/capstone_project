@@ -74,3 +74,5 @@ group :test do
   gem "webdrivers"
 
 end
+
+gem "active_model_serializers"
