@@ -10,6 +10,7 @@ class CreateEmployees < ActiveRecord::Migration[7.0]
       t.date :seniority_date
       t.date :date_of_birth
       t.boolean :admin
+      t.string :password_digest
       
       # t.timestamps
     end
