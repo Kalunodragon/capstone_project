@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_175021) do
     t.date "seniority_date"
     t.date "date_of_birth"
     t.boolean "admin"
+    t.string "password_digest"
   end
 
   create_table "schedules", force: :cascade do |t|
