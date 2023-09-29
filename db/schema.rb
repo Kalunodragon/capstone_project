@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_09_27_175021) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "bids", force: :cascade do |t|
     t.integer "choice_number"
     t.integer "employee_id"
@@ -23,7 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_175021) do
     t.string "first_name"
     t.string "last_name"
     t.string "department"
-    t.integer "phone_number"
+    t.bigint "phone_number"
     t.string "email"
     t.string "station"
     t.date "seniority_date"
