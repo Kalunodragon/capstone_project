@@ -22,3 +22,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+<!-- Comments on where to pick back up -->
+<!-- Need to continue building out the API Controllers, Build out the Employee Destroy Method so that only an Admin has the capacity to remove an Employee from the database.-->
