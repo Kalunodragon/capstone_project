@@ -26,7 +26,7 @@ class EmployeesController < ApplicationController
     end
 
     def update
-        employee = find_employee
+        employee = @current_employee
         if(params[:password] == params[:password_confirmation])
             employee.update!(employee_params)
             render json: employee, status: :ok
@@ -34,18 +34,6 @@ class EmployeesController < ApplicationController
             render json: { errors: "Please make sure the passwords match and try again" }, status: :unprocessable_entity
         end
     end
-
-    # def destroy
-    #     # This will need to change so that only and Admin can destroy/remove and Employee
-    #     # This is only for testing out the routes on front end
-    #     employee = find_employee
-    #     if(session[:employee_id] == employee.id)
-    #         employee.destroy
-    #         render json: employee, status: :ok
-    #     else
-    #         render json: { errors: "Only and Admin can remove and Employee!" }, status: :unauthorized
-    #     end
-    # end
 
     def destroy
         if(@current_employee)
@@ -64,8 +52,16 @@ class EmployeesController < ApplicationController
     def employee_params
         params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth, :admin, :password, :password_confirmation)
     end
-
-    def find_employee
-        Employee.find_by(id: session[:id])
-    end
 end
+
+# def destroy
+#     # This will need to change so that only and Admin can destroy/remove and Employee
+#     # This is only for testing out the routes on front end
+#     employee = find_employee
+#     if(session[:employee_id] == employee.id)
+#         employee.destroy
+#         render json: employee, status: :ok
+#     else
+#         render json: { errors: "Only and Admin can remove and Employee!" }, status: :unauthorized
+#     end
+# end
