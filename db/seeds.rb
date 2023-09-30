@@ -14,7 +14,7 @@ p "--- Starting Seed Generator ---"
 p " "
 p "Generating Employees"
     Employee.create(first_name:"Andrew", last_name:"Onulak", department:"Ramp", phone_number:7325759043, email:"test@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1992,5,2), admin:false, password:"testing")
-    Employee.create(first_name:"Drew", last_name:"Jordan", department:"Ramp", phone_number:7325759043, email:"test2@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1992,5,2), admin:true, password:"testing2")
+    Employee.create(first_name:"Drew", last_name:"Jordan", department:"Ramp", phone_number:7325759043, email:"test2@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1990,8,12), admin:true, password:"testing2")
     Employee.create(first_name:"Deletable", last_name:"Delete-Me", department:"CSA", phone_number:7325759043, email:"delete@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.today, admin:false, password:"testing3")
 p "Finished generating Employees"
 p " "
