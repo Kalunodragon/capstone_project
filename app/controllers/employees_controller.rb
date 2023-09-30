@@ -45,6 +45,7 @@ class EmployeesController < ApplicationController
             end
         else
             render json: { errors: "Please log in to try and preform this action!" }, status: :unauthorized
+        end
     end
 
     private
