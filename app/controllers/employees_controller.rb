@@ -8,6 +8,9 @@ class EmployeesController < ApplicationController
         if(params[:password] == params[password_confirmation])
             employee = Employee.create!(employee_params)
             session[:employee_id] = employee.id
+            if(employee.admin)
+                session[:admin] = employee.admin
+            end
             render json: employee, status: :created
         else
             render json: { errors: "Please try again, can't process"}, status: :unprocessable_entity
@@ -32,16 +35,28 @@ class EmployeesController < ApplicationController
         end
     end
 
+    # def destroy
+    #     # This will need to change so that only and Admin can destroy/remove and Employee
+    #     # This is only for testing out the routes on front end
+    #     employee = find_employee
+    #     if(session[:employee_id] == employee.id)
+    #         employee.destroy
+    #         render json: employee, status: :ok
+    #     else
+    #         render json: { errors: "Only and Admin can remove and Employee!" }, status: :unauthorized
+    #     end
+    # end
+
     def destroy
-        # This will need to change so that only and Admin can destroy/remove and Employee
-        # This is only for testing out the routes on front end
-        employee = find_employee
-        if(session[:employee_id] == employee.id)
-            employee.destroy
-            render json: employee, status: :ok
+        if(@current_employee)
+            if(session[:admin] == true)
+                employee.destroy
+                render json: employee, status: :ok
+            else
+                render json: { errors: "Only Admin can preform this action!" }, status: :unauthorized
+            end
         else
-            render json: { errors: "Only and Admin can remove and Employee!" }, status: :unauthorized
-        end
+            render json: { errors: "Please log in to try and preform this action!" }, status: :unauthorized
     end
 
     private
