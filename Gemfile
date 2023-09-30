@@ -49,6 +49,7 @@ gem "bootsnap", require: false
 
 gem 'faker'
 gem 'date'
+gem 'delayed_job'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
