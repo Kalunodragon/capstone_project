@@ -25,4 +25,9 @@ Things you may want to cover:
 
 
 <!-- Comments on where to pick back up -->
-<!-- Need to continue building out the API Controllers, Build out the Employee Destroy Method so that only an Admin has the capacity to remove an Employee from the database.-->
+<!--
+    -Continue adding validations for all models
+    -Test routes that are set up in Postman
+    -Create and delete an Employee from the Admin side
+    -Change creation of an Employee to only be able to be done by an Admin member
+-->
