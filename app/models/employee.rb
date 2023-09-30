@@ -10,10 +10,6 @@ class Employee < ApplicationRecord
     validates_inclusion_of :admin, in: [true, false]
 
     def self.seniority_list
-        sorted = Employee.all.sort_by { |a| [a.seniority_date, a.date_of_birth] }
-        sort_print = sorted.each do |per|
-            p per.first_name
-        end
-        sort_print
+        Employee.all.sort_by { |a| [a.seniority_date, a.date_of_birth] }
     end
 end
