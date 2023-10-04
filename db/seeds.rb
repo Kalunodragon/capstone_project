@@ -37,10 +37,10 @@ p "Generating Schedules"
 p "Finished generating Schedules"
 p " "
 p "Generating Bids"
-    Bid.create(choice_number:1, employee_id:1, schedule_id:1)
-    Bid.create(choice_number:2, employee_id:1, schedule_id:3)
-    Bid.create(choice_number:1, employee_id:3, schedule_id:1)
-    Bid.create(choice_number:2, employee_id:3, schedule_id:2)
+    Bid.create(choice_number:1, employee_id:1, schedule_id:1, awarded:false)
+    Bid.create(choice_number:2, employee_id:1, schedule_id:3, awarded:false)
+    Bid.create(choice_number:1, employee_id:3, schedule_id:1, awarded:false)
+    Bid.create(choice_number:2, employee_id:3, schedule_id:2, awarded:false)
 p "Finished generating Bids"
 p " "
 p "--- Finished Seed Generator ---"
