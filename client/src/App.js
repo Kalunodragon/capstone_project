@@ -6,7 +6,7 @@ function App() {
   console.log("testing server ping")
 
   function serverPing(){
-    fetch("/employee/1")
+    fetch("/test")
     .then(r => r.json())
     .then(d => console.log(d))
   }
