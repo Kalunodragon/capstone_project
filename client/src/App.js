@@ -3,6 +3,8 @@ import './App.css';
 
 function App() {
 
+  console.log("testing server ping")
+
   function serverPing(){
     fetch("/employee/1")
     .then(r => r.json())
