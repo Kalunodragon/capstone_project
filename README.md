@@ -30,4 +30,8 @@ Things you may want to cover:
     -Test routes that are set up in Postman
     -Create and delete an Employee from the Admin side
     -Change creation of an Employee to only be able to be done by an Admin member
+
+    Continue to build out Bidding method that goes through all Employees Bids
+    that then updates the first (finds the first) Bid that is still available
+    to go from awarded:false to awarded:true
 -->
