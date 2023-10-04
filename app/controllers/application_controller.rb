@@ -15,4 +15,18 @@ class ApplicationController < ActionController::API
         render json: { errors: item.record.errors.full_messages }, status: :unprocessable_entity
     end
 
+    def prevent_server_shutdown
+        x = 1
+        t = (Time.now + 10*60).to_fs(:time)
+        while x > 0 do
+            if(Time.now >= t)
+                p "Server timer reset"
+                p Time.now
+                prevent_server_shutdown
+            end
+        end
+    end
+
+    prevent_server_shutdown
+
 end
