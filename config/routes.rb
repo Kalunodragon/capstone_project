@@ -8,7 +8,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  get '/test' do
-    p "server was reached"
-  end
+  get "/test", to: "employees#test"
 end

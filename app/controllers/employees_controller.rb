@@ -48,6 +48,10 @@ class EmployeesController < ApplicationController
         end
     end
 
+    def test
+        p "SERVER WAS REACHED!!!!!!"
+    end
+
     private
 
     def employee_params
