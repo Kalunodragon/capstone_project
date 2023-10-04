@@ -2,6 +2,15 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  function serverPing(){
+    fetch("/employee/1")
+    .then(r => r.json())
+    .then(d => console.log(d))
+  }
+
+  setInterval(serverPing, 60000)
+
   return (
     <div className="App">
       <header className="App-header">
