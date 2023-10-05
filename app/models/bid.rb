@@ -6,14 +6,12 @@ class Bid < ApplicationRecord
     validates_inclusion_of :awarded, in: [true, false]
 
     def self.execute_bid
-        Employee.seniority_list.each do |e| 
-            check = e.bids.find do |s|
-                if(s.schedule.number_available > 0)
-                    current = s.schedule.number_available
-                    s.schedule.update(number_available: current - 1)
-                    s.update(awarded:true)
-                else
-                    p "No more available shifts for this schedule!"
+        Employee.seniority_list.each do |e|
+            check = e.bids.detect do |b|
+                if(b.schedule.number_available > 0)
+                    current = b.schedule.number_available
+                    b.schedule.update(number_available: current - 1)
+                    b.update(awarded:true)
                 end
             end
             if(check == nil)
