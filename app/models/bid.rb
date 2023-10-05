@@ -10,7 +10,9 @@ class Bid < ApplicationRecord
         # check EACH employees BID
             # go through EACH BID in order
             # FIND first BID that has a :number_available that is > 0
-            # bid_to_award = individual_emp_bid.find_by()
+                # once that bid is found update that Bid using the Bid.id to change :awarded to true
+                # After all bids are awarded message each employee who got a bid their bid
+                # Any employee who didnt get an awarded bid gets a message saying that they got Not Enough Lines
         Employee.seniority_list.each do |e| 
             e.bids.find do |s|
                 bid_awarded = false
