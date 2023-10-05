@@ -5,7 +5,10 @@ class Bid < ApplicationRecord
     validates :choice_number, :employee_id, :schedule_id, presence: true
     validates_inclusion_of :awarded, in: [true, false]
 
+    # future add - takes a parameter (schedule.bid_open or schedule.bid_close)
+        # use this parameter to check e.bids.where(schedule.bid_open == parameter)
     def self.execute_bid
+        @not_enough_lines = []
         Employee.seniority_list.each do |e|
             check = e.bids.detect do |b|
                 if(b.schedule.number_available > 0)
@@ -15,10 +18,14 @@ class Bid < ApplicationRecord
                 end
             end
             if(check == nil)
-                p "Not enough bidded lines!"
+                @not_enough_lines << e
             end
         end
-        # p Bid.all.where(awarded:true)
+        # Trigger 2 different SMS systems to send out results of Bid
+        # Awarded lines
+        # Bid.all.where(awarded:true)
+        # Not enough lines bided
+        # @not_enough_lines
     end
 
     # Checks :number_available
