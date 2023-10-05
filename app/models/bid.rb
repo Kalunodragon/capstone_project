@@ -6,25 +6,21 @@ class Bid < ApplicationRecord
     validates_inclusion_of :awarded, in: [true, false]
 
     def self.execute_bid
-        # pull seniority list
-        # check EACH employees BID
-            # go through EACH BID in order
-            # FIND first BID that has a :number_available that is > 0
-                # once that bid is found update that Bid using the Bid.id to change :awarded to true
-                # After all bids are awarded message each employee who got a bid their bid
-                # Any employee who didnt get an awarded bid gets a message saying that they got Not Enough Lines
         Employee.seniority_list.each do |e| 
-            e.bids.find do |s|
-                bid_awarded = false
-                award = s.schedule.number_available > 0
-                if(award && bid_awarded == false)
-                    bid_awarded = true
-                    p award
-                    # award.update(awarded: true)
+            check = e.bids.find do |s|
+                if(s.schedule.number_available > 0)
+                    current = s.schedule.number_available
+                    s.schedule.update(number_available: current - 1)
+                    s.update(awarded:true)
+                else
+                    p "No more available shifts for this schedule!"
                 end
             end
-            # p Employee.seniority_list.each { |e| e.bids.find_by(awarded: true) }
+            if(check == nil)
+                p "Not enough bidded lines!"
+            end
         end
+        # p Bid.all.where(awarded:true)
     end
 
     # Checks :number_available
