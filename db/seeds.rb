@@ -15,7 +15,10 @@ p " "
 p "Generating Employees"
     Employee.create(first_name:"Andrew", last_name:"Onulak", department:"Ramp", phone_number:7325759043, email:"test@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1992,5,2), admin:false, password:"testing")
     Employee.create(first_name:"Drew", last_name:"Jordan", department:"Ramp", phone_number:7325759043, email:"test2@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1990,8,12), admin:true, password:"testing2")
-    Employee.create(first_name:"Deletable", last_name:"Delete-Me", department:"CSA", phone_number:7325759043, email:"delete@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.today, admin:false, password:"testing3")
+    Employee.create(first_name:"Deletable", last_name:"Delete-Me", department:"CSA", phone_number:7325759043, email:"delete@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.yesterday.yesterday, admin:false, password:"testing3")
+    Employee.create(first_name:"Willson", last_name:"Shouldget", department:"BID Choice 2", phone_number:7325759043, email:"delete2@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.yesterday, admin:false, password:"testing32")
+    Employee.create(first_name:"Deletable3", last_name:"Delete-Me3", department:"CSA", phone_number:7325759043, email:"delete3@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.today, admin:false, password:"testing33")
+
 p "Finished generating Employees"
 p " "
 p "Generating Shifts"
@@ -30,9 +33,9 @@ p "Generating Shifts"
 p "Finished generating Shifts"
 p " "
 p "Generating Schedules"
-    Schedule.create(bid_open:Date.new(2023,1,9), bid_close:Date.new(2023,8,9), start_date: Date.new(2023,8,10), end_date: Date.new(2023,11,11), sunday_shift:1, monday_shift:1, tuesday_shift:2, wednesday_shift:2, thursday_shift:2, friday_shift:2, saturday_shift:2, number_available:3)
+    Schedule.create(bid_open:Date.new(2023,1,9), bid_close:Date.new(2023,8,9), start_date: Date.new(2023,8,10), end_date: Date.new(2023,11,11), sunday_shift:1, monday_shift:1, tuesday_shift:2, wednesday_shift:2, thursday_shift:2, friday_shift:2, saturday_shift:2, number_available:2)
     Schedule.create(bid_open:Date.new(2023,1,9), bid_close:Date.new(2023,8,9), start_date: Date.new(2023,8,10), end_date: Date.new(2023,11,11), sunday_shift:3, monday_shift:3, tuesday_shift:1, wednesday_shift:1, thursday_shift:3, friday_shift:3, saturday_shift:3, number_available:2)
-    Schedule.create(bid_open:Date.new(2023,1,9), bid_close:Date.new(2023,8,9), start_date: Date.new(2023,8,10), end_date: Date.new(2023,11,11), sunday_shift:4, monday_shift:4, tuesday_shift:4, wednesday_shift:4, thursday_shift:1, friday_shift:1, saturday_shift:4, number_available:1)
+    Schedule.create(bid_open:Date.new(2023,1,9), bid_close:Date.new(2023,8,9), start_date: Date.new(2023,8,10), end_date: Date.new(2023,11,11), sunday_shift:4, monday_shift:4, tuesday_shift:4, wednesday_shift:4, thursday_shift:1, friday_shift:1, saturday_shift:4, number_available:2)
     Schedule.create(bid_open:Date.new(2023,1,9), bid_close:Date.new(2023,8,9), start_date: Date.new(2023,8,10), end_date: Date.new(2023,11,11), sunday_shift:7, monday_shift:7, tuesday_shift:7, wednesday_shift:1, thursday_shift:1, friday_shift:7, saturday_shift:7, number_available:5)
 p "Finished generating Schedules"
 p " "
@@ -41,6 +44,8 @@ p "Generating Bids"
     Bid.create(choice_number:2, employee_id:1, schedule_id:3, awarded:false)
     Bid.create(choice_number:1, employee_id:3, schedule_id:1, awarded:false)
     Bid.create(choice_number:2, employee_id:3, schedule_id:2, awarded:false)
+    Bid.create(choice_number:1, employee_id:4, schedule_id:1, awarded:false)
+    Bid.create(choice_number:2, employee_id:4, schedule_id:3, awarded:false)
 p "Finished generating Bids"
 p " "
 p "--- Finished Seed Generator ---"
