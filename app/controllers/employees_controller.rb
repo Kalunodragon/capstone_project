@@ -49,7 +49,7 @@ class EmployeesController < ApplicationController
     end
 
     def test
-        render json: { "SERVER WAS REACHED!!!!!!" }, status: :ok
+        render json: { errors: "SERVER WAS REACHED!!!!!!" }, status: :ok
     end
 
     private
