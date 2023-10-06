@@ -3,7 +3,7 @@ class EmployeesController < ApplicationController
 
     # Finish setting up controller to allow for routes control of Employee model.
     # Test with postman to make sure create, show, update, and destroy all work
-    
+
     def create
         if(params[:password] == params[password_confirmation])
             employee = Employee.create!(employee_params)
@@ -49,12 +49,6 @@ class EmployeesController < ApplicationController
     end
 
     def test
-        # :awarded_message(Employee.first)
-        @client.messages.create(
-            body: "This is only a test message",
-            to: "+17325759043",
-            from: @Twilio_NUMBER
-        )
         render json: { errors: "SERVER WAS REACHED!!!!!!" }, status: :ok
     end
 

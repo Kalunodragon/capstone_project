@@ -3,15 +3,15 @@ import './App.css';
 
 function App() {
 
-  console.log("testing server ping")
-
+  
   function serverPing(){
+    console.log("testing server ping")
     fetch("/test")
     .then(r => r.json())
     .then(d => console.log(d))
   }
 
-  setInterval(serverPing, 600000)
+  setInterval(serverPing, 60000)
 
   return (
     <div className="App">

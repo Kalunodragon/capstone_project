@@ -1,15 +1,15 @@
 class ApplicationController < ActionController::API
     include ActionController::Cookies
-    require "twilio-ruby"
+    # require "twilio-ruby"
     
     rescue_from ActiveRecord::RecordInvalid, with: :render_not_processable
     before_action :auth
 
-    @Account_SID = ENV["ACCOUNT_SID"]
-    @Auth_TOKEN = ENV["AUTH_TOKEN"]
-    @Twilio_NUMBER = ENV["TWILIO_NUMBER"]
+    # @Account_SID = ENV["ACCOUNT_SID"]
+    # @Auth_TOKEN = ENV["AUTH_TOKEN"]
+    # @Twilio_NUMBER = ENV["TWILIO_NUMBER"]
 
-    @client = Twilio::REST::Client.new @Account_SID, @Auth_TOKEN
+    # @client = Twilio::REST::Client.new @Account_SID, @Auth_TOKEN
 
     private
 
