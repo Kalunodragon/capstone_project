@@ -32,3 +32,6 @@ class Bid < ApplicationRecord
     # Employee.seniority_list.each { |e| e.bids.find { |s| p s.schedule.number_available > 0} }
 
 end
+
+
+# Create SMS send from this file and see if the ENV variables can be accessed from here
