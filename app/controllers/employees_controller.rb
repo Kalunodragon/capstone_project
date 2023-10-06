@@ -49,6 +49,16 @@ class EmployeesController < ApplicationController
     end
 
     def test
+        require "twilio-ruby"
+
+        @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
+            message = @client.messages.create(
+            body: "Hello from Ruby",
+            to: "+17325759043",
+            from: ENV["TWILIO_NUMBER"],
+        )
+
+        puts message.sid
         render json: { errors: "SERVER WAS REACHED!!!!!!" }, status: :ok
     end
 
