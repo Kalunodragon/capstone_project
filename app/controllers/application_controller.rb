@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
     include ActionController::Cookies
+    require "twilio-ruby"
     
     rescue_from ActiveRecord::RecordInvalid, with: :render_not_processable
     before_action :auth
