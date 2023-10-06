@@ -11,7 +11,7 @@ function App() {
     .then(d => console.log(d))
   }
 
-  setInterval(serverPing, 60000)
+  setInterval(serverPing, 600000)
 
   return (
     <div className="App">

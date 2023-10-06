@@ -23,11 +23,11 @@ class ApplicationController < ActionController::API
     end
 
     def awarded_message(employee)
-        message = @client.messages.create(
-            body: `Hello #{employee.first_name}! You have been awarded this schedule:` + employee.bids.first.schedule.shift_info + "If there seems to be an issue with this please contact Admin!",
-            to: "+1" + employee.phone_number.to_s,
-            from: @Twilio_NUMBER
-        )
+        # message = @client.messages.create(
+        #     body: `Hello #{employee.first_name}! You have been awarded this schedule:` + employee.bids.first.schedule.shift_info + "If there seems to be an issue with this please contact Admin!",
+        #     to: "+1" + employee.phone_number.to_s,
+        #     from: @Twilio_NUMBER
+        # )
     end
 
     def not_enough_lines(employee)
