@@ -49,7 +49,7 @@ class EmployeesController < ApplicationController
     end
 
     def test
-        awarded_message(Employee.first)
+        :awarded_message(Employee.first)
         render json: { errors: "SERVER WAS REACHED!!!!!!" }, status: :ok
     end
 
