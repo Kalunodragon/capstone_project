@@ -4,6 +4,10 @@ class ApplicationController < ActionController::API
     rescue_from ActiveRecord::RecordInvalid, with: :render_not_processable
     before_action :auth
 
+    @Account_SID = ENV["ACCOUNT_SID"]
+    @Auth_TOKEN = ENV["AUTH_TOKEN"]
+    @Twilio_NUMBER = ENV["TWILIO_NUMBER"]
+
     private
 
     def auth
