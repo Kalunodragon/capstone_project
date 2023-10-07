@@ -1,10 +1,9 @@
 class ApplicationController < ActionController::API
     include ActionController::Cookies
+    require 'faker'
     
     rescue_from ActiveRecord::RecordInvalid, with: :render_not_processable
     before_action :auth
-
-    
 
     private
 
