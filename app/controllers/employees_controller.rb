@@ -49,7 +49,7 @@ class EmployeesController < ApplicationController
     end
 
     def test
-
+        render json: Employee.seniority_list, status: :ok
     end
 
     private
