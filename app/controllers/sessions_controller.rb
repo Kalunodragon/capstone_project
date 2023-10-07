@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       end
       render json: employee, status: :ok
     else
-      render json: { error: "Employee does not exist please try again." }, status: :unauthorized
+      render json: { error: "Employee does not exist or password is incorrect please try again." }, status: :unauthorized
     end
   end
 
