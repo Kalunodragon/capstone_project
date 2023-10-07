@@ -7,6 +7,8 @@ class EmployeesController < ApplicationController
     def create
         # Dates need to be converted before passing them in as a param
         if(params[:password] == params[:password_confirmation])
+            params[:seniority_date] = params[:seniority_date].to_date
+            params[:date_of_birth] = params[:date_of_birth].to_date
             employee = Employee.create!(employee_params)
             session[:employee_id] = employee.id
             if(employee.admin)
