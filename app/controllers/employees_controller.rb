@@ -49,16 +49,19 @@ class EmployeesController < ApplicationController
     end
 
     def test
-        require "twilio-ruby"
+        Bid.execute_bid
 
-        @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
-            message = @client.messages.create(
-            body: "Hello from Ruby",
-            to: "+17325759043",
-            from: ENV["TWILIO_NUMBER"],
-        )
-
-        puts message.sid
+        Bid.all.where(awarded:true).each do |b|
+            emp = b.employee
+            awarded_message(emp)
+        end
+        # awarded_message(Employee.first)
+        # @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
+        #     message = @client.messages.create(
+        #     body: "Hello from Ruby",
+        #     to: "+17325759043",
+        #     from: ENV["TWILIO_NUMBER"],
+        # )
         render json: { errors: "SERVER WAS REACHED!!!!!!" }, status: :ok
     end
 

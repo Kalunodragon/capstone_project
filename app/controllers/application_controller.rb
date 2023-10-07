@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::API
     include ActionController::Cookies
-    # require "twilio-ruby"
     
     rescue_from ActiveRecord::RecordInvalid, with: :render_not_processable
     before_action :auth
@@ -11,6 +10,19 @@ class ApplicationController < ActionController::API
 
     # @client = Twilio::REST::Client.new @Account_SID, @Auth_TOKEN
 
+    def awarded_message(employee)
+        name = employee.first_name + " " + employee.last_name
+        choice = employee.bids.where(awarded:true).first.choice_number
+        schedule_info = employee.bids.where(awarded:true).first.schedule
+
+        @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
+            message = @client.messages.create(
+            body: `#{name}, You have been awarded you bid choice #{choice}. Your schedule from #{schedule_info.start_date} to #{schedule_info.end_date} will be as follows: `,
+            to: "+1" + employee.phone_number.to_s,
+            from: ENV["TWILIO_NUMBER"],
+        )
+    end
+
     private
 
     def auth
@@ -20,18 +32,6 @@ class ApplicationController < ActionController::API
 
     def render_not_processable(item)
         render json: { errors: item.record.errors.full_messages }, status: :unprocessable_entity
-    end
-
-    def awarded_message(employee)
-        # message = @client.messages.create(
-        #     body: `Hello #{employee.first_name}! You have been awarded this schedule:` + employee.bids.first.schedule.shift_info + "If there seems to be an issue with this please contact Admin!",
-        #     to: "+1" + employee.phone_number.to_s,
-        #     from: @Twilio_NUMBER
-        # )
-    end
-
-    def not_enough_lines(employee)
-
     end
 
 end
