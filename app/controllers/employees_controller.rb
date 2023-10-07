@@ -50,20 +50,14 @@ class EmployeesController < ApplicationController
 
     def test
         Bid.execute_bid
-
-        list = Bid.all.where(awarded:true)
-        list.each do |b|
-            emp = b.employee
-            awarded_message(emp)
+        Employee.seniority_list.each do |e|
+            if(e.bids.all.find_by(awarded:true))
+                awarded_message(e)
+            else
+                not_enough_lines(e)
+            end
         end
-        # awarded_message(Employee.first)
-        # @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
-        #     message = @client.messages.create(
-        #     body: "Hello from Ruby",
-        #     to: "+17325759043",
-        #     from: ENV["TWILIO_NUMBER"],
-        # )
-        render json: { errors: "SERVER WAS REACHED!!!!!!" }, status: :ok
+        render json: ["The request has be completed"], status: :ok
     end
 
     private

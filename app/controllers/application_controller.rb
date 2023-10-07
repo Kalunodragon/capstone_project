@@ -4,22 +4,34 @@ class ApplicationController < ActionController::API
     rescue_from ActiveRecord::RecordInvalid, with: :render_not_processable
     before_action :auth
 
-    # @Account_SID = ENV["ACCOUNT_SID"]
-    # @Auth_TOKEN = ENV["AUTH_TOKEN"]
-    # @Twilio_NUMBER = ENV["TWILIO_NUMBER"]
-
-    # @client = Twilio::REST::Client.new @Account_SID, @Auth_TOKEN
-
     def awarded_message(employee)
         @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
 
-        name = employee.first_name + " " + employee.last_name
-        choice = employee.bids.find_by(awarded:true).choice_number
         schedule_info = employee.bids.find_by(awarded:true).schedule
-        message_to_send = "#{name}, You have been awarded you bid choice #{choice}. Your schedule from #{schedule_info.start_date.to_fs(:long_ordinal)} to #{schedule_info.end_date.to_fs(:long_ordinal)} will be as follows: "
+        shift_days = schedule_info.shift_info
+        day_array = []
+        shift_days.each do |d|
+            if(d.day_off)
+                day_array << "Off"
+            else
+                day_array << "#{d.position}: #{d.start_time}-#{d.off_time}"
+            end
+        end
+
+        message_to_send = "#{employee.first_name}, Your schedule from #{schedule_info.start_date.to_fs(:long_ordinal)} to #{schedule_info.end_date.to_fs(:long_ordinal)} will be as follows: \nSunday: #{day_array[0]} \nMonday: #{day_array[1]} \nTuesday: #{day_array[2]} \nWednesday: #{day_array[3]} \nThursday: #{day_array[4]} \nFriday: #{day_array[5]} \nSaturday: #{day_array[6]}"
 
         message = @client.messages.create(
             body: message_to_send,
+            to: "+1" + employee.phone_number.to_s,
+            from: ENV["TWILIO_NUMBER"],
+        )
+    end
+
+    def not_enough_lines(employee)
+        @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
+
+        message = @client.messages.create(
+            body: "#{employee.first_name}, You did not bid enough lines on the bid. Please contact Admin for your schedule.",
             to: "+1" + employee.phone_number.to_s,
             from: ENV["TWILIO_NUMBER"],
         )

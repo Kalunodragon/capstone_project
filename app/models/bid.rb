@@ -21,11 +21,6 @@ class Bid < ApplicationRecord
                 @not_enough_lines << e
             end
         end
-        # Trigger 2 different SMS systems to send out results of Bid
-        # Awarded lines
-        # Bid.all.where(awarded:true) => .each send message with awarded bid info / schedule info
-        # Not enough lines bided
-        # @not_enough_lines => .each send message telling them to contact admin for assigned line
     end
 
     # Checks :number_available
