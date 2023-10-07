@@ -1,9 +1,6 @@
 class EmployeesController < ApplicationController
     skip_before_action :auth, only: :test
 
-    # Finish setting up controller to allow for routes control of Employee model.
-    # Test with postman to make sure create, show, update, and destroy all work
-
     def create
         if(@current_employee.admin)
             params[:seniority_date] = params[:seniority_date].to_date

@@ -32,4 +32,6 @@ Things you may want to cover:
     -Change creation of an Employee to only be able to be done by an Admin member
 
     Finish adding all routes for all other controllers and test out those routes
+
+    Continue filling out bid routes
 -->
