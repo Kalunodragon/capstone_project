@@ -49,15 +49,7 @@ class EmployeesController < ApplicationController
     end
 
     def test
-        Bid.execute_bid
-        Employee.seniority_list.each do |e|
-            if(e.bids.all.find_by(awarded:true))
-                awarded_message(e)
-            else
-                not_enough_lines(e)
-            end
-        end
-        render json: ["The request has be completed"], status: :ok
+
     end
 
     private
