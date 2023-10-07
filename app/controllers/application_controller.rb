@@ -11,13 +11,15 @@ class ApplicationController < ActionController::API
     # @client = Twilio::REST::Client.new @Account_SID, @Auth_TOKEN
 
     def awarded_message(employee)
-        name = employee.first_name + " " + employee.last_name
-        choice = employee.bids.where(awarded:true).first.choice_number
-        schedule_info = employee.bids.where(awarded:true).first.schedule
-
         @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
-            message = @client.messages.create(
-            body: `#{name}, You have been awarded you bid choice #{choice}. Your schedule from #{schedule_info.start_date} to #{schedule_info.end_date} will be as follows: `,
+
+        name = employee.first_name + " " + employee.last_name
+        choice = employee.bids.find_by(awarded:true).choice_number
+        schedule_info = employee.bids.find_by(awarded:true).schedule
+        message_to_send = "#{name}, You have been awarded you bid choice #{choice}. Your schedule from #{schedule_info.start_date.to_fs(:long_ordinal)} to #{schedule_info.end_date.to_fs(:long_ordinal)} will be as follows: "
+
+        message = @client.messages.create(
+            body: message_to_send,
             to: "+1" + employee.phone_number.to_s,
             from: ENV["TWILIO_NUMBER"],
         )

@@ -51,7 +51,8 @@ class EmployeesController < ApplicationController
     def test
         Bid.execute_bid
 
-        Bid.all.where(awarded:true).each do |b|
+        list = Bid.all.where(awarded:true)
+        list.each do |b|
             emp = b.employee
             awarded_message(emp)
         end
