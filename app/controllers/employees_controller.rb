@@ -36,6 +36,7 @@ class EmployeesController < ApplicationController
     def destroy
         if(@current_employee)
             if(session[:admin] == true)
+                employee = Employee.find_by(id: params[:id])
                 employee.destroy
                 render json: employee, status: :ok
             else
@@ -53,7 +54,7 @@ class EmployeesController < ApplicationController
     private
 
     def employee_params
-        params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth, :admin, :password)
+        params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth, :admin, :password, :password_confirmation)
     end
 
     def message_employee_password(password, employee)
