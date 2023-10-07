@@ -5,7 +5,8 @@ class EmployeesController < ApplicationController
     # Test with postman to make sure create, show, update, and destroy all work
 
     def create
-        if(params[:password] == params[password_confirmation])
+        # Dates need to be converted before passing them in as a param
+        if(params[:password] == params[:password_confirmation])
             employee = Employee.create!(employee_params)
             session[:employee_id] = employee.id
             if(employee.admin)
