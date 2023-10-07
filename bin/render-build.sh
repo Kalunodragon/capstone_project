@@ -11,6 +11,4 @@ cp -a client/build/. public/
 bundle install
 bundle exec rake db:create
 bundle exec rake db:migrate
-# next two lines are only for development and testing
-bundle exec rake db:reset 
 bundle exec rake db:seed # if you have seed data, run this command for the initial deploy only to avoid duplicate records
