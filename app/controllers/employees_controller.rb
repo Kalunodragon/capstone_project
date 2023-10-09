@@ -24,12 +24,11 @@ class EmployeesController < ApplicationController
     end
 
     def update
-        employee = @current_employee
-        if(params[:password] == params[:password_confirmation])
-            employee.update!(employee_params)
-            render json: employee, status: :ok
+        if(@current_employee)
+            @current_employee.update!(employee_params)
+            render json: @current_employee, status: :ok
         else
-            render json: { errors: "Please make sure the passwords match and try again" }, status: :unprocessable_entity
+            render json: { errors: "Please log in to update your account" }, status: :unauthorized
         end
     end
 
