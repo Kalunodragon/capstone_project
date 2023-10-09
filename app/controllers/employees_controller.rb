@@ -33,16 +33,12 @@ class EmployeesController < ApplicationController
     end
 
     def destroy
-        if(@current_employee)
-            if(session[:admin] == true)
-                employee = Employee.find_by(id: params[:id])
-                employee.destroy
-                render json: employee, status: :ok
-            else
-                render json: { errors: "Only Admin can preform this action!" }, status: :unauthorized
-            end
+        if(@current_employee.admin)
+            employee = Employee.find_by(id: params[:id])
+            employee.destroy
+            render json: employee, status: :ok
         else
-            render json: { errors: "Please log in to try and preform this action!" }, status: :unauthorized
+            render json: { errors: "Only an Admin can preform this action!" }, status: :unauthorized
         end
     end
 
