@@ -2,6 +2,9 @@ class Schedule < ApplicationRecord
     has_many :bids
     has_many :shifts
 
+    validates :bid_open, :bid_close, :start_date, :end_date, presence: true
+    validates :sunday_shift, :monday_shift, :tuesday_shift, :wednesday_shift, :thursday_shift, :friday_shift, :saturday_shift, :number_available, numericality: { only_numeric: ture }, presence: true
+
     def shift_info
         week = []
         info = []
