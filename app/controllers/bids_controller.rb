@@ -22,11 +22,16 @@ class BidsController < ApplicationController
   end
 
   def show
-
+    if(@current_employee)
+      bid_info = @current_employee.bids
+      render json: bid_info, status: :ok
+    else
+      render json: { errors: "Please login to preform this action!" }, status: :unauthorized
+    end
   end
 
   def update
-
+    
   end
 
   def destroy
