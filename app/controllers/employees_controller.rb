@@ -44,7 +44,7 @@ class EmployeesController < ApplicationController
 
     def test
         byebug
-        render json: Employee.seniority_list, status: :ok
+        render json: ["Done testing"], status: :ok
     end
 
     private

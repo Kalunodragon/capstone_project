@@ -2,6 +2,7 @@ class BidsController < ApplicationController
 
   def create
     if(@current_employee)
+      # currentTime = new Date(Date.now()).toJSON() from front
       if(params[:time_now].to_date > params[:bid_open].to_date && params[:time_now].to_date < params[:bid_close].to_date.end_of_day)
         dups_removed = params[:bids].uniq { |b| b[:schedule_id] }
         if(dups_removed.size != params[:bids].size)
