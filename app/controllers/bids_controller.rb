@@ -1,5 +1,34 @@
 class BidsController < ApplicationController
 
+  def create
+    if(@current_employee)
+      # change Schedule.first => params[:bid_open] & params[:bid_close]
+      if(Date.today > Schedule.first.bid_open && Date.today < Schedule.first.bid_close)
+        bid_submitted = []
+        params[:bids].each do |b|
+          bid_submitted << Bid.create!(choice_number: b[:choice_number], schedule_id: b[:schedule_id], employee_id: @current_employee.id, awarded: false)
+        end
+        render json: bid_submitted, status: :created
+      else
+        render json: { errors: "Out of time frame for Bid. Please try again while Bid is open." }, status: :unauthorized
+      end
+    else
+      render json: { errors: "Please login to preform this action!" }, status: :unauthorized
+    end
+  end
+
+  def show
+
+  end
+
+  def update
+
+  end
+
+  def destroy
+
+  end
+
   def award_bid
     if(@current_employee.admin)
       if(Date.today.to_fs > Schedule.first.bid_close.to_fs)
