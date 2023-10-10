@@ -43,6 +43,7 @@ class EmployeesController < ApplicationController
     end
 
     def test
+        byebug
         render json: Employee.seniority_list, status: :ok
     end
 
