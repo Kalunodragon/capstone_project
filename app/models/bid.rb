@@ -3,6 +3,7 @@ class Bid < ApplicationRecord
     belongs_to :schedule
 
     validates :choice_number, :employee_id, :schedule_id, presence: true
+    validates :schedule_id, uniqueness: { scope: :employee_id }
     validates_inclusion_of :awarded, in: [true, false]
 
     # future add - takes a parameter (schedule.bid_open or schedule.bid_close)

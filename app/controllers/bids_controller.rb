@@ -3,12 +3,29 @@ class BidsController < ApplicationController
   def create
     if(@current_employee)
       # change Schedule.first => params[:bid_open] & params[:bid_close]
+
+      # array of hashes comes in
+        # check hashes for repeat attributes
+          # if attributes repeat
+            # render errors { Cannot have repeat lines on bid }
+          # else
+            # create Bid for each hash
+            # render success
+          # end
+
+          # this still needs to be tested and checked
+
       if(Date.today > Schedule.first.bid_open && Date.today < Schedule.first.bid_close)
-        bid_submitted = []
-        params[:bids].each do |b|
-          bid_submitted << Bid.create!(choice_number: b[:choice_number], schedule_id: b[:schedule_id], employee_id: @current_employee.id, awarded: false)
+        dups_removed = params[:bids].uniq { |b| b[:schedule_id] }
+        if(dups_removed.size != params[:bids].size)
+          render json: { errors: "There is an issue with dupicates in your bid please fix and resubmit!" }, status: :unprocessable_entity
+        else
+          dups_removed.each do |b|
+            Bid.create!(choice_number: b[:choice_number], schedule_id: b[:schedule_id], employee_id: @current_employee.id, awarded: false)
+          end
+        # bid_list = list of all Bids where employee_id matches current employee for current bid
+          render json: ["Bid list goes here"], status: :created
         end
-        render json: bid_submitted, status: :created
       else
         render json: { errors: "Out of time frame for Bid. Please try again while Bid is open." }, status: :unauthorized
       end
