@@ -21,10 +21,16 @@ class BidsController < ApplicationController
     end
   end
 
-  def show
+  def index
     if(@current_employee)
-      bid_info = @current_employee.bids
-      render json: bid_info, status: :ok
+      arr = []
+      @current_employee.bids.each do |b|
+        # use serializer to format this for specific json to include
+        # Bid choice_number
+        # Schedule start_date end_date bid_open bid_close shift_info
+        arr << {bid: b, schedule: b.schedule, shifts: b.schedule.shift_info}
+      end
+      render json: arr, status: :ok
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
