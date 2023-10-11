@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :schedules
   resources :shifts
-  resources :bids, only: [:create, :show, :update, :destroy]
+  resources :bids, only: [:create, :show, :index, :update, :destroy]
   resources :employees, only: [:create, :show, :update, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
