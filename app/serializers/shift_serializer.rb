@@ -1,3 +1,3 @@
 class ShiftSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :position, :day_off, :start_time, :off_time
 end
