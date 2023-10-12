@@ -1,7 +1,7 @@
 class Employee < ApplicationRecord
     has_secure_password
 
-    has_many :bids
+    has_many :bids, dependent: :destroy
     has_many :schedules, through: :bids
 
     # removed :phone_number from uniqueness: true

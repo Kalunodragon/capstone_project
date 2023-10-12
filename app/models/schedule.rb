@@ -1,5 +1,5 @@
 class Schedule < ApplicationRecord
-    has_many :bids
+    has_many :bids, dependent: :destroy
     has_many :shifts
 
     validates :bid_open, :bid_close, :start_date, :end_date, presence: true
