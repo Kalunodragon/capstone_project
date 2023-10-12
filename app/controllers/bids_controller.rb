@@ -11,7 +11,7 @@ class BidsController < ApplicationController
           dups_removed.each do |b|
             @current_employee.bids.create!(choice_number: b[:choice_number], schedule_id: b[:schedule_id], awarded: false)
           end
-          render json: @current_employee.bids, status: :created
+          render json: @current_employee.bids.map{|b| b.schedule}, serializer: ScheduleSerializer, status: :created
         end
       else
         render json: { errors: "Out of time frame for Bid. Please try again while Bid is open." }, status: :unauthorized
@@ -23,14 +23,8 @@ class BidsController < ApplicationController
 
   def index
     if(@current_employee)
-      arr = []
-      @current_employee.bids.each do |b|
-        # use serializer to format this for specific json to include
-        # Bid choice_number
-        # Schedule start_date end_date bid_open bid_close shift_info
-        arr << {bid: b, schedule: b.schedule, shifts: b.schedule.shift_info}
-      end
-      render json: arr, status: :ok
+      all_bids = @current_employee.bids.map{|b| b.schedule}
+      render json: all_bids, each_serializer: ScheduleSerializer, status: :ok
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
