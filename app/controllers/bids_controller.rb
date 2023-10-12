@@ -31,11 +31,11 @@ class BidsController < ApplicationController
   end
 
   def update
-    
+    # Update bid only if still within the time frame of the bid
   end
 
   def destroy
-
+    # Destroy a bid if only in the timeframe, also require password as security for destroy
   end
 
   def award_bid
