@@ -31,6 +31,17 @@ class BidsController < ApplicationController
   end
 
   def update
+    if(@current_employee)
+      if(params[:time_now].to_date > params[:bid_open].to_date && params[:time_now].to_date < params[:bid_close].to_date.end_of_day)
+        line_to_update = @current_employee.bids.find_by(id: params[:bid_id])
+        line_to_update.update!(choice_number: params[:choice_number], schedule_id: params[:schedule_id])
+        render json: line_to_update, serializer: ScheduleSerializer, status: :ok
+      else
+        render json: { errors: "Sorry out of time frame to update this bid!" }, status: :forbidden
+      end
+    else
+      render json: { errors: "Please login to preform this action!" }, status: :unauthorized
+    end
     # Update bid only if still within the time frame of the bid
   end
 
