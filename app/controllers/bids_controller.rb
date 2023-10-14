@@ -42,11 +42,21 @@ class BidsController < ApplicationController
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
-    # Update bid only if still within the time frame of the bid
   end
 
   def destroy
-    # Destroy a bid if only in the timeframe, also require password as security for destroy
+    if(@current_employee)
+      if(params[:all])
+        params[:bids].each do |b|
+          @current_employee.bids.find_by(id: b.id).destroy
+        end
+      else
+        @current_employee.bids.find_by(id: params[:bid_id]).destroy
+      end
+      render json: @current_employee.bids.map{|b| b.schedule}, each_serializer: ScheduleSerializer, status: :ok
+    else
+      render json: { errors: "Please login to preform this action!" }, status: :unauthorized
+    end
   end
 
   def award_bid
