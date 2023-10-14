@@ -25,6 +25,8 @@ module CapstoneProject
       end if File.exists?(env_file)
     end
 
+    config.time_zone = "Mountain Time (US & Canada)"
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
