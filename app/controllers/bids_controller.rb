@@ -3,7 +3,7 @@ class BidsController < ApplicationController
   def create
     if(@current_employee)
       # currentTime = new Date(Date.now()).toJSON() from front
-      if(params[:time_now].to_date > params[:bid_open].to_date && params[:time_now].to_date < params[:bid_close].to_date.end_of_day)
+      if(check_times())
         dups_removed = params[:bids].uniq { |b| b[:schedule_id] }
         if(dups_removed.size != params[:bids].size)
           render json: { errors: "There is an issue with dupicates in your bid please fix and resubmit!" }, status: :unprocessable_entity
@@ -32,7 +32,7 @@ class BidsController < ApplicationController
 
   def update
     if(@current_employee)
-      if(params[:time_now].to_date > params[:bid_open].to_date && params[:time_now].to_date < params[:bid_close].to_date.end_of_day)
+      if(check_times())
         line_to_update = @current_employee.bids.find_by(id: params[:bid_id])
         line_to_update.update!(choice_number: params[:choice_number], schedule_id: params[:schedule_id])
         render json: line_to_update, serializer: ScheduleSerializer, status: :ok
@@ -46,14 +46,18 @@ class BidsController < ApplicationController
 
   def destroy
     if(@current_employee)
-      if(params[:all])
-        params[:bids].each do |b|
-          @current_employee.bids.find_by(id: b.id).destroy
+      if(check_times())
+        if(params[:all])
+          params[:bids].each do |b|
+            @current_employee.bids.find_by(id: b.id).destroy
+          end
+        else
+          @current_employee.bids.find_by(id: params[:bid_id]).destroy
         end
+        render json: @current_employee.bids.map{|b| b.schedule}, each_serializer: ScheduleSerializer, status: :ok
       else
-        @current_employee.bids.find_by(id: params[:bid_id]).destroy
+        render json: { errors: "Sorry out of timeframe to delete from this bid!" }, status: :forbidden
       end
-      render json: @current_employee.bids.map{|b| b.schedule}, each_serializer: ScheduleSerializer, status: :ok
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
@@ -80,6 +84,10 @@ class BidsController < ApplicationController
   end
 
   private
+
+  def check_times
+    params[:time_now].to_date > params[:bid_open].to_date && params[:time_now].to_date < params[:bid_close].to_date.end_of_day
+  end
 
   def awarded_message(employee)
     @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
