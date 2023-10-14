@@ -17,16 +17,16 @@ class EmployeesController < ApplicationController
 
     def show
         if(@current_employee)
-            render json: @current_employee
+            render json: @current_employee, status: :ok
         else
-            render json: { errors: "Please login to use this application" }, status: :no_content
+            render json: { errors: "Please login to use this application" }, status: :unauthorized
         end
     end
 
     def update
         if(@current_employee)
             @current_employee.update!(employee_params)
-            render json: @current_employee, status: :ok
+            render json: @current_employee, status: :accepted
         else
             render json: { errors: "Please log in to update your account" }, status: :unauthorized
         end
