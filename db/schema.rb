@@ -54,8 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_212950) do
   create_table "shifts", force: :cascade do |t|
     t.string "position"
     t.boolean "day_off"
-    t.integer "start_time"
-    t.integer "off_time"
+    t.time "start_time"
+    t.time "off_time"
   end
 
 end

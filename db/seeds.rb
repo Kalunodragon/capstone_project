@@ -23,13 +23,13 @@ p "Finished generating Employees"
 p " "
 p "Generating Shifts"
     Shift.create(position: "Off", day_off: true, start_time: nil, off_time: nil)
-    Shift.create(position: "Tpoint", day_off: false, start_time: 600, off_time: 1430)
-    Shift.create(position: "Gates", day_off: false, start_time: 1430, off_time: 2300)
-    Shift.create(position: "Transfers", day_off: false, start_time: 500, off_time: 1330)
-    Shift.create(position: "Locals", day_off: false, start_time: 1330, off_time: 2200)
-    Shift.create(position: "Lavs", day_off: false, start_time: 530, off_time: 1400)
-    Shift.create(position: "Cargo", day_off: false, start_time: 1400, off_time: 2230)
-    Shift.create(position: "Float", day_off: false, start_time: 900, off_time: 1730)
+    Shift.create(position: "Tpoint", day_off: false, start_time: Time.parse("6:00AM"), off_time: Time.parse("2:30PM"))
+    Shift.create(position: "Gates", day_off: false, start_time: Time.parse("2:30PM"), off_time: Time.parse("11:00PM"))
+    Shift.create(position: "Transfers", day_off: false, start_time: Time.parse("5:00AM"), off_time: Time.parse("1:30PM"))
+    Shift.create(position: "Locals", day_off: false, start_time: Time.parse("1:30PM"), off_time: Time.parse("10:00PM"))
+    Shift.create(position: "Lavs", day_off: false, start_time: Time.parse("5:30AM"), off_time: Time.parse("2:00PM"))
+    Shift.create(position: "Cargo", day_off: false, start_time: Time.parse("2:00PM"), off_time: Time.parse("10:30PM"))
+    Shift.create(position: "Float", day_off: false, start_time: Time.parse("9:00AM"), off_time: Time.parse("5:30PM"))
 p "Finished generating Shifts"
 p " "
 p "Generating Schedules"
