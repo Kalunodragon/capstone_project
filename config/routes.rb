@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
   get "/award_bid", to: "bids#award_bid"
-  post "/test", to: "employees#test"
+  get "/test", to: "employees#test"
 
   resources :schedules, only: [:create, :index, :show, :update, :destroy]
   resources :shifts, only: [:create, :index, :show, :update, :destroy]
