@@ -26,12 +26,6 @@ Things you may want to cover:
 
 <!-- Comments on where to pick back up -->
 <!--
-    -Continue adding validations for all models
-    -Test routes that are set up in Postman
-    -Create and delete an Employee from the Admin side
-    -Change creation of an Employee to only be able to be done by an Admin member
-
-    Finish adding all routes for all other controllers and test out those routes
-
-    Continue filling out bid routes
+    -Final testing phase for BACKEND, going through testing each route
+    -Will add serializers where needed, and will tweek things where needed
 -->
