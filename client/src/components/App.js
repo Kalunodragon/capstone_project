@@ -2,6 +2,7 @@ import React from "react";
 import { Typography, AppBar, Toolbar, IconButton } from '@mui/material'
 import MenuIcon from "@mui/icons-material/Menu"
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import LoginForm from "./LoginForm";
 
 
 function App(){
@@ -30,6 +31,7 @@ function App(){
       <Typography variant="h5" align="center">
         Ramp Agent Digital Bidding Platform
       </Typography>
+      <LoginForm />
     </>
   )
 }
