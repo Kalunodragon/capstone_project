@@ -5,3 +5,7 @@ html {
 .header {
   text-align: center;
 }
+
+.loginContainer {
+  padding: 20px;
+}
