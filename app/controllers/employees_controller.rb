@@ -43,9 +43,9 @@ class EmployeesController < ApplicationController
     end
 
     def test
-        testing = Schedule.first
+        testing = Schedule.all
         # byebug
-        render json: testing, serializer: ScheduleSerializer, status: :ok
+        render json: testing, each_serializer: ScheduleSerializer, status: :ok
     end
 
     private
