@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       end
       render json: employee, status: :ok
     else
-      render json: { error: "Please make sure to check login information and try again, could not find Employee." }, status: :unauthorized
+      render json: { error: "Error - Check login information and try again!" }, status: :unauthorized
     end
   end
 
