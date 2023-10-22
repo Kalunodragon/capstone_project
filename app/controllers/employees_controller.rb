@@ -19,7 +19,7 @@ class EmployeesController < ApplicationController
         if(@current_employee)
             render json: @current_employee, status: :ok
         else
-            render json: { errors: "Please login to use this application" }, status: :unauthorized
+            render json: { errors: "Please login to use this application" }, status: :no_content 
         end
     end
 
