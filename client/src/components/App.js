@@ -1,9 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
-import { Typography, AppBar, Toolbar, IconButton, Button } from '@mui/material'
-import MenuIcon from "@mui/icons-material/Menu"
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Typography, AppBar } from '@mui/material'
 import LoginForm from "./LoginForm";
 import Loading from "./Loading";
+import MainPage from "./MainPage";
 
 export const employeeContext = createContext(null)
 
@@ -32,6 +31,11 @@ function App(){
     setLogCheck(true)
   }
 
+  function handleLogout(data){
+    setEmployee(data)
+    setLogCheck(true)
+  }
+
   if(!logCheck){
     return(
       <Loading />
@@ -40,28 +44,9 @@ function App(){
 
   if(employee){
     return(
-      <>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>{employee.admin ? "ADMIN-RADBP" : "RADBP"}</Typography>
-          <IconButton
-            size="large"
-            color="inherit"
-            aria-label="menu"
-          >
-            <AccountCircle />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Button variant="contained" align="center" onClick={()=>fetch("/logout",{method:"DELETE"}).then(setEmployee(null))}>Logout</Button>
-      </>
+      <employeeContext.Provider value={employee}>
+        <MainPage logout={handleLogout} />
+      </employeeContext.Provider>
     )
   }
 
