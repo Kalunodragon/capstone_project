@@ -45,8 +45,6 @@ function LoginForm({ login }){
         } else {
           res.json()
           .then((d)=>{
-            console.log(d)
-            console.log(d.error)
             setErrors(d.error)
             setLoginClicked(v=>!v)
             clearFields()

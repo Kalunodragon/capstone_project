@@ -50,7 +50,7 @@ function App(){
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h3" align="center" sx={{ flexGrow: 1 }}>{employee.admin ? "ADMIN-RADBP" : "RADBP"}</Typography>
+          <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>{employee.admin ? "ADMIN-RADBP" : "RADBP"}</Typography>
           <IconButton
             size="large"
             color="inherit"
@@ -68,7 +68,7 @@ function App(){
   return(
     <>
       <AppBar position="static">
-          <Typography variant="h3" align="center" sx={{ flexGrow: 1 }}>RADBP</Typography>
+          <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>RADBP</Typography>
       </AppBar>
       <br/>
       <Typography variant="h5" align="center">
