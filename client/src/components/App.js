@@ -3,6 +3,7 @@ import { Typography, AppBar } from '@mui/material'
 import LoginForm from "./LoginForm";
 import Loading from "./Loading";
 import MainPage from "./MainPage";
+import Header from "./Header";
 
 export const employeeContext = createContext(null)
 
@@ -45,6 +46,7 @@ function App(){
   if(employee){
     return(
       <employeeContext.Provider value={employee}>
+        <Header logout={handleLogout} />
         <MainPage logout={handleLogout} />
       </employeeContext.Provider>
     )
