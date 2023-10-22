@@ -28,6 +28,7 @@ function App(){
           </IconButton>
         </Toolbar>
       </AppBar>
+      <br/>
       <Typography variant="h5" align="center">
         Ramp Agent Digital Bidding Platform
       </Typography>
