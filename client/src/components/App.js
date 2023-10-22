@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm";
 import Loading from "./Loading";
 import MainPage from "./MainPage";
 import Header from "./Header";
+import Footer from "./Footer";
 
 export const employeeContext = createContext(null)
 
@@ -48,6 +49,7 @@ function App(){
       <employeeContext.Provider value={employee}>
         <Header logout={handleLogout} />
         <MainPage logout={handleLogout} />
+        <Footer />
       </employeeContext.Provider>
     )
   }
@@ -62,6 +64,7 @@ function App(){
         Ramp Agent Digital Bidding Platform
       </Typography>
       <LoginForm login={handleLogin}/>
+      <Footer />
     </>
   )
 }

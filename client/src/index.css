@@ -2,6 +2,12 @@ html {
   background-color: #e2e2e2;
 }
 
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   text-align: center;
 }
@@ -17,4 +23,24 @@ html {
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+
+.footer {
+  color: rgba(0, 0, 0, 0.25);
+  position: absolute;
+  margin-top: auto;
+  width: max-content;
+  left: 50%;
+  height: 20px;
+  text-align: center;
+  bottom: 5px;
+  -ms-transform: translate(-50%);
+  transform: translate(-50%);
+}
+
+@media (max-height: 400px){
+  .footer {
+    visibility: hidden;
+  }
 }
