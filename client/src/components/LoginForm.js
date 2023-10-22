@@ -1,17 +1,29 @@
 import React, { useState } from "react";
-import { Button, Container, TextField, Typography } from "@mui/material";
+import { Alert, Button, Container, TextField, Typography } from "@mui/material";
 
 function LoginForm({ login }){
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [password, setPassword] = useState("")
-  let active = true
+  const [active, setActive] = useState(true)
+  const [loginClicked, setLoginClicked] = useState(false)
+  const [errors, setErrors] = useState(null)
 
-  if(firstName !== "" && lastName !== "" && password !== ""){
-    active = false
+  if(firstName !== "" && lastName !== "" && password !== "" && !loginClicked){
+    if(active) setActive(v=>!v)
+  } else {
+    if(!active) setActive(v=>!v)
+  }
+
+  function clearFields(){
+    setFirstName("")
+    setLastName("")
+    setPassword("")
   }
 
   function handleLogin(){
+    if(errors) setErrors(null)
+    setLoginClicked(v=>!v)
     fetch("/login", {
       method: "POST",
       headers: {
@@ -24,16 +36,23 @@ function LoginForm({ login }){
       })
     })
     .then((res)=>{
-      if(res.ok){
-        res.json()
-        .then((d)=>{
-          login(d)
-        })
-      } else {
-        res.json()
-        .then(d=>console.log(d))
-      }
-    })
+        if(res.ok){
+          res.json()
+          .then((d)=>{
+            login(d)
+            setLoginClicked(v=>!v)
+          })
+        } else {
+          res.json()
+          .then((d)=>{
+            console.log(d)
+            console.log(d.error)
+            setErrors(d.error)
+            setLoginClicked(v=>!v)
+            clearFields()
+          })
+        }
+      })
   }
 
   return(
@@ -41,6 +60,7 @@ function LoginForm({ login }){
       <Typography variant="h6" align="center">
         Please login to continue!
       </Typography>
+      {errors ? <Alert severity="error" variant="filled">{errors}</Alert> : null}
       <TextField 
         label="First Name"
         sx={{ flexGrow:1 }}
@@ -75,7 +95,7 @@ function LoginForm({ login }){
       <Button
         variant="contained"
         disabled={active}
-        onClick={()=> handleLogin()}
+        onClick={handleLogin}
       >
         Login
       </Button>

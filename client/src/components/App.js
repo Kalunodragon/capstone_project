@@ -50,7 +50,7 @@ function App(){
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h3" align="center" sx={{ flexGrow: 1 }}>RADBP</Typography>
+          <Typography variant="h3" align="center" sx={{ flexGrow: 1 }}>{employee.admin ? "ADMIN-RADBP" : "RADBP"}</Typography>
           <IconButton
             size="large"
             color="inherit"
@@ -60,7 +60,7 @@ function App(){
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Button onClick={()=>fetch("/logout",{method:"DELETE"}).then(setEmployee(null))}>Logout</Button>
+      <Button variant="contained" align="center" onClick={()=>fetch("/logout",{method:"DELETE"}).then(setEmployee(null))}>Logout</Button>
       </>
     )
   }
