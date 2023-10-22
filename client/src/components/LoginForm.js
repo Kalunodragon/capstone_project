@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
 
-function LoginForm(){
+function LoginForm({ login }){
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [password, setPassword] = useState("")
@@ -9,6 +9,31 @@ function LoginForm(){
 
   if(firstName !== "" && lastName !== "" && password !== ""){
     active = false
+  }
+
+  function handleLogin(){
+    fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        "first_name":firstName,
+        "last_name":lastName,
+        "password":password
+      })
+    })
+    .then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          login(d)
+        })
+      } else {
+        res.json()
+        .then(d=>console.log(d))
+      }
+    })
   }
 
   return(
@@ -50,7 +75,7 @@ function LoginForm(){
       <Button
         variant="contained"
         disabled={active}
-        onClick={()=> console.log(firstName,lastName,password)}
+        onClick={()=> handleLogin()}
       >
         Login
       </Button>

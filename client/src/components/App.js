@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { Typography, AppBar, Toolbar, IconButton } from '@mui/material'
+import { Typography, AppBar, Toolbar, IconButton, Button } from '@mui/material'
 import MenuIcon from "@mui/icons-material/Menu"
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LoginForm from "./LoginForm";
@@ -27,14 +27,20 @@ function App(){
     .catch(err => console.log(err))
   },[])
 
-  if(logCheck){
+  function handleLogin(data){
+    setEmployee(data)
+    setLogCheck(true)
+  }
+
+  if(!logCheck){
     return(
       <Loading />
     )
   }
 
-  return(
-    <>
+  if(employee){
+    return(
+      <>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -54,11 +60,21 @@ function App(){
           </IconButton>
         </Toolbar>
       </AppBar>
+      <Button onClick={()=>fetch("/logout",{method:"DELETE"}).then(setEmployee(null))}>Logout</Button>
+      </>
+    )
+  }
+
+  return(
+    <>
+      <AppBar position="static">
+          <Typography variant="h3" align="center" sx={{ flexGrow: 1 }}>RADBP</Typography>
+      </AppBar>
       <br/>
       <Typography variant="h5" align="center">
         Ramp Agent Digital Bidding Platform
       </Typography>
-      <LoginForm />
+      <LoginForm login={handleLogin}/>
     </>
   )
 }
