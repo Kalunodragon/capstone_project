@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_before_action :auth, only: :create
 
   def create
-    employee = Employee.find_by(first_name: params[:first_name], last_name: params[:last_name], password: params[:password])
+    employee = Employee.find_by(first_name: params[:first_name], last_name: params[:last_name])
     if employee&.authenticate(params[:password])
       session[:employee_id] = employee.id
       if(employee.admin)
