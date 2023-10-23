@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Button, Container, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 function LoginForm({ onLogin }){
@@ -23,7 +23,8 @@ function LoginForm({ onLogin }){
     setPassword("")
   }
 
-  function handleLogin(){
+  function handleLogin(e){
+    e.preventDefault()
     if(errors) setErrors(null)
     setLoginClicked(v=>!v)
     fetch("/login", {
@@ -66,44 +67,46 @@ function LoginForm({ onLogin }){
         Please login to continue!
       </Typography>
       {errors ? <Alert severity="error" variant="filled">{errors}</Alert> : null}
-      <TextField 
-        label="First Name"
-        sx={{ flexGrow:1 }}
-        margin="dense"
-        value={firstName}
-        onChange={(e)=>setFirstName(e.target.value)}
-        required
-        size="small"
-        autoComplete="off"
-      /> <br/>
-      <TextField
-        label="Last Name"
-        sx={{ flexGrow:1 }}
-        margin="dense"
-        value={lastName}
-        onChange={(e)=>setLastName(e.target.value)}
-        required
-        size="small"
-        autoComplete="off"
-      /> <br/>
-      <TextField
-        label="Password"
-        type="password"
-        sx={{ flexGrow:1 }}
-        margin="dense"
-        value={password}
-        onChange={(e)=>setPassword(e.target.value)}
-        required
-        size="small"
-        autoComplete="off"
-      /> <br/><br/>
-      <Button
-        variant="contained"
-        disabled={active}
-        onClick={handleLogin}
-      >
-        Login
-      </Button>
+      <Box component="form" noValidate onSubmit={handleLogin}>
+        <TextField 
+          label="First Name"
+          sx={{ flexGrow:1 }}
+          margin="dense"
+          value={firstName}
+          onChange={(e)=>setFirstName(e.target.value)}
+          required
+          size="small"
+          autoComplete="off"
+        /> <br/>
+        <TextField
+          label="Last Name"
+          sx={{ flexGrow:1 }}
+          margin="dense"
+          value={lastName}
+          onChange={(e)=>setLastName(e.target.value)}
+          required
+          size="small"
+          autoComplete="off"
+        /> <br/>
+        <TextField
+          label="Password"
+          type="password"
+          sx={{ flexGrow:1 }}
+          margin="dense"
+          value={password}
+          onChange={(e)=>setPassword(e.target.value)}
+          required
+          size="small"
+          autoComplete="off"
+        /> <br/><br/>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={active}
+        >
+          Login
+        </Button>
+      </Box>
     </Container>
   )
 }
