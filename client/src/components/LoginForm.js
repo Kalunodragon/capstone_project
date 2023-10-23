@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Alert, Button, Container, TextField, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-function LoginForm({ login }){
+function LoginForm({ onLogin }){
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [password, setPassword] = useState("")
   const [active, setActive] = useState(true)
   const [loginClicked, setLoginClicked] = useState(false)
   const [errors, setErrors] = useState(null)
+  const navigate = useNavigate()
 
   if(firstName !== "" && lastName !== "" && password !== "" && !loginClicked){
     if(active) setActive(v=>!v)
@@ -39,7 +41,12 @@ function LoginForm({ login }){
         if(res.ok){
           res.json()
           .then((d)=>{
-            login(d)
+            onLogin(d)
+            if(d.admin){
+              navigate("/admin-main")
+            } else {
+              navigate("/main")
+            }
             setLoginClicked(v=>!v)
           })
         } else {

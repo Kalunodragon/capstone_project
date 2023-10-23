@@ -4,7 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu"
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { employeeContext } from "./App";
 
-function Header({ logout }){
+function Header({ onLogout }){
   const employee = useContext(employeeContext)
 
   return(
@@ -28,7 +28,7 @@ function Header({ logout }){
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Button variant="contained" align="center" onClick={()=>fetch("/logout",{method:"DELETE"}).then(logout(null))}>Logout</Button>
+      <Button variant="contained" align="center" onClick={()=>fetch("/logout",{method:"DELETE"}).then(onLogout(null))}>Logout</Button>
     </>
   )
 }

@@ -1,9 +1,12 @@
+import { Typography } from "@mui/material";
 import React from "react";
 
 function MainPage(){
   
   return(
-    <h5>Main page image and quote</h5>
+    <Typography>
+      Employee main page
+    </Typography>
   )
 }
 
