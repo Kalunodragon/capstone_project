@@ -30,7 +30,7 @@ function App(){
         })
       } else {
         setLogCheck(true)
-        navigate("/sign-in")
+        navigate("/")
       }
     })
     .catch(err => console.log(err))
@@ -49,7 +49,7 @@ function App(){
   function handleLogout(data){
     setEmployee(data)
     setLogCheck(true)
-    navigate("/sign-in")
+    navigate("/")
   }
 
   if(!logCheck){
@@ -72,7 +72,7 @@ function App(){
   } else {
     return(
       <Routes>
-        <Route path="/sign-in"
+        <Route path="/"
           element={ <LoginPage onLogin={handleLogin}/> }
         />
       </Routes>
