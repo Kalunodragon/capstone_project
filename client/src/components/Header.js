@@ -23,7 +23,7 @@ function Header({ onLogout }){
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>{employee.admin ? "ADMIN-RADS" : "RADS"}</Typography>
+          <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>{employee.admin ? "RADS-ADMIN" : "RADS"}</Typography>
           <IconButton
             title="Account"
             size="large"
