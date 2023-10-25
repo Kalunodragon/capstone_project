@@ -58,17 +58,7 @@ function App(){
     )
   }
 
-  if(!employee){
-    return(
-      <>
-        <Routes>
-          <Route path="/sign-in"
-            element={ <LoginPage onLogin={handleLogin}/> }
-          />
-        </Routes>
-      </>
-    )
-  } else {
+  if(employee){
     return(
       <employeeContext.Provider value={employee}>
         <Header onLogout={handleLogout} />
@@ -78,6 +68,16 @@ function App(){
         </Routes>
         <Footer />
       </employeeContext.Provider>
+    )
+  } else {
+    return(
+      <>
+        <Routes>
+          <Route path="/sign-in"
+            element={ <LoginPage onLogin={handleLogin}/> }
+          />
+        </Routes>
+      </>
     )
   }
 }

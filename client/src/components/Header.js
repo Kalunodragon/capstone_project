@@ -62,6 +62,18 @@ function Header({ onLogout }){
             sx={{ borderRadius: 0 }}
           >
             <Typography>
+              Account
+            </Typography>
+            <AccountCircle />
+          </IconButton>
+          <Divider />
+          <IconButton
+            onClick={()=>fetch("/logout",{method:"DELETE"}).then(onLogout(null))}
+            size="large"
+            color="inherit"
+            sx={{ borderRadius: 0 }}
+          >
+            <Typography>
               Logout
             </Typography>
             <LogoutIcon />
