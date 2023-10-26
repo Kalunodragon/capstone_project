@@ -11,7 +11,7 @@ function LoginPage({ onLogin }){
         <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>RADS</Typography>
       </AppBar>
       <br/>
-      <Typography variant="h5" align="center">
+      <Typography variant="h5" align="center" className="loginHeader">
         Ramp Agent Digital Scheduling
       </Typography>
       <LoginForm onLogin={onLogin}/>

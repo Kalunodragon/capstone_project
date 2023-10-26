@@ -1,5 +1,9 @@
 html {
-  background-color: #e2e2e2;
+  background-color: #2e4bb1;
+  /* background-color: #3453c4; */
+  /* background-color: #e2e2e2; */
+  /* background-color: #e51d23; */
+  /* background-color: #f9b612; */
 }
 
 body {
@@ -14,6 +18,14 @@ body {
 
 .loginContainer {
   padding: 20px;
+}
+
+.loginPaper {
+  padding: 20px;
+}
+
+.loginHeader {
+  color: #e2e2e2;
 }
 
 .loading {
