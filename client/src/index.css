@@ -26,6 +26,7 @@ body {
 }
 
 .profile {
+  margin-top: 15px;
   max-width: 600px;
   min-width: min-content;
 }
