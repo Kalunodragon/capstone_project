@@ -116,7 +116,7 @@ function Header({ onLogout }){
       </>
     }
 
-  // Create if(employee.admin) return(Admin navigation bar)
+  // Create if(employee.admin) return(Admin navigation bar) DONE!!!
   // Find out what an onClick(e.target / e.currentTarget) console.log()'s
   // Set up all component pages, for both employee and admin side
   // Set up handleClose() to close sidebars L & R
