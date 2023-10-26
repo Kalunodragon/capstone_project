@@ -7,6 +7,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import LoginPage from "./LoginPage";
 import Profile from "./Profile";
+import EditProfile from "./EditProfile";
 
 export const employeeContext = createContext(null)
 
@@ -70,6 +71,7 @@ function App(){
         <Routes>
           <Route path="/main" element={ <MainPage/> }/>
           <Route path="/profile" element={ <Profile /> }/>
+          <Route path="/edit-profile" element={ <EditProfile /> }/>
           <Route path="/admin-main" element={ <AdminMain/> }/>
         </Routes>
         <Footer />
