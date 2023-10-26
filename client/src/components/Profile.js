@@ -15,12 +15,12 @@ function Profile(){
           </Typography>
           <Divider />
           <Typography variant="subtitle1" align="left">
-            {employee.station} - {employee.department}
+            {employee.station} - {employee.admin ? employee.department + " Admin" : employee.department} - E{employee.id}
           </Typography>
         </Paper>
         <Paper className="profile">
           <Typography variant="h5" align="left">
-            Main Info:
+            Main Info
           </Typography>
           <Divider />
           <Typography variant="subtitle2" align="left">
@@ -33,6 +33,10 @@ function Profile(){
           <Divider />
           <Typography variant="subtitle2" align="left">
             Hire Date: {employee.seniority_date}
+          </Typography>
+          <Divider />
+          <Typography variant="subtitle2" align="left">
+            Date of Birth: {employee.date_of_birth}
           </Typography>
         </Paper>
       </Container> 
