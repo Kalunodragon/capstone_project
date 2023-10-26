@@ -6,6 +6,7 @@ import AdminMain from "./AdminMain";
 import Header from "./Header";
 import Footer from "./Footer";
 import LoginPage from "./LoginPage";
+import Profile from "./Profile";
 
 export const employeeContext = createContext(null)
 
@@ -52,6 +53,10 @@ function App(){
     navigate("/sign-in")
   }
 
+  function navigateTo(location){
+    navigate(location)
+  }
+
   if(!logCheck){
     return(
       <Loading />
@@ -61,9 +66,10 @@ function App(){
   if(employee){
     return(
       <employeeContext.Provider value={employee}>
-        <Header onLogout={handleLogout} />
+        <Header onLogout={handleLogout} navigateTo={navigateTo}/>
         <Routes>
           <Route path="/main" element={ <MainPage/> }/>
+          <Route path="/profile" element={ <Profile /> }/>
           <Route path="/admin-main" element={ <AdminMain/> }/>
         </Routes>
         <Footer />

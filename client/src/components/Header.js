@@ -10,7 +10,7 @@ import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { employeeContext } from "./App";
 
-function Header({ onLogout }){
+function Header({ onLogout, navigateTo }){
   const employee = useContext(employeeContext)
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(false)
   const [rightDrawerOpen, setRightDrawerOpen] = useState(false)
@@ -152,6 +152,10 @@ function Header({ onLogout }){
       >
         <Box p={2} textAlign="center" width={200}>
           <IconButton
+            onClick={()=>{
+              setRightDrawerOpen(false)
+              navigateTo("/profile")
+            }}
             size="large"
             color="inherit"
             sx={{ borderRadius: 0 }}
