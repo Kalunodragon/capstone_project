@@ -5,6 +5,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
+import BadgeIcon from '@mui/icons-material/Badge';
+import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { employeeContext } from "./App";
 
@@ -56,36 +58,6 @@ function Header({ onLogout }){
           </IconButton>
         </Box>
       </Drawer>
-      <Drawer
-        anchor="right"
-        open={rightDrawerOpen}
-        onClose={()=>setRightDrawerOpen(false)}
-      >
-        <Box p={2} textAlign="center" width={200}>
-          <IconButton
-            size="large"
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-          >
-            <AccountCircle />
-            <Typography>
-              Account
-            </Typography>
-          </IconButton>
-          <Divider />
-          <IconButton
-            onClick={()=>fetch("/logout",{method:"DELETE"}).then(onLogout(null))}
-            size="large"
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-          >
-            <LogoutIcon />
-            <Typography>
-              Logout
-            </Typography>
-          </IconButton>
-        </Box>
-      </Drawer>
       </>
     }
     if(employee.admin){
@@ -112,7 +84,7 @@ function Header({ onLogout }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <CalendarMonthIcon />
+            <ListIcon />
             <Typography>
               Shifts
             </Typography>
@@ -123,7 +95,7 @@ function Header({ onLogout }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <InfoIcon />
+            <BadgeIcon />
             <Typography>
               Employees
             </Typography>
@@ -137,36 +109,6 @@ function Header({ onLogout }){
             <InfoIcon />
             <Typography>
               App Info
-            </Typography>
-          </IconButton>
-        </Box>
-      </Drawer>
-      <Drawer
-        anchor="right"
-        open={rightDrawerOpen}
-        onClose={()=>setRightDrawerOpen(false)}
-      >
-        <Box p={2} textAlign="center" width={200}>
-          <IconButton
-            size="large"
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-          >
-            <AccountCircle />
-            <Typography>
-              Account
-            </Typography>
-          </IconButton>
-          <Divider />
-          <IconButton
-            onClick={()=>fetch("/logout",{method:"DELETE"}).then(onLogout(null))}
-            size="large"
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-          >
-            <LogoutIcon />
-            <Typography>
-              Logout
             </Typography>
           </IconButton>
         </Box>
@@ -203,6 +145,36 @@ function Header({ onLogout }){
         </Toolbar>
       </AppBar>
       {leftDrawer}
+      <Drawer
+        anchor="right"
+        open={rightDrawerOpen}
+        onClose={()=>setRightDrawerOpen(false)}
+      >
+        <Box p={2} textAlign="center" width={200}>
+          <IconButton
+            size="large"
+            color="inherit"
+            sx={{ borderRadius: 0 }}
+          >
+            <AccountCircle />
+            <Typography>
+              Account
+            </Typography>
+          </IconButton>
+          <Divider />
+          <IconButton
+            onClick={()=>fetch("/logout",{method:"DELETE"}).then(onLogout(null))}
+            size="large"
+            color="inherit"
+            sx={{ borderRadius: 0 }}
+          >
+            <LogoutIcon />
+            <Typography>
+              Logout
+            </Typography>
+          </IconButton>
+        </Box>
+      </Drawer>
     </>
   )
 }
