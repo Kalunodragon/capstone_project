@@ -2,18 +2,23 @@ import React, { useContext, useState } from "react";
 import { Typography, AppBar, Toolbar, IconButton, Drawer, Box, Divider } from '@mui/material'
 import MenuIcon from "@mui/icons-material/Menu"
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import EditIcon from '@mui/icons-material/Edit';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
 import BadgeIcon from '@mui/icons-material/Badge';
 import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { employeeContext } from "./App";
+import { useLocation } from "react-router-dom";
 
 function Header({ onLogout, navigateTo }){
   const employee = useContext(employeeContext)
+  const location = useLocation()
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(false)
   const [rightDrawerOpen, setRightDrawerOpen] = useState(false)
+  const showingProfile = (location.pathname === "/profile" ? true : false)
 
   let leftDrawer
     if(!employee.admin){
@@ -135,12 +140,12 @@ function Header({ onLogout, navigateTo }){
           </IconButton>
           <Typography variant="h4" align="center" sx={{ flexGrow: 1 }}>{employee.admin ? "RADS-ADMIN" : "RADS"}</Typography>
           <IconButton
-            title="Account"
+            title={showingProfile ? "Settings" : "Account"}
             size="large"
             color="inherit"
             onClick={()=>setRightDrawerOpen(true)}
           >
-            <AccountCircle />
+            {showingProfile ? <SettingsIcon /> : <AccountCircle />}
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -154,15 +159,19 @@ function Header({ onLogout, navigateTo }){
           <IconButton
             onClick={()=>{
               setRightDrawerOpen(false)
-              navigateTo("/profile")
+              if(showingProfile){
+                navigateTo("/edit-profile")
+              } else {
+                navigateTo("/profile")
+              }
             }}
             size="large"
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <AccountCircle />
+            {showingProfile ? <EditIcon /> : <AccountCircle />}
             <Typography>
-              Account
+              {showingProfile ? "Edit Account":"Account"}
             </Typography>
           </IconButton>
           <Divider />
