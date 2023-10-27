@@ -57,7 +57,6 @@ function App(){
   function handleEmployeeUpdate(updatedInfo){
     setEmployee(updatedInfo)
     setLogCheck(true)
-    // navigate("/profile")
   }
 
   function navigateTo(location){

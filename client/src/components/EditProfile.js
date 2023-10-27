@@ -9,6 +9,7 @@ function EditProfile({ onUpdate }){
   const [active, setActive] = useState(false)
   const [submitClicked, setSubmitClicked] = useState(false)
   const [errors, setErrors] = useState(null)
+  const [success, setSuccess] = useState(null)
   const prefillInfo = {
     "phone_number":employee.phone_number,
     "email":employee.email,
@@ -62,8 +63,9 @@ function EditProfile({ onUpdate }){
 
   function handleSubmit(e){
     e.preventDefault()
-    if(errors) setErrors(null)
     setSubmitClicked(v=>!v)
+    if(errors) setErrors(null)
+    if(success) setSuccess(false)
     let dataToSend
     if(checked){
       dataToSend = {
@@ -93,6 +95,7 @@ function EditProfile({ onUpdate }){
         res.json()
         .then((d)=>{
           onUpdate(d)
+          setSuccess(true)
           setSubmitClicked(v=>!v)
         })
       } else {
@@ -143,7 +146,8 @@ function EditProfile({ onUpdate }){
             <Typography variant="h5" align="center">
               Edit Information
             </Typography>
-            {errors ? <Alert severity="error" variant="filled">{errors}</Alert> : null}
+            {errors ? <Alert className="editAlert" severity="error" variant="filled">{errors}</Alert> : null}
+            {success ? <Alert className="editAlert" severity="success" variant="filled">Success - Information updated</Alert> : null}
             <Divider />
             <TextField 
               label="Phone Number"
