@@ -54,6 +54,12 @@ function App(){
     navigate("/sign-in")
   }
 
+  function handleEmployeeUpdate(updatedInfo){
+    setEmployee(updatedInfo)
+    setLogCheck(true)
+    // navigate("/profile")
+  }
+
   function navigateTo(location){
     navigate(location)
   }
@@ -71,7 +77,7 @@ function App(){
         <Routes>
           <Route path="/main" element={ <MainPage/> }/>
           <Route path="/profile" element={ <Profile /> }/>
-          <Route path="/edit-profile" element={ <EditProfile /> }/>
+          <Route path="/edit-profile" element={ <EditProfile onUpdate={handleEmployeeUpdate}/> }/>
           <Route path="/admin-main" element={ <AdminMain/> }/>
         </Routes>
         <Footer />

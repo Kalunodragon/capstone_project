@@ -1,20 +1,25 @@
 import React, { useContext, useState } from "react";
 import { employeeContext } from "./App";
-import { Box, Button, Container, Divider, FormControlLabel, Paper, Switch, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Divider, FormControlLabel, Paper, Switch, TextField, Typography } from "@mui/material";
 
-function EditProfile(){
+function EditProfile({ onUpdate }){
   const employee = useContext(employeeContext)
+  const id = employee.id
   const [checked, setChecked] = useState(false)
   const [active, setActive] = useState(false)
-  const [editData, setEditData] = useState({
+  const [submitClicked, setSubmitClicked] = useState(false)
+  const [errors, setErrors] = useState(null)
+  const prefillInfo = {
     "phone_number":employee.phone_number,
     "email":employee.email,
     "password":"",
     "new_password":"",
     "new_password_confirmation":""
-  })
+  }
+  const [editData, setEditData] = useState(prefillInfo)
 
   const changePassword = <>
+    <br/>
     <TextField 
       label="New Password"
       type="password"
@@ -25,8 +30,7 @@ function EditProfile(){
       required
       size="small"
       autoComplete="off"
-    />
-    <Divider />
+    /> <br/>
     <TextField 
       label="Confirm New Password"
       type="password"
@@ -38,18 +42,78 @@ function EditProfile(){
       size="small"
       autoComplete="off"
     />
-    <Divider />
   </>
 
-  if(editData.phone_number !== "" && editData.email !== "" && editData.password !== "" && !checked){
-    if(active) setActive(v=>!v)
+// Have submit button turn on when new pass and conf new pass are added/ off when not added
+  if(!checked){
+    clearNewPasswords()
+    if(editData.phone_number !== "" && editData.email !== "" && editData.password !== "" && !submitClicked){
+      if(active) setActive(v=>!v)
+    } else {
+      if(!active) setActive(v=>!v)
+    }
   } else {
-    if(!active) setActive(v=>!v)
+    if(editData.phone_number !== "" && editData.email !== "" && editData.password !== "" && editData.new_password !== "" && editData.new_password_confirmation !== "" && !submitClicked){
+      if(active) setActive(v=>!v)
+    } else {
+      if(!active) setActive(v=>!v)
+    }
   }
 
   function handleSubmit(e){
     e.preventDefault()
+    if(errors) setErrors(null)
+    setSubmitClicked(v=>!v)
+    let dataToSend
+    if(checked){
+      dataToSend = {
+        "phone_number":editData.phone_number,
+        "email":editData.email,
+        "password":editData.password,
+        "new_password":editData.new_password,
+        "new_password_confirmation":editData.new_password_confirmation
+      }
+    } else {
+      dataToSend = {
+        "phone_number":editData.phone_number,
+        "email":editData.email,
+        "password":editData.password
+      }
+    }
+    console.log(dataToSend)
+    fetch(`/employees/${id}`,{
+      method: "PATCH",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(dataToSend)
+    })
+    .then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          onUpdate(d)
+          setSubmitClicked(v=>!v)
+        })
+      } else {
+        res.json()
+        .then((d)=>{
+          setErrors(d.errors)
+          setSubmitClicked(v=>!v)
+          // Update doesnt show errors, and doesnt  update correctly, Fix next session
+        })
+      }
+    })
+    setEditData(prefillInfo)
+  }
 
+  function clearNewPasswords(){
+    if(editData.new_password !=="" || editData.new_password_confirmation !==""){
+      setEditData({...editData,
+        "new_password":"",
+        "new_password_confirmation":""
+      })
+    }
   }
   
   
@@ -79,6 +143,7 @@ function EditProfile(){
             <Typography variant="h5" align="center">
               Edit Information
             </Typography>
+            {errors ? <Alert severity="error" variant="filled">{errors}</Alert> : null}
             <Divider />
             <TextField 
               label="Phone Number"
@@ -109,19 +174,19 @@ function EditProfile(){
             >
             </FormControlLabel>
             <Divider />
-            {checked ? changePassword : null}
             <TextField 
-              label="Password"
+              label={checked ? "Current Password" : "Password"}
               type="password"
               sx={{ flexGrow:1 }}
               margin="dense"
               value={editData.password}
               onChange={(e)=>setEditData({...editData, "password":e.target.value})}
-              helperText={checked ? "Confirm Old Password" : "Confirm Password"}
               required
               size="small"
               autoComplete="off"
-            /> <br/>
+            />
+            {checked ? changePassword : null}
+            <br/><br/>
             <Button
               type="submit"
               variant="contained"

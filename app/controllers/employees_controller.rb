@@ -25,8 +25,18 @@ class EmployeesController < ApplicationController
 
     def update
         if(@current_employee)
-            @current_employee.update!(employee_params)
-            render json: @current_employee, status: :accepted
+            if(params[:password] == @current_employee.password)
+                if(params[:new_password] == params[:new_password_confirmation])
+                    params[:password] = params[:new_password]
+                    params[:password_confirmation] = params[:new_password_confirmation]
+                else
+                    render json: { errors: "Error - Passwords must match" }
+                end
+                @current_employee.update!(update_params)
+                render json: @current_employee, status: :accepted
+            else
+                render json: { errors: "Error - Incorrect password, try again"}
+            end
         else
             render json: { errors: "Please log in to update your account" }, status: :unauthorized
         end
@@ -52,6 +62,10 @@ class EmployeesController < ApplicationController
 
     def employee_params
         params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth, :admin, :password, :password_confirmation)
+    end
+
+    def update_params
+        params.permit(:phone_number, :email, :password, :password_confirmation)
     end
 
     def message_employee_password(password, employee)
