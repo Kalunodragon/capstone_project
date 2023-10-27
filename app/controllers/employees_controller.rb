@@ -30,12 +30,12 @@ class EmployeesController < ApplicationController
                     params[:password] = params[:new_password]
                     params[:password_confirmation] = params[:new_password_confirmation]
                 else
-                    render json: { errors: "Error - Passwords must match" }
+                    render json: { errors: "Error - Passwords must match" }, status: :not_acceptable
                 end
                 @current_employee.update!(update_params)
                 render json: @current_employee, status: :accepted
             else
-                render json: { errors: "Error - Incorrect password, try again"}
+                render json: { errors: "Error - Incorrect password, try again"}, status: :unauthorized
             end
         else
             render json: { errors: "Please log in to update your account" }, status: :unauthorized
