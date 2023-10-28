@@ -82,7 +82,7 @@ function EditProfile({ onUpdate }){
         "password":editData.password
       }
     }
-    console.log(dataToSend)
+    console.log("Data being sent", dataToSend)
     fetch(`/employees/${id}`,{
       method: "PATCH",
       headers:{
@@ -97,17 +97,22 @@ function EditProfile({ onUpdate }){
           onUpdate(d)
           setSuccess(true)
           setSubmitClicked(v=>!v)
+          setEditData({
+            ...editData,
+            "phone_number":d.phone_number,
+            "email":d.email,
+            "password":""
+          })
         })
       } else {
         res.json()
         .then((d)=>{
           setErrors(d.errors)
           setSubmitClicked(v=>!v)
-          // Update doesnt show errors, and doesnt  update correctly, Fix next session
+          setEditData(prefillInfo)
         })
       }
     })
-    setEditData(prefillInfo)
   }
 
   function clearNewPasswords(){
