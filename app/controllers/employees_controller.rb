@@ -24,15 +24,20 @@ class EmployeesController < ApplicationController
     end
 
     def update
+        params.delete :id
         if(@current_employee)
             if(@current_employee.authenticate(params[:password]))
-                if(params[:new_password] == params[:new_password_confirmation])
-                    params[:password] = params[:new_password]
-                    params[:password_confirmation] = params[:new_password_confirmation]
-                    @current_employee.update!(update_params)
-                    render json: @current_employee, status: :accepted
+                if(params[:new_password].present? && params[:new_password_confirmation].present?)
+                    if(params[:new_password] == params[:new_password_confirmation])
+                        params[:password] = params[:new_password]
+                        @current_employee.update(new_password_update_params)
+                        render json: @current_employee, status: :accepted
+                    else
+                        render json: { errors: "Error - New passwords must match" }, status: :not_acceptable
+                    end
                 else
-                    render json: { errors: "Error - Passwords must match" }, status: :not_acceptable
+                    @current_employee.update(update_params)
+                    render json: @current_employee, status: :accepted
                 end
             else
                 render json: { errors: "Error - Incorrect password, try again"}, status: :unauthorized
@@ -64,8 +69,12 @@ class EmployeesController < ApplicationController
         params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth, :admin, :password, :password_confirmation)
     end
 
+    def new_password_update_params
+        params.permit(:phone_number, :email, :password)
+    end
+
     def update_params
-        params.permit(:phone_number, :email, :password, :password_confirmation)
+        params.permit(:phone_number, :email)
     end
 
     def message_employee_password(password, employee)
