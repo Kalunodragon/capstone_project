@@ -105,7 +105,7 @@ function LoginForm({ onLogin }){
             variant="contained"
             disabled={active}
           >
-            Login
+            {loginClicked ? "Loading..." : "Login"}
           </Button>
         </Box>
       </Paper>
