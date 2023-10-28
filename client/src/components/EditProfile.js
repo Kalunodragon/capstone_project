@@ -83,7 +83,7 @@ function EditProfile({ onUpdate }){
       }
     }
     console.log("Data being sent", dataToSend)
-    fetch(`/employee`,{
+    fetch(`/employees/${id}`,{
       method: "PATCH",
       headers:{
         "Content-Type":"application/json"
