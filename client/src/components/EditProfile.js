@@ -201,7 +201,7 @@ function EditProfile({ onUpdate }){
               variant="contained"
               disabled={active}
             >
-              Submit
+              {submitClicked ? "Sending...": "Submit"}
             </Button>
           </Box>
         </Paper>
