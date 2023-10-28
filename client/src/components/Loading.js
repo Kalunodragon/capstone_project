@@ -10,6 +10,7 @@ function Loading(){
       <CircularProgress
         disableShrink
         size={100}
+        style={{ "color": "#f9b612"}}
       />
     </div>
   )
