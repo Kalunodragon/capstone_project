@@ -86,9 +86,7 @@ function App(){
     return(
       <>
         <Routes>
-          <Route path="/sign-in"
-            element={ <LoginPage onLogin={handleLogin}/> }
-          />
+          <Route path="/sign-in" element={ <LoginPage onLogin={handleLogin}/> }/>
         </Routes>
       </>
     )
