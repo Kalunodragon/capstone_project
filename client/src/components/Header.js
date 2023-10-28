@@ -2,20 +2,22 @@ import React, { useContext, useState } from "react";
 import { Typography, AppBar, Toolbar, IconButton, Drawer, Box, Divider } from '@mui/material'
 import MenuIcon from "@mui/icons-material/Menu"
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import BadgeIcon from '@mui/icons-material/Badge';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EditIcon from '@mui/icons-material/Edit';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
-import BadgeIcon from '@mui/icons-material/Badge';
 import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { employeeContext } from "./App";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Header({ onLogout, navigateTo }){
   const employee = useContext(employeeContext)
   const location = useLocation()
+  const navigate = useNavigate()
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(false)
   const [rightDrawerOpen, setRightDrawerOpen] = useState(false)
   const showingProfile = (location.pathname === "/profile" ? true : false)
@@ -29,6 +31,21 @@ function Header({ onLogout, navigateTo }){
         onClose={()=>setLeftDrawerOpen(false)}
       >
         <Box p={2} textAlign="center" width={200}>
+          <IconButton
+            onClick={()=>{
+              setLeftDrawerOpen(false)
+              navigate("/main")
+            }}
+            size="large"
+            color="inherit"
+            sx={{ borderRadius: 0 }}
+          >
+            <HomeIcon />
+            <Typography>
+              Home
+            </Typography>
+          </IconButton>
+          <Divider />
           <IconButton
             size="large"
             color="inherit"
@@ -73,6 +90,20 @@ function Header({ onLogout, navigateTo }){
         onClose={()=>setLeftDrawerOpen(false)}
       >
         <Box p={2} textAlign="center" width={200}>
+          <IconButton
+            onClick={()=>{
+              setLeftDrawerOpen(false)
+              navigate("/admin-main")
+          }}
+            size="large"
+            color="inherit"
+            sx={{ borderRadius: 0 }}
+          >
+            <HomeIcon />
+            <Typography>
+              Home
+            </Typography>
+            </IconButton>
           <IconButton
             size="large"
             color="inherit"
