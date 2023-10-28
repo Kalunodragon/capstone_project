@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "/award_bid", to: "bids#award_bid"
   get "/test", to: "employees#test"
   get "/employee", to: "employees#show"
+  patch "/employee", to: "employees#show"
 
   resources :schedules, only: [:create, :index, :show, :update, :destroy]
   resources :shifts, only: [:create, :index, :show, :update, :destroy]

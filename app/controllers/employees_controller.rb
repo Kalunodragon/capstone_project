@@ -70,11 +70,11 @@ class EmployeesController < ApplicationController
     end
 
     def new_password_update_params
-        params.permit(:phone_number, :email, :password)
+        params.require(:employee).permit(:phone_number, :email, :password)
     end
 
     def update_params
-        params.permit(:phone_number, :email)
+        params.require(:employee).permit(:phone_number, :email)
     end
 
     def message_employee_password(password, employee)
