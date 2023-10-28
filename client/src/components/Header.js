@@ -103,7 +103,23 @@ function Header({ onLogout, navigateTo }){
             <Typography>
               Home
             </Typography>
-            </IconButton>
+          </IconButton>
+          <Divider />
+          <IconButton
+            onClick={()=>{
+              setLeftDrawerOpen(false)
+              navigate("/admin-employees")
+            }}
+            size="large"
+            color="inherit"
+            sx={{ borderRadius: 0 }}
+          >
+            <BadgeIcon />
+            <Typography>
+              Employees
+            </Typography>
+          </IconButton>
+          <Divider />
           <IconButton
             size="large"
             color="inherit"
@@ -123,17 +139,6 @@ function Header({ onLogout, navigateTo }){
             <ListIcon />
             <Typography>
               Shifts
-            </Typography>
-          </IconButton>
-          <Divider />
-          <IconButton
-            size="large"
-            color="inherit"
-            sx={{ borderRadius: 0 }}
-          >
-            <BadgeIcon />
-            <Typography>
-              Employees
             </Typography>
           </IconButton>
           <Divider />
