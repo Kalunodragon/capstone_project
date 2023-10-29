@@ -15,6 +15,14 @@ class EmployeesController < ApplicationController
         end
     end
 
+    def index
+        if(@current_employee)
+            render json: Employee.all, status: :ok
+        else
+            render json: { erorrs: "Please login to access this information" }, status: :unauthorized
+        end
+    end
+
     def show
         if(@current_employee)
             render json: @current_employee, status: :ok
