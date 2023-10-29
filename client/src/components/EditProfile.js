@@ -143,7 +143,7 @@ function EditProfile({ onUpdate }){
           </Typography>
           <Divider />
           <Typography variant="subtitle1" align="left">
-            {employee.station} - {employee.admin ? employee.department + " Admin" : employee.department} - E{employee.id}
+            {employee.station} - {employee.admin ? employee.department + " Admin" : employee.department} - {employee.employee_number}
           </Typography>
         </Paper>
         <Paper className="profile">

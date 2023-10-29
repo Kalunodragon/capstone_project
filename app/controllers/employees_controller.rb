@@ -17,7 +17,7 @@ class EmployeesController < ApplicationController
 
     def index
         if(@current_employee)
-            render json: Employee.all, status: :ok
+            render json: Employee.seniority_list, status: :ok
         else
             render json: { erorrs: "Please login to access this information" }, status: :unauthorized
         end
