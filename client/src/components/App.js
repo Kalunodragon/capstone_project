@@ -79,7 +79,7 @@ function App(){
           <Route path="/profile" element={ <Profile /> }/>
           <Route path="/edit-profile" element={ <EditProfile onUpdate={handleEmployeeUpdate}/> }/>
           <Route path="/admin-main" element={ <AdminMain/> }/>
-          <Route path="/admin-employees" element={ <AdminEmployees /> }/>
+          <Route path="/admin-employees/*" element={ <AdminEmployees /> }/>
         </Routes>
         <Footer />
       </employeeContext.Provider>
