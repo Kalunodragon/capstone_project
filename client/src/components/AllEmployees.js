@@ -23,10 +23,13 @@ function AllEmployees(){
         key={empData.key}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
-        <TableCell component="th" scope="row">
+        <TableCell align="center" component="th" scope="row">
+          {rows.indexOf(empData) + 1}
+        </TableCell>
+        <TableCell align="left">
           {empData.key}
         </TableCell>
-        <TableCell align="right">
+        <TableCell align="center">
           {empData.value}
         </TableCell>
       </TableRow>
@@ -39,8 +42,9 @@ function AllEmployees(){
         <Table sx={{ minWidth: 350, maxWidth: 800 }} size="small" aria-label="Employees">
           <TableHead>
             <TableRow>
-              <TableCell>Full Name</TableCell>
-              <TableCell align="right">Employee Number</TableCell>
+              <TableCell align="center">Seniority</TableCell>
+              <TableCell align="left">Full Name</TableCell>
+              <TableCell align="center">Employee Number</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
