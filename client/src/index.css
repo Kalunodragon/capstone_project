@@ -44,6 +44,10 @@ body {
   padding: 10px;
 }
 
+.empTable {
+  max-width: max-content;
+}
+
 .editAlert {
   margin-bottom: 10px;
 }

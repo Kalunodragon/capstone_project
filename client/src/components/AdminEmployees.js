@@ -1,26 +1,30 @@
-import { Button, Container, Paper, Stack } from "@mui/material";
-import React, { useEffect } from "react";
+import { Button, Container, Stack } from "@mui/material";
+import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AllEmployees from "./AllEmployees";
 
+export const allEmployeesContext = createContext(null)
+
 function AdminEmployees(){
   const navigate = useNavigate()
+  const [employees, setEmployees] = useState(null)
+  const [loaded, setLoaded] = useState(false)
+  const [errors, setErrors] = useState(null)
   const buttonNames = ["Main", "All", "New"]
 
   const displayButtons = buttonNames.map((name) =>{
     return(
-      <>
+      <Container key={name}>
         <Button
           style={{ flexGrow:1 }}
           size="large"
-          key={name}
           variant="contained" 
           onClick={()=>{
             handleNavigation(name)
           }}
         >{name}
         </Button>
-      </>
+      </Container>
     )
   })
 
@@ -30,12 +34,13 @@ function AdminEmployees(){
         if(res.ok){
           res.json()
           .then((d)=>{
-            console.log(d)
+            setEmployees(d)
+            setLoaded(true)
           })
         } else {
           res.json()
           .then((d)=>{
-            console.log(d)
+            setErrors(d)
           })
         }
       })
@@ -45,7 +50,7 @@ function AdminEmployees(){
     switch(route){
       case "All": navigate("all"); break;
       case "New": navigate("new"); break;
-      case "Main": navigate("/admin-employees");
+      default: navigate("/admin-employees");
     }
   }
 
@@ -57,9 +62,12 @@ function AdminEmployees(){
           {displayButtons}
         </Stack>
       </Container>
-      <Routes>
-        <Route path="all" element={<AllEmployees />}/>
-      </Routes>
+      <br/>
+      <allEmployeesContext.Provider value={employees}>
+        <Routes>
+          <Route path="all" element={<AllEmployees loaded={loaded}/>}/>
+        </Routes>
+      </allEmployeesContext.Provider>
     </>
   )
 }
