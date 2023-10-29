@@ -14,6 +14,9 @@ function AllEmployees(){
     })
   }
 
+  // Have collapse/able rows that also how update/remove button
+    // onUpdate => open drawer with prefilled info to update
+    // onRemove => open drawer with request to delete (requires password)
   const displayThese = rows.map((empData)=>{
     return(
       <TableRow
