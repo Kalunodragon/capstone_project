@@ -10,7 +10,9 @@ function AllEmployees(){
     allEmployees.forEach((emp) => {
       const name = `${emp.first_name}, ${emp.last_name}`
       const num = emp.employee_number
-      rows.push({key:name,value:num})
+      if(!emp.admin){
+        rows.push({key:name,value:num})
+      }
     })
   }
 
