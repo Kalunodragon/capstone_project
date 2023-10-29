@@ -7,6 +7,7 @@ class EmployeesController < ApplicationController
             params[:date_of_birth] = params[:date_of_birth].to_date
             password_gen = (Faker::Name.first_name + Faker::Number.number(digits:5).to_s)
             params[:password] = password_gen
+            params[:employee_number] = `E#{Employee.seniority_list.last.employee_number[1..-1].to_i + 1}`
             employee = Employee.create!(employee_params)
             message_employee_password(password_gen, employee)
             render json: employee, status: :created
@@ -74,7 +75,7 @@ class EmployeesController < ApplicationController
     private
 
     def employee_params
-        params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth, :admin, :password, :password_confirmation)
+        params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth, :admin, :password, :password_confirmation, :employee_number)
     end
 
     def new_password_update_params
@@ -89,7 +90,7 @@ class EmployeesController < ApplicationController
         @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
 
         message = @client.messages.create(
-            body: "#{employee.first_name}, Your account has been set up. Your temporary password is: '#{password}'. We recommend changing your password during your first login session.",
+            body: "#{employee.first_name}, Your account has been set up. Your Employee number is '#{employee.employee_number}' Your temporary password is: '#{password}'. We recommend changing your password during your first login session.",
             to: "+1" + employee.phone_number.to_s,
             from: ENV["TWILIO_NUMBER"],
         )
