@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :schedules, only: [:create, :index, :show, :update, :destroy]
   resources :shifts, only: [:create, :index, :show, :update, :destroy]
   resources :bids, only: [:create, :show, :index, :update, :destroy]
-  resources :employees, only: [:create, :update, :destroy]
+  resources :employees, only: [:create, :index, :update, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get '*path',
     to: 'fallback#index',
