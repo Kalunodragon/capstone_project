@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Box, Button, ButtonGroup, Collapse, Divider, IconButton, TableCell, TableRow, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Collapse, Divider, Drawer, IconButton, TableCell, TableRow, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function EmpTableRow({ empData, index, employee }){
   const [open, setOpen] = useState(false)
+  const [updateOpen, setUpdateOpen] = useState(false)
+  const [removeOpen, setRemoveOpen] = useState(false)
 
   return(
     <>
@@ -62,8 +64,8 @@ function EmpTableRow({ empData, index, employee }){
                 <Divider />
                 <Box align="center">
                   <ButtonGroup align="center" variant="contained">
-                    <Button>
-                      Update
+                    <Button onClick={()=>setUpdateOpen(true)}>
+                      Edit
                     </Button>
                     <Button>
                       Remove
@@ -75,6 +77,24 @@ function EmpTableRow({ empData, index, employee }){
           </Collapse>
         </TableCell>
       </TableRow>
+      <Drawer 
+        anchor="bottom"
+        open={updateOpen}
+        onClose={()=>setUpdateOpen(false)}
+      >
+        <Box height={"91.75vh"}>
+
+        </Box>
+      </Drawer>
+      <Drawer 
+        anchor="bottom"
+        open={removeOpen}
+        onClose={()=>setRemoveOpen(false)}
+      >
+        <Box height={"91.75vh"}>
+
+        </Box>
+      </Drawer>
     </>
   )
 }
