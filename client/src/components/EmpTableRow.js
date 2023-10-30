@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Box, Button, ButtonGroup, Collapse, Divider, Drawer, IconButton, TableCell, TableRow, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Collapse, Divider, IconButton, TableCell, TableRow, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-function EmpTableRow({ empData, index, employee }){
+function EmpTableRow({ empData, index, employee, collapseOpen, collapseClick }){
   const [open, setOpen] = useState(false)
-  const [updateOpen, setUpdateOpen] = useState(false)
-  const [removeOpen, setRemoveOpen] = useState(false)
 
   return(
     <>
@@ -64,7 +62,7 @@ function EmpTableRow({ empData, index, employee }){
                 <Divider />
                 <Box align="center">
                   <ButtonGroup align="center" variant="contained">
-                    <Button onClick={()=>setUpdateOpen(true)}>
+                    <Button onClick={()=> collapseClick(index)}>
                       Edit
                     </Button>
                     <Button>
@@ -72,29 +70,14 @@ function EmpTableRow({ empData, index, employee }){
                     </Button>
                   </ButtonGroup>
                 </Box>
+                <Collapse in={collapseOpen === index} timeout="auto" unmountOnExit>
+                  <h1>Im Open</h1>
+                </Collapse>
               </Box>
             </Box>
           </Collapse>
         </TableCell>
       </TableRow>
-      <Drawer 
-        anchor="bottom"
-        open={updateOpen}
-        onClose={()=>setUpdateOpen(false)}
-      >
-        <Box height={"91.75vh"}>
-
-        </Box>
-      </Drawer>
-      <Drawer 
-        anchor="bottom"
-        open={removeOpen}
-        onClose={()=>setRemoveOpen(false)}
-      >
-        <Box height={"80vh"}>
-      {/* UpdateDrawer has entire update fetch as well as prefilled with employee info. Also give option to promote to Admin */}
-        </Box>
-      </Drawer>
     </>
   )
 }

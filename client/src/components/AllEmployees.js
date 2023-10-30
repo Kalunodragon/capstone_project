@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { allEmployeesContext } from "./AdminEmployees";
 import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import EmpTableRow from "./EmpTableRow";
@@ -6,6 +6,7 @@ import Loading from "./Loading";
 
 function AllEmployees({ loaded }){
   const allEmployees = useContext(allEmployeesContext)
+  const [collapseOpen, setCollapseOpen] = useState(null)
   const rows = []
 
   if(allEmployees){
@@ -16,6 +17,14 @@ function AllEmployees({ loaded }){
         rows.push({key:name,value:num,employee:emp})
       }
     })
+  }
+
+  function handleCollapseOpen(clickedIndex){
+    if(collapseOpen === clickedIndex){
+      setCollapseOpen(null)
+    } else {
+      setCollapseOpen(clickedIndex)
+    }
   }
 
   // Have collapse/able rows that also how update/remove button
@@ -39,7 +48,16 @@ function AllEmployees({ loaded }){
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((empData)=> <EmpTableRow key={empData.employee.employee_number} index={rows.indexOf(empData)} empData={empData} employee={empData.employee}/>)}
+              {rows.map((empData)=> (
+                <EmpTableRow
+                  key={empData.employee.employee_number}
+                  index={rows.indexOf(empData)}
+                  empData={empData}
+                  employee={empData.employee}
+                  collapseOpen={collapseOpen}
+                  collapseClick={handleCollapseOpen}
+                />
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
