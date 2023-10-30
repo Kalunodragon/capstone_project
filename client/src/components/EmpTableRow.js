@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, ButtonGroup, Collapse, Divider, IconButton, TableCell, TableRow, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-function EmpTableRow({ empData, index, employee, collapseOpen, collapseClick }){
-  const [open, setOpen] = useState(false)
+function EmpTableRow({
+  empData,
+  index,
+  employee,
+  mainCollapseOpen,
+  mainCollapseClick,
+  innerCollapseOpen,
+  innerCollapseClick,
+  removeCollapseOpen,
+  removeCollapseClick }){
 
   return(
     <>
       <TableRow
+        selected={mainCollapseOpen === index}
         key={empData.key}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
@@ -17,9 +26,9 @@ function EmpTableRow({ empData, index, employee, collapseOpen, collapseClick }){
             align="left"
             aria-label="More info"
             size="small"
-            onClick={()=>setOpen(v=>!v)}
+            onClick={()=>mainCollapseClick(index)}
           >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {mainCollapseOpen === index ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell align="left" component="th" scope="row">
@@ -34,7 +43,7 @@ function EmpTableRow({ empData, index, employee, collapseOpen, collapseClick }){
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={mainCollapseOpen === index} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} width="100%">
               <Typography variant="h5" component="div">
                 {employee.first_name + " " + employee.last_name}
@@ -62,16 +71,19 @@ function EmpTableRow({ empData, index, employee, collapseOpen, collapseClick }){
                 <Divider />
                 <Box align="center">
                   <ButtonGroup align="center" variant="contained">
-                    <Button onClick={()=> collapseClick(index)}>
-                      Edit
+                    <Button onClick={()=> innerCollapseClick(index)}>
+                      {innerCollapseOpen === index ? "Close Edit" : "Edit"}
                     </Button>
-                    <Button>
-                      Remove
+                    <Button onClick={()=> removeCollapseClick(index)}>
+                      {removeCollapseOpen === index ? "Close Remove" : "Remove"}
                     </Button>
                   </ButtonGroup>
                 </Box>
-                <Collapse in={collapseOpen === index} timeout="auto" unmountOnExit>
+                <Collapse in={innerCollapseOpen === index} timeout="auto" unmountOnExit>
                   <h1>Im Open</h1>
+                </Collapse>
+                <Collapse in={removeCollapseOpen === index} timeout="auto" unmountOnExit>
+                  <h1>Are you sure</h1>
                 </Collapse>
               </Box>
             </Box>

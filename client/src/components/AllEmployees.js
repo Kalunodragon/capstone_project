@@ -6,7 +6,9 @@ import Loading from "./Loading";
 
 function AllEmployees({ loaded }){
   const allEmployees = useContext(allEmployeesContext)
-  const [collapseOpen, setCollapseOpen] = useState(null)
+  const [mainCollapseOpen, setMainCollapseOpen] = useState(null)
+  const [innerCollapseOpen, setInnerCollapseOpen] = useState(null)
+  const [removeCollapseOpen, setRemoveCollapseOpen] = useState(null)
   const rows = []
 
   if(allEmployees){
@@ -19,11 +21,29 @@ function AllEmployees({ loaded }){
     })
   }
 
-  function handleCollapseOpen(clickedIndex){
-    if(collapseOpen === clickedIndex){
-      setCollapseOpen(null)
+  function handleMainCollapseOpen(clickedIndex){
+    if(removeCollapseOpen) setRemoveCollapseOpen(null)
+    if(innerCollapseOpen) setInnerCollapseOpen(null)
+    if(mainCollapseOpen === clickedIndex){
+      setMainCollapseOpen(null)
     } else {
-      setCollapseOpen(clickedIndex)
+      setMainCollapseOpen(clickedIndex)
+    }
+  }
+  function handleInnerCollapseOpen(clickedIndex){
+    if(removeCollapseOpen) setRemoveCollapseOpen(null)
+    if(innerCollapseOpen === clickedIndex){
+      setInnerCollapseOpen(null)
+    } else {
+      setInnerCollapseOpen(clickedIndex)
+    }
+  }
+  function handleRemoveCollapseOpen(clickedIndex){
+    if(innerCollapseOpen) setInnerCollapseOpen(null)
+    if(removeCollapseOpen === clickedIndex){
+      setRemoveCollapseOpen(null)
+    } else {
+      setRemoveCollapseOpen(clickedIndex)
     }
   }
 
@@ -54,8 +74,12 @@ function AllEmployees({ loaded }){
                   index={rows.indexOf(empData)}
                   empData={empData}
                   employee={empData.employee}
-                  collapseOpen={collapseOpen}
-                  collapseClick={handleCollapseOpen}
+                  mainCollapseOpen={mainCollapseOpen}
+                  mainCollapseClick={handleMainCollapseOpen}
+                  innerCollapseOpen={innerCollapseOpen}
+                  innerCollapseClick={handleInnerCollapseOpen}
+                  removeCollapseOpen={removeCollapseOpen}
+                  removeCollapseClick={handleRemoveCollapseOpen}
                 />
               ))}
             </TableBody>
