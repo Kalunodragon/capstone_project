@@ -92,7 +92,7 @@ function EmpTableRow({ empData, index, employee }){
         onClose={()=>setRemoveOpen(false)}
       >
         <Box height={"91.75vh"}>
-
+      {/* UpdateDrawer has entire update fetch as well as prefilled with employee info. Also give option to promote to Admin */}
         </Box>
       </Drawer>
     </>
