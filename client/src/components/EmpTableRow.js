@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Collapse, Divider, IconButton, TableCell, TableRow, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Collapse, Divider, IconButton, TableCell, TableRow, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
@@ -60,6 +60,16 @@ function EmpTableRow({ empData, index, employee }){
                   Date of Birth: {employee.date_of_birth}
                 </Typography>
                 <Divider />
+                <Box align="center">
+                  <ButtonGroup align="center" variant="contained">
+                    <Button>
+                      Update
+                    </Button>
+                    <Button>
+                      Remove
+                    </Button>
+                  </ButtonGroup>
+                </Box>
               </Box>
             </Box>
           </Collapse>
