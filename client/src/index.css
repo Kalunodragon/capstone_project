@@ -44,6 +44,12 @@ body {
   padding: 10px;
 }
 
+.adminUpdate {
+  max-width: 600px;
+  min-width: min-content;
+  padding: 10px;
+}
+
 .empTable {
   max-width: max-content;
 }

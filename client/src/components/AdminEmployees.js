@@ -25,6 +25,7 @@ function AdminEmployees(){
           res.json()
           .then((d)=>{
             setErrors(d)
+            console.log(errors)
           })
         }
       })
