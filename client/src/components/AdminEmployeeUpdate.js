@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 function AdminEmployeeUpdate({ employee, setEmployeesState }){
   const {
+    id,
     first_name,
     last_name,
     department,
@@ -15,6 +16,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
   } = employee
 
   const [formData, setFormData] = useState({
+    "id":id,
     "first_name":first_name,
     "last_name":last_name,
     "department":department,
@@ -29,7 +31,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
   return(
     <>
       <Container align="left">
-        
+
       </Container>
     </>
   )
