@@ -2,11 +2,13 @@ import React from "react";
 import { Box, Button, ButtonGroup, Collapse, Divider, IconButton, TableCell, TableRow, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import AdminEmployeeUpdate from "./AdminEmployeeUpdate";
 
 function EmpTableRow({
   empData,
   index,
   employee,
+  setEmployeesState,
   mainCollapseOpen,
   mainCollapseClick,
   innerCollapseOpen,
@@ -80,7 +82,7 @@ function EmpTableRow({
                   </ButtonGroup>
                 </Box>
                 <Collapse in={innerCollapseOpen === index} timeout="auto" unmountOnExit>
-                  <h1>Im Open</h1>
+                  <AdminEmployeeUpdate employee={employee} setEmployeesState={setEmployeesState}/>
                 </Collapse>
                 <Collapse in={removeCollapseOpen === index} timeout="auto" unmountOnExit>
                   <h1>Are you sure</h1>

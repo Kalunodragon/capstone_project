@@ -12,22 +12,6 @@ function AdminEmployees(){
   const [errors, setErrors] = useState(null)
   const buttonNames = ["Main", "All", "New"]
 
-  const displayButtons = buttonNames.map((name) =>{
-    return(
-      <Container key={name}>
-        <Button
-          style={{ flexGrow:1 }}
-          size="large"
-          variant="contained" 
-          onClick={()=>{
-            handleNavigation(name)
-          }}
-        >{name}
-        </Button>
-      </Container>
-    )
-  })
-
   useEffect(()=>{
     fetch("/employees")
       .then((res)=>{
@@ -45,6 +29,31 @@ function AdminEmployees(){
         }
       })
   }, [])
+
+  const displayButtons = buttonNames.map((name) =>{
+    return(
+      <Container key={name}>
+        <Button
+          style={{ flexGrow:1 }}
+          size="large"
+          variant="contained" 
+          onClick={()=>{
+            handleNavigation(name)
+          }}
+        >{name}
+        </Button>
+      </Container>
+    )
+  })
+
+  function handleEmployees(handleType, employeeData){
+    if(handleType === "Update"){
+      // setEmployees filter out oldEmployeeData and replace with new employeeData
+    }
+    if(handleType === "Remove"){
+      // setEmployees filter remove employeeData
+    }
+  }
 
   function handleNavigation(route){
     switch(route){
@@ -65,7 +74,7 @@ function AdminEmployees(){
       <br/>
       <allEmployeesContext.Provider value={employees}>
         <Routes>
-          <Route path="all" element={<AllEmployees loaded={loaded}/>}/>
+          <Route path="all" element={<AllEmployees loaded={loaded} setEmployeesState={handleEmployees}/>}/>
         </Routes>
       </allEmployeesContext.Provider>
     </>

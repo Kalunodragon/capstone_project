@@ -4,7 +4,7 @@ import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHea
 import EmpTableRow from "./EmpTableRow";
 import Loading from "./Loading";
 
-function AllEmployees({ loaded }){
+function AllEmployees({ loaded, setEmployeesState }){
   const allEmployees = useContext(allEmployeesContext)
   const [mainCollapseOpen, setMainCollapseOpen] = useState(null)
   const [innerCollapseOpen, setInnerCollapseOpen] = useState(null)
@@ -74,6 +74,7 @@ function AllEmployees({ loaded }){
                   index={rows.indexOf(empData)}
                   empData={empData}
                   employee={empData.employee}
+                  setEmployeesState={setEmployeesState}
                   mainCollapseOpen={mainCollapseOpen}
                   mainCollapseClick={handleMainCollapseOpen}
                   innerCollapseOpen={innerCollapseOpen}
