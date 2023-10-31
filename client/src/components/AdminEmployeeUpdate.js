@@ -1,4 +1,5 @@
 import { Box, Container, Divider, Paper, TextField, Typography } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
 import React, { useState } from "react";
 
 function AdminEmployeeUpdate({ employee, setEmployeesState }){
@@ -96,7 +97,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
             /> <br/>
             <TextField 
               label="Station"
-              sx={{ flexGrow:1 }}
+              sx={{ flexGrow:1, width:"80%" }}
               margin="dense"
               value={formData.station}
               onChange={(e)=>setFormData({...formData, "station":e.target.value})}
@@ -106,6 +107,15 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
               size="small"
               autoComplete="off"
             /> <br/>
+            <DatePicker 
+              label="Hire Date"
+              required
+              sx={{ width:"80%" }}
+            /> <br/>
+            <DatePicker 
+              label="Date Of Birth"
+              required
+            />
           </Box>
         </Paper>
       </Container>

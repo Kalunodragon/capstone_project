@@ -9,6 +9,9 @@ import LoginPage from "./LoginPage";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import AdminEmployees from "./AdminEmployees";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 
 export const employeeContext = createContext(null)
 
@@ -72,17 +75,19 @@ function App(){
 
   if(employee){
     return(
-      <employeeContext.Provider value={employee}>
-        <Header onLogout={handleLogout} navigateTo={navigateTo}/>
-        <Routes>
-          <Route path="/main" element={ <MainPage/> }/>
-          <Route path="/profile" element={ <Profile /> }/>
-          <Route path="/edit-profile" element={ <EditProfile onUpdate={handleEmployeeUpdate}/> }/>
-          <Route path="/admin-main" element={ <AdminMain/> }/>
-          <Route path="/admin-employees/*" element={ <AdminEmployees /> }/>
-        </Routes>
-        <Footer />
-      </employeeContext.Provider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <employeeContext.Provider value={employee}>
+          <Header onLogout={handleLogout} navigateTo={navigateTo}/>
+          <Routes>
+            <Route path="/main" element={ <MainPage/> }/>
+            <Route path="/profile" element={ <Profile /> }/>
+            <Route path="/edit-profile" element={ <EditProfile onUpdate={handleEmployeeUpdate}/> }/>
+            <Route path="/admin-main" element={ <AdminMain/> }/>
+            <Route path="/admin-employees/*" element={ <AdminEmployees /> }/>
+          </Routes>
+          <Footer />
+        </employeeContext.Provider>
+      </LocalizationProvider>
     )
   } else {
     return(
