@@ -33,8 +33,15 @@ class EmployeesController < ApplicationController
     end
 
     def update
-        params.delete :id
-        if(@current_employee)
+        if(@current_employee.admin)
+            if(@current_employee.authenticate(params[:admin_password]))
+                employee = Employee.find_by(id:params[:id])
+                employee.update!(admin_params)
+                render json: employee, status: :accepted
+            else
+                render json: { errors: "Error - Incorrect password, try again" }, status: :unauthorized
+            end
+        elsif(@current_employee && !@current_employee.admin)
             if(@current_employee.authenticate(params[:password]))
                 if(params[:new_password].present? && params[:new_password_confirmation].present?)
                     if(params[:new_password] == params[:new_password_confirmation])
@@ -49,7 +56,7 @@ class EmployeesController < ApplicationController
                     render json: @current_employee, status: :accepted
                 end
             else
-                render json: { errors: "Error - Incorrect password, try again"}, status: :unauthorized
+                render json: { errors: "Error - Incorrect password, try again" }, status: :unauthorized
             end
         else
             render json: { errors: "Please log in to update your account" }, status: :unauthorized
@@ -84,6 +91,10 @@ class EmployeesController < ApplicationController
 
     def update_params
         params.permit(:phone_number, :email)
+    end
+
+    def admin_params
+        params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth)
     end
 
     def message_employee_password(password, employee)
