@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "client": "file:client",
-    "prefix": "^1.0.0"
-  }
-}
