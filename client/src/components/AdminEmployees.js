@@ -2,6 +2,7 @@ import { Alert, Button, Container, Divider, Paper, Stack, Typography } from "@mu
 import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AllEmployees from "./AllEmployees";
+import AdminNewEmployee from "./AdminNewEmployee";
 
 export const allEmployeesContext = createContext(null)
 
@@ -61,6 +62,9 @@ function AdminEmployees(){
       setEmployees(employees.filter((emp)=> emp.id !== employeeData.id))
       window.scrollTo(0,0)
     }
+    if(handleType === "New"){
+      
+    }
   }
 
   function handleNavigation(route){
@@ -111,6 +115,7 @@ function AdminEmployees(){
       <allEmployeesContext.Provider value={employees}>
         <Routes>
           <Route path="all" element={<AllEmployees loaded={loaded} setEmployeesState={handleEmployees}/>}/>
+          <Route path="new" element={<AdminNewEmployee setEmployeesState={handleEmployees}/>}/>
         </Routes>
       </allEmployeesContext.Provider>
     </>
