@@ -1,4 +1,4 @@
-import { Button, Container, Stack } from "@mui/material";
+import { Alert, Button, Container, Stack } from "@mui/material";
 import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AllEmployees from "./AllEmployees";
@@ -25,7 +25,7 @@ function AdminEmployees(){
           res.json()
           .then((d)=>{
             setErrors(d)
-            console.log(errors)
+            console.log(d)
           })
         }
       })
@@ -49,10 +49,10 @@ function AdminEmployees(){
 
   function handleEmployees(handleType, employeeData){
     if(handleType === "Update"){
-      // setEmployees filter out oldEmployeeData and replace with new employeeData
+      setEmployees(employees.map((emp) => (emp.id === employeeData.id ? employeeData : emp)))
     }
     if(handleType === "Remove"){
-      // setEmployees filter remove employeeData
+      setEmployees(employees.filter((emp)=> emp.id !== employeeData.id))
     }
   }
 
@@ -73,6 +73,7 @@ function AdminEmployees(){
         </Stack>
       </Container>
       <br/>
+      {errors ? <><Alert security="error" align="center" variant="filled">{errors}</Alert><br/></> : null}
       <allEmployeesContext.Provider value={employees}>
         <Routes>
           <Route path="all" element={<AllEmployees loaded={loaded} setEmployeesState={handleEmployees}/>}/>
