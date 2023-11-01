@@ -3,7 +3,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 
-function AdminEmployeeUpdate({ employee, setEmployeesState }){
+function AdminEmployeeUpdate({ employee, setEmployeesState, mainCollapseClick }){
   const {
     id,
     first_name,
@@ -16,6 +16,11 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
     admin
   } = employee
 
+  const [checked, setChecked] = useState(admin)
+  const [active, setActive] = useState(false)
+  const [submitClicked, setSubmitClicked] = useState(false)
+  const [success, setSuccess] = useState(null)
+  const [errors, setErrors] = useState(null)
   const [formData, setFormData] = useState({
     "id":id,
     "first_name":first_name,
@@ -24,16 +29,11 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
     "phone_number":phone_number,
     "email":email,
     "station":station,
-    "seniority_date":dayjs(seniority_date),
-    "date_of_birth":dayjs(date_of_birth),
-    "admin":admin,
+    "seniority_date":dayjs(seniority_date).$d,
+    "date_of_birth":dayjs(date_of_birth).$d,
+    "admin":false,
     "admin_password":""
     })
-  const [checked, setChecked] = useState(admin)
-  const [active, setActive] = useState(false)
-  const [submitClicked, setSubmitClicked] = useState(false)
-  const [success, setSuccess] = useState(null)
-  const [errors, setErrors] = useState(null)
 
   const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
 
@@ -75,6 +75,9 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
           setEmployeesState("Update",d)
           setFormData({...formData, "admin_password":""})
           setSubmitClicked(false)
+          if(d.admin){
+            mainCollapseClick(null)
+          }
         })
       } else {
         res.json()
@@ -178,7 +181,9 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
             <FormControlLabel
               label="Switch to Admin"
               labelPlacement="start"
-              control={<Switch checked={checked} onChange={()=>setChecked(v=>!v)}/>}
+              control={<Switch defaultChecked={admin} checked={checked} onChange={()=>{
+                setFormData({...formData, "admin":!formData.admin})
+                setChecked(v=>!v)}}/>}
             ></FormControlLabel>
             <TextField 
               label="Admin Password"
