@@ -25,8 +25,8 @@ function AllEmployees({ loaded, setEmployeesState }){
   }
 
   function handleMainCollapseOpen(clickedIndex){
-    if(removeCollapseOpen) setRemoveCollapseOpen(null)
-    if(innerCollapseOpen) setInnerCollapseOpen(null)
+    if(removeCollapseOpen !== null) setRemoveCollapseOpen(null)
+    if(innerCollapseOpen !== null) setInnerCollapseOpen(null)
     if(mainCollapseOpen === clickedIndex){
       setMainCollapseOpen(null)
     } else {
@@ -34,7 +34,7 @@ function AllEmployees({ loaded, setEmployeesState }){
     }
   }
   function handleInnerCollapseOpen(clickedIndex){
-    if(removeCollapseOpen) setRemoveCollapseOpen(null)
+    if(removeCollapseOpen !== null) setRemoveCollapseOpen(null)
     if(innerCollapseOpen === clickedIndex){
       setInnerCollapseOpen(null)
     } else {
@@ -42,7 +42,7 @@ function AllEmployees({ loaded, setEmployeesState }){
     }
   }
   function handleRemoveCollapseOpen(clickedIndex){
-    if(innerCollapseOpen) setInnerCollapseOpen(null)
+    if(innerCollapseOpen !== null) setInnerCollapseOpen(null)
     if(removeCollapseOpen === clickedIndex){
       setRemoveCollapseOpen(null)
     } else {
