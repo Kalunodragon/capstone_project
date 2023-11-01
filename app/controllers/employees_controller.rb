@@ -104,7 +104,7 @@ class EmployeesController < ApplicationController
     end
 
     def admin_params
-        params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth)
+        params.permit(:first_name, :last_name, :department, :phone_number, :email, :station, :seniority_date, :date_of_birth, :admin)
     end
 
     def message_employee_password(password, employee)
