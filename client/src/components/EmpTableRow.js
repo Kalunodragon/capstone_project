@@ -52,7 +52,7 @@ function EmpTableRow({
               </Typography>
               <Box sx={{ padding: 1 }}>
                 <Typography variant="subtitle1" align="left">
-                  {employee.employee_number}
+                  {employee.employee_number} {employee.station}
                 </Typography>
                 <Divider />
                 <Typography variant="subtitle2" align="left">
