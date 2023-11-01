@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Divider, FormControlLabel, Paper, Switch, TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import React, { useState } from "react";
 
@@ -27,12 +27,36 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
     "seniority_date":seniority_date,
     "date_of_birth":date_of_birth,
     "admin":admin,
-    "employee_number":employee_number
+    "employee_number":employee_number,
+    "admin_password":"",
+    "admin_confirm_password":""
     })
+  const [checked, setChecked] = useState(admin)
+  const [active, setActive] = useState(false)
+  const [submitClicked, setSubmitClicked] = useState(false)
 
-    function handleSubmit(){
-      console.log(employee)
+  if(!checked){
+    if(formData.first_name !== "" &&
+      formData.last_name !== "" &&
+      formData.department !== "" &&
+      formData.phone_number !== "" &&
+      formData.email !== "" &&
+      formData.station !== "" &&
+      formData.seniority_date !== "" &&
+      formData.date_of_birth !== "" &&
+      formData.employee_number !== "" &&
+      formData.admin_password !== "" &&
+      formData.admin_confirm_password !== "" &&
+      !submitClicked){
+      if(active) setActive(v=>!v)
+    } else {
+      if(!active) setActive(v=>!v)
     }
+  }
+
+  function handleSubmit(){
+    console.log(employee)
+  }
 
 
   return(
@@ -40,13 +64,14 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
       <Container align="center" className="adminUpdate">
         <Paper className="adminUpdate" sx={{ backgroundColor: "#f9b612"}}>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{backgroundColor:"#fff"}}>
+            <br/>
             <Typography variant="h5" align="center">
               Edit Information
             </Typography>
             <Divider />
             <TextField
               label="First Name"
-              sx={{ flexGrow:1 }}
+              sx={{ flexGrow:1, width:"80%" }}
               margin="dense"
               value={formData.first_name}
               onChange={(e)=>setFormData({...formData, "first_name":e.target.value})}
@@ -56,7 +81,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
             /> <br/>
             <TextField 
               label="Last Name"
-              sx={{ flexGrow:1 }}
+              sx={{ flexGrow:1, width:"80%" }}
               margin="dense"
               value={formData.last_name}
               onChange={(e)=>setFormData({...formData, "last_name":e.target.value})}
@@ -66,7 +91,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
             /> <br/>
             <TextField 
               label="Department"
-              sx={{ flexGrow:1 }}
+              sx={{ flexGrow:1, width:"80%" }}
               margin="dense"
               value={formData.department}
               onChange={(e)=>setFormData({...formData, "department":e.target.value})}
@@ -76,7 +101,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
             /> <br/>
             <TextField 
               label="Phone Number"
-              sx={{ flexGrow:1 }}
+              sx={{ flexGrow:1, width:"80%" }}
               margin="dense"
               value={formData.phone_number}
               onChange={(e)=>setFormData({...formData, "phone_number":e.target.value})}
@@ -87,7 +112,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
             /> <br/>
             <TextField 
               label="Email"
-              sx={{ flexGrow:1 }}
+              sx={{ flexGrow:1, width:"80%" }}
               margin="dense"
               value={formData.email}
               onChange={(e)=>setFormData({...formData, "email":e.target.value})}
@@ -110,12 +135,48 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
             <DatePicker 
               label="Hire Date"
               required
-              sx={{ width:"80%" }}
+              sx={{ width:"80%", marginBottom: "12px" }}
             /> <br/>
             <DatePicker 
               label="Date Of Birth"
               required
+              sx={{ width:"80%" }}
+            /> <br/>
+            <FormControlLabel
+              label="Switch to Admin"
+              labelPlacement="start"
+              control={<Switch checked={checked} onChange={()=>setChecked(v=>!v)}/>}
+            ></FormControlLabel>
+            <TextField 
+              label="Admin Password"
+              type="password"
+              sx={{ flexGrow:1, width:"80%" }}
+              margin="dense"
+              value={formData.admin_password}
+              onChange={(e)=>setFormData({...formData, "admin_password":e.target.value})}
+              required
+              size="small"
+              autoComplete="off"
             />
+            <TextField 
+              label="Confirm Password"
+              type="password"
+              sx={{ flexGrow:1, width:"80%" }}
+              margin="dense"
+              value={formData.admin_confirm_password}
+              onChange={(e)=>setFormData({...formData, "admin_confirm_password":e.target.value})}
+              required
+              size="small"
+              autoComplete="off"
+            /> <br/>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={active}
+            >
+              {submitClicked ? "Sending...": "Submit"}
+            </Button>
+            <br/> <br/>
           </Box>
         </Paper>
       </Container>
