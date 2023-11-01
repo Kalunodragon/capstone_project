@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Container, Divider, Paper, Typography } from "@mui/material";
+import { Container, Divider, Paper, Typography } from "@mui/material";
 
 function AdminMain(){
 

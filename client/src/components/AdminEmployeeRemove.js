@@ -68,6 +68,8 @@ function AdminEmployeeRemove({ employee, setEmployeesState, mainCollapseClick })
             <FormControlLabel
               label="Confirm - Remove Employee"
               labelPlacement="start"
+              align="center"
+              sx={{ flexGrow:1, width:"80%" }}
               control={<Switch color="error" checked={checked} onChange={()=>setChecked(v=>!v)}/>}
             ></FormControlLabel> <br/>
             <TextField
