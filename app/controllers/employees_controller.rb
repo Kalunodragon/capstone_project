@@ -37,6 +37,7 @@ class EmployeesController < ApplicationController
             if(@current_employee.authenticate(params[:admin_password]))
                 employee = Employee.find_by(id:params[:id])
                 employee.update!(admin_params)
+                message_admin_update(employee)
                 render json: employee, status: :accepted
             else
                 render json: { errors: "Error - Incorrect password, try again" }, status: :unauthorized
@@ -47,6 +48,7 @@ class EmployeesController < ApplicationController
                     if(params[:new_password] == params[:new_password_confirmation])
                         params[:password] = params[:new_password]
                         @current_employee.update(new_password_update_params)
+                        message_employee_update(employee)
                         render json: @current_employee, status: :accepted
                     else
                         render json: { errors: "Error - New passwords must match" }, status: :not_acceptable
@@ -102,6 +104,26 @@ class EmployeesController < ApplicationController
 
         message = @client.messages.create(
             body: "#{employee.first_name}, Your account has been set up. Your Employee number is '#{employee.employee_number}' Your temporary password is: '#{password}'. We recommend changing your password during your first login session.",
+            to: "+1" + employee.phone_number.to_s,
+            from: ENV["TWILIO_NUMBER"],
+        )
+    end
+
+    def message_admin_update(employee)
+        @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
+
+        message = @client.messages.create(
+            body: "#{employee.first_name}, Your account has been updated by admin to reflect the new changes. Visit your account on RADS to view the details.",
+            to: "+1" + employee.phone_number.to_s,
+            from: ENV["TWILIO_NUMBER"],
+        )
+    end
+
+    def message_employee_update(employee)
+        @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
+
+        message = @client.messages.create(
+            body: "#{employee.first_name}, Your account information has been changed. If you receive this message and didn't initiate an update to your account please contact admin.",
             to: "+1" + employee.phone_number.to_s,
             from: ENV["TWILIO_NUMBER"],
         )
