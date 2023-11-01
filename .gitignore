@@ -34,3 +34,7 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 /config/local_env.yml
+
+/node_modules
+/.pnp
+.pnp.js
