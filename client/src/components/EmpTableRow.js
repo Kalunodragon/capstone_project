@@ -3,6 +3,7 @@ import { Box, Button, ButtonGroup, Collapse, Divider, IconButton, TableCell, Tab
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AdminEmployeeUpdate from "./AdminEmployeeUpdate";
+import AdminEmployeeRemove from "./AdminEmployeeRemove";
 
 function EmpTableRow({
   empData,
@@ -85,7 +86,7 @@ function EmpTableRow({
                   <AdminEmployeeUpdate employee={employee} setEmployeesState={setEmployeesState}/>
                 </Collapse>
                 <Collapse in={removeCollapseOpen === index} timeout="auto" unmountOnExit>
-                  <h1>Are you sure</h1>
+                  <AdminEmployeeRemove employee={employee} setEmployeesState={setEmployeesState}/>
                 </Collapse>
               </Box>
             </Box>
