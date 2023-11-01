@@ -1,4 +1,4 @@
-import { Alert, Button, Container, Stack } from "@mui/material";
+import { Alert, Button, Container, Divider, Paper, Stack, Typography } from "@mui/material";
 import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AllEmployees from "./AllEmployees";
@@ -11,6 +11,7 @@ function AdminEmployees(){
   const [loaded, setLoaded] = useState(false)
   const [errors, setErrors] = useState(null)
   const [removeSuccess, setRemoveSuccess] = useState(null)
+  const [current, setCurrent] = useState("main")
   const buttonNames = ["Main", "All", "New"]
 
   useEffect(()=>{
@@ -51,16 +52,24 @@ function AdminEmployees(){
   function handleEmployees(handleType, employeeData){
     if(handleType === "Update"){
       setEmployees(employees.map((emp) => (emp.id === employeeData.id ? employeeData : emp)))
+      if(employeeData.admin){
+        window.scrollTo(0,0)
+      }
     }
     if(handleType === "Remove"){
       setRemoveSuccess(employeeData.first_name + " " + employeeData.last_name)
-      window.scrollTo(0,0)
       setEmployees(employees.filter((emp)=> emp.id !== employeeData.id))
+      window.scrollTo(0,0)
     }
   }
 
   function handleNavigation(route){
     if(removeSuccess) setRemoveSuccess(null)
+    if(route === "All" || route === "New"){
+      setCurrent("not-main")
+    } else {
+      setCurrent("main")
+    }
     switch(route){
       case "All": navigate("all"); break;
       case "New": navigate("new"); break;
@@ -79,6 +88,26 @@ function AdminEmployees(){
       </Container>
       <br/>
       {errors ? <><Alert severity="error" align="center" variant="filled">{errors}</Alert><br/></> : null}
+      {current === "main" ?
+        <Container align="center" className="profile">
+          <Paper className="profile">
+            <Typography variant="h4" align="center">
+              Employees!
+            </Typography>
+            <Divider />
+            <Typography variant="p">
+              Welcome to RADS-ADMIN Employees section. This section will allow an Admin to View information about 
+              all the Employees, Add new Employees, Update existing Employees, and Removing Employees that no 
+              longer work for the company.
+            </Typography>
+            <Divider />
+            <Typography variant="p">
+              Quick reference: The All button will show all the Employees with drop down selections that will 
+              show an Edit and Remove feature. The New button will allow an Admin to add a new Employee to the 
+              application.
+            </Typography>
+          </Paper>
+        </Container> : null }
       <allEmployeesContext.Provider value={employees}>
         <Routes>
           <Route path="all" element={<AllEmployees loaded={loaded} setEmployeesState={handleEmployees}/>}/>
