@@ -2,18 +2,22 @@ class EmployeesController < ApplicationController
     skip_before_action :auth, only: :test
 
     def create
-        if(@current_employee.admin)
-            params[:seniority_date] = params[:seniority_date].to_date
-            params[:date_of_birth] = params[:date_of_birth].to_date
-            password_gen = (Faker::Name.first_name + Faker::Number.number(digits:5).to_s)
-            params[:password] = password_gen
-            params[:employee_number] = `E#{Employee.seniority_list.last.employee_number[1..-1].to_i + 1}`
-            employee = Employee.create!(employee_params)
-            message_employee_password(password_gen, employee)
-            render json: employee, status: :created
+        if(@current_employee)
+            if(@current_employee.authenticate(params[:password]))
+                params.delete :password
+                params[:seniority_date] = params[:seniority_date].to_date
+                params[:date_of_birth] = params[:date_of_birth].to_date
+                password_gen = (Faker::Name.first_name + Faker::Number.number(digits:5).to_s)
+                params[:password] = password_gen
+                params[:employee_number] = `E#{Employee.seniority_list.last.employee_number[1..-1].to_i + 1}`
+                employee = Employee.create!(employee_params)
+                message_employee_password(password_gen, employee)
+                render json: employee, status: :created
+            else
+                render json: { errors: "Error - Incorrect password, please try again" }, status: :unauthorized
+            end
         else
-            render json: { errors: "Only an Admin can set up an Employee account" }, status: :forbidden
-        end
+            render json: { errors: "Please login to preform this action" }, status: :unauthorized
     end
 
     def index
