@@ -67,9 +67,17 @@ class EmployeesController < ApplicationController
 
     def destroy
         if(@current_employee.admin)
-            employee = Employee.find_by(id: params[:id])
-            employee.destroy
-            render json: employee, status: :ok
+            if(params[:password] == params[:password_confirmation])
+                if(@current_employee.authenticate(params[:password]))
+                    employee = Employee.find_by(id: params[:id])
+                    employee.destroy
+                    render json: employee, status: :ok
+                else
+                    render json: { errors: "Error - Inccorect password, try again" }, status: :unauthorized
+                end
+            else
+                render json: { errors: "Error - Passwords do not match, try again" }, status: :unauthorized
+            end
         else
             render json: { errors: "Only an Admin can preform this action!" }, status: :unauthorized
         end

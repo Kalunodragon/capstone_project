@@ -86,7 +86,7 @@ function EmpTableRow({
                   <AdminEmployeeUpdate employee={employee} setEmployeesState={setEmployeesState}/>
                 </Collapse>
                 <Collapse in={removeCollapseOpen === index} timeout="auto" unmountOnExit>
-                  <AdminEmployeeRemove employee={employee} setEmployeesState={setEmployeesState}/>
+                  <AdminEmployeeRemove employee={employee} setEmployeesState={setEmployeesState} mainCollapseClick={mainCollapseClick}/>
                 </Collapse>
               </Box>
             </Box>

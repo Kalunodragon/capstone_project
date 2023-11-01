@@ -10,6 +10,7 @@ function AdminEmployees(){
   const [employees, setEmployees] = useState(null)
   const [loaded, setLoaded] = useState(false)
   const [errors, setErrors] = useState(null)
+  const [removeSuccess, setRemoveSuccess] = useState(null)
   const buttonNames = ["Main", "All", "New"]
 
   useEffect(()=>{
@@ -52,11 +53,14 @@ function AdminEmployees(){
       setEmployees(employees.map((emp) => (emp.id === employeeData.id ? employeeData : emp)))
     }
     if(handleType === "Remove"){
+      setRemoveSuccess(employeeData.first_name + " " + employeeData.last_name)
+      window.scrollTo(0,0)
       setEmployees(employees.filter((emp)=> emp.id !== employeeData.id))
     }
   }
 
   function handleNavigation(route){
+    if(removeSuccess) setRemoveSuccess(null)
     switch(route){
       case "All": navigate("all"); break;
       case "New": navigate("new"); break;
@@ -71,9 +75,10 @@ function AdminEmployees(){
         <Stack direction="row" spacing={2}>
           {displayButtons}
         </Stack>
+        {removeSuccess ? <><br/><Alert severity="success" align="center" variant="filled">{removeSuccess}, Has been removed</Alert></> : null}
       </Container>
       <br/>
-      {errors ? <><Alert security="error" align="center" variant="filled">{errors}</Alert><br/></> : null}
+      {errors ? <><Alert severity="error" align="center" variant="filled">{errors}</Alert><br/></> : null}
       <allEmployeesContext.Provider value={employees}>
         <Routes>
           <Route path="all" element={<AllEmployees loaded={loaded} setEmployeesState={handleEmployees}/>}/>
