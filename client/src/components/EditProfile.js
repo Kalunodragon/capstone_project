@@ -123,16 +123,6 @@ function EditProfile({ onUpdate }){
       })
     }
   }
-  
-  
-  // Password section needs a toggle button for changing password
-  // If yes then needs old password, new password, confirm new password
-    // This needs to check on the backend if the password matches then needs to check
-    // if the new password matches the new confim password then change the password
-  // If no then only require the password for changing of information
-
-  // This edit page for Admin needs to allow for an employee look up to be able to change
-  // Information on other employees accounts such as the Admin, Station, Department, Hire Date, DOB
 
   return(
     <>

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { allEmployeesContext } from "./AdminEmployees";
-import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Container, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import EmpTableRow from "./EmpTableRow";
 import Loading from "./Loading";
 
@@ -10,6 +10,7 @@ function AllEmployees({ loaded, setEmployeesState }){
   const [innerCollapseOpen, setInnerCollapseOpen] = useState(null)
   const [removeCollapseOpen, setRemoveCollapseOpen] = useState(null)
   const rows = []
+  const adminRows = []
 
   if(allEmployees){
     allEmployees.forEach((emp) => {
@@ -17,6 +18,8 @@ function AllEmployees({ loaded, setEmployeesState }){
       const num = emp.employee_number
       if(!emp.admin){
         rows.push({key:name,value:num,employee:emp})
+      } else {
+        adminRows.push(name)
       }
     })
   }
@@ -56,6 +59,14 @@ function AllEmployees({ loaded, setEmployeesState }){
 
   return(
     <>
+      <Typography variant="h5" align="center" color="#e2e2e2">
+        Admins
+      </Typography>
+      {adminRows.map((admin)=> <Typography key={admin} variant="subtitle1" align="center" component="p" color="#e2e2e2">{admin}</Typography>)}
+      <Divider />
+      <Typography variant="h5" align="center" color="#e2e2e2">
+        Employees
+      </Typography>
       <Container align="center">
         <TableContainer align="center" component={Paper} className="empTable">
           <Table sx={{ minWidth: 350, maxWidth: 900 }} size="small" aria-label="Employees">

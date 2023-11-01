@@ -1,5 +1,6 @@
-import { Box, Button, Container, Divider, FormControlLabel, Paper, Switch, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Divider, FormControlLabel, Paper, Switch, TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 import React, { useState } from "react";
 
 function AdminEmployeeUpdate({ employee, setEmployeesState }){
@@ -12,8 +13,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
     email, station,
     seniority_date,
     date_of_birth,
-    admin,
-    employee_number
+    admin
   } = employee
 
   const [formData, setFormData] = useState({
@@ -24,18 +24,20 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
     "phone_number":phone_number,
     "email":email,
     "station":station,
-    "seniority_date":seniority_date,
-    "date_of_birth":date_of_birth,
+    "seniority_date":dayjs(seniority_date),
+    "date_of_birth":dayjs(date_of_birth),
     "admin":admin,
-    "employee_number":employee_number,
-    "admin_password":"",
-    "admin_confirm_password":""
+    "admin_password":""
     })
   const [checked, setChecked] = useState(admin)
   const [active, setActive] = useState(false)
   const [submitClicked, setSubmitClicked] = useState(false)
+  const [success, setSuccess] = useState(null)
+  const [errors, setErrors] = useState(null)
 
-  if(!checked){
+  const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
+
+  if(!checked || checked){
     if(formData.first_name !== "" &&
       formData.last_name !== "" &&
       formData.department !== "" &&
@@ -44,9 +46,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
       formData.station !== "" &&
       formData.seniority_date !== "" &&
       formData.date_of_birth !== "" &&
-      formData.employee_number !== "" &&
       formData.admin_password !== "" &&
-      formData.admin_confirm_password !== "" &&
       !submitClicked){
       if(active) setActive(v=>!v)
     } else {
@@ -54,15 +54,44 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
     }
   }
 
-  function handleSubmit(){
-    console.log(employee)
+  function handleSubmit(e){
+    e.preventDefault()
+    setSubmitClicked(true)
+    if(errors) setErrors(null)
+    if(success) setSuccess(null)
+    console.log(formData)
+    fetch(`/employees/${id}`,{
+      method: "PATCH",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+    .then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          setSuccess(true)
+          setEmployeesState("Update",d)
+          setFormData({...formData, "admin_password":""})
+          setSubmitClicked(false)
+        })
+      } else {
+        res.json()
+        .then((d)=>{
+          setErrors(d.errors)
+          setFormData({...formData, "admin_password":""})
+          setSubmitClicked(false)
+        })
+      }
+    })
   }
 
 
   return(
     <>
       <Container align="center" className="adminUpdate">
-        <Paper className="adminUpdate" sx={{ backgroundColor: "#f9b612"}}>
+        <Paper className="adminUpdate" sx={{ backgroundColor: boxColor}}>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{backgroundColor:"#fff"}}>
             <br/>
             <Typography variant="h5" align="center">
@@ -135,11 +164,15 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
             <DatePicker 
               label="Hire Date"
               required
+              value={dayjs(formData.seniority_date)}
+              onChange={(e)=>setFormData({...formData, "seniority_date":e.$d})}
               sx={{ width:"80%", marginBottom: "12px" }}
             /> <br/>
             <DatePicker 
               label="Date Of Birth"
               required
+              value={dayjs(formData.date_of_birth)}
+              onChange={(e)=>setFormData({...formData, "date_of_birth":e.$d})}
               sx={{ width:"80%" }}
             /> <br/>
             <FormControlLabel
@@ -157,26 +190,24 @@ function AdminEmployeeUpdate({ employee, setEmployeesState }){
               required
               size="small"
               autoComplete="off"
-            />
-            <TextField 
-              label="Confirm Password"
-              type="password"
-              sx={{ flexGrow:1, width:"80%" }}
-              margin="dense"
-              value={formData.admin_confirm_password}
-              onChange={(e)=>setFormData({...formData, "admin_confirm_password":e.target.value})}
-              required
-              size="small"
-              autoComplete="off"
             /> <br/>
             <Button
               type="submit"
               variant="contained"
               disabled={active}
+              sx={{ marginTop: "8px"}}
             >
               {submitClicked ? "Sending...": "Submit"}
             </Button>
-            <br/> <br/>
+            <br/>
+            {errors ? 
+              <Alert
+                severity="error"
+                variant="filled"
+                align="center"
+                sx={{ margin: "5px", marginTop: "10px"}}
+              > {errors}</Alert> :null}
+            <br/>
           </Box>
         </Paper>
       </Container>
