@@ -101,7 +101,7 @@ function AdminEmployees(){
             <Divider />
             <Typography variant="p">
               Welcome to RADS-ADMIN Employees section. This section will allow an Admin to View information about 
-              all the Employees, Add new Employees, Update existing Employees, and Removing Employees that no 
+              all the Employees, Add new Employees, Update existing Employees, and Remove Employees that no 
               longer work for the company.
             </Typography>
             <Divider />
