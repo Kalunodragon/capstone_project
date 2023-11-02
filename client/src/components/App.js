@@ -11,6 +11,7 @@ import EditProfile from "./EditProfile";
 import AdminEmployees from "./AdminEmployees";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import AppInfo from "./AppInfo";
 
 
 export const employeeContext = createContext(null)
@@ -84,6 +85,7 @@ function App(){
             <Route path="/edit-profile" element={ <EditProfile onUpdate={handleEmployeeUpdate}/> }/>
             <Route path="/admin-main" element={ <AdminMain/> }/>
             <Route path="/admin-employees/*" element={ <AdminEmployees /> }/>
+            <Route path="/app-info" element={ <AppInfo /> }/>
           </Routes>
           <Footer />
         </employeeContext.Provider>

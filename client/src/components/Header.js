@@ -69,6 +69,10 @@ function Header({ onLogout, navigateTo }){
           </IconButton>
           <Divider />
           <IconButton
+            onClick={()=>{
+              setLeftDrawerOpen(false)
+              navigate("/app-info")
+            }}
             size="large"
             color="inherit"
             sx={{ borderRadius: 0 }}
@@ -143,6 +147,10 @@ function Header({ onLogout, navigateTo }){
           </IconButton>
           <Divider />
           <IconButton
+            onClick={()=>{
+              setLeftDrawerOpen(false)
+              navigate("/app-info")
+            }}
             size="large"
             color="inherit"
             sx={{ borderRadius: 0 }}
