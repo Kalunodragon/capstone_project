@@ -12,6 +12,7 @@ import AdminEmployees from "./AdminEmployees";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import AppInfo from "./AppInfo";
+import AdminShifts from "./AdminShifts";
 
 
 export const employeeContext = createContext(null)
@@ -86,6 +87,7 @@ function App(){
             <Route path="/admin-main" element={ <AdminMain/> }/>
             <Route path="/admin-employees/*" element={ <AdminEmployees /> }/>
             <Route path="/app-info" element={ <AppInfo /> }/>
+            <Route path="/admin-shifts/*" element={ <AdminShifts /> }/>
           </Routes>
           <Footer />
         </employeeContext.Provider>
