@@ -181,7 +181,7 @@ function AdminEmployeeUpdate({ employee, setEmployeesState, mainCollapseClick })
             <FormControlLabel
               label="Switch to Admin"
               labelPlacement="start"
-              control={<Switch defaultChecked={admin} checked={checked} onChange={()=>{
+              control={<Switch checked={checked} onChange={()=>{
                 setFormData({...formData, "admin":!formData.admin})
                 setChecked(v=>!v)}}/>}
             ></FormControlLabel>
