@@ -11,8 +11,7 @@ class ShiftsController < ApplicationController
 
   def index
     if(@current_employee)
-      all_shifts = Shift.all
-      render json: all_shifts, status: :ok
+      render json: Shift.all, each_serializer: ShiftWithConvertedTimesSerializer, status: :ok
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
