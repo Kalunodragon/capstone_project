@@ -5,11 +5,13 @@ class EmployeesController < ApplicationController
         if(@current_employee)
             if(@current_employee.authenticate(params[:password]))
                 params.delete :password
-                params[:seniority_date] = params[:seniority_date].to_date
-                params[:date_of_birth] = params[:date_of_birth].to_date
-                password_gen = (Faker::Name.first_name + Faker::Number.number(digits:5).to_s)
+                params[:seniority_date] = Date.strptime(params[:seniority_date])
+                params[:date_of_birth] = Date.strptime(params[:date_of_birth])
+                password_gen = (Faker::Name.first_name + Faker::Number.number(digits:5).to_s).chars.shuffle.join.first(8)
                 params[:password] = password_gen
-                params[:employee_number] = `E#{Employee.seniority_list.last.employee_number[1..-1].to_i + 1}`
+                number_gen = (Employee.maximum("employee_number")[1..-1].to_i + 1)
+                byebug
+                params[:employee_number] = "E#{number_gen}"
                 employee = Employee.create!(employee_params)
                 message_employee_password(password_gen, employee)
                 render json: employee, status: :created
@@ -18,6 +20,7 @@ class EmployeesController < ApplicationController
             end
         else
             render json: { errors: "Please login to preform this action" }, status: :unauthorized
+        end
     end
 
     def index

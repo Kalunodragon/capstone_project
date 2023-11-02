@@ -63,7 +63,7 @@ function AdminEmployees(){
       window.scrollTo(0,0)
     }
     if(handleType === "New"){
-      
+      setEmployees([...employees, employeeData])
     }
   }
 
