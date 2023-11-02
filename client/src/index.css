@@ -60,6 +60,11 @@ body {
   max-width: max-content;
 }
 
+.shiftTable {
+  max-width: 600px;
+  padding: 0px 0px 0px 0px
+}
+
 .editAlert {
   margin-bottom: 10px;
 }

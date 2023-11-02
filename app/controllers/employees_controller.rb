@@ -10,7 +10,6 @@ class EmployeesController < ApplicationController
                 password_gen = (Faker::Name.first_name + Faker::Number.number(digits:5).to_s).chars.shuffle.join.first(8)
                 params[:password] = password_gen
                 number_gen = (Employee.maximum("employee_number")[1..-1].to_i + 1)
-                byebug
                 params[:employee_number] = "E#{number_gen}"
                 employee = Employee.create!(employee_params)
                 message_employee_password(password_gen, employee)
