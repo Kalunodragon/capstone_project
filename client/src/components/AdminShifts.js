@@ -2,6 +2,7 @@ import { Button, Container, Divider, Paper, Stack, Typography } from "@mui/mater
 import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AllShifts from "./AllShifts";
+import AdminNewShift from "./AdminNewShift";
 
 export const allShiftsContext = createContext(null)
 
@@ -87,6 +88,7 @@ function AdminShifts(){
         <allShiftsContext.Provider value={shifts}>
           <Routes>
             <Route path="all" element={ <AllShifts loaded={loaded}/> }/>
+            <Route path="new" element={ <AdminNewShift /> }/>
           </Routes>
         </allShiftsContext.Provider>
     </>
