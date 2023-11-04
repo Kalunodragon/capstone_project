@@ -10,6 +10,10 @@ function AdminNewShift(){
     e.preventDefault()
   }
 
+  // Have time picker auto generate the off time
+    // function that calculates time plus 8.5 hours unless time can fit 8 hours in before noon
+    // have time picker only be able to increment minutes by 15 mins at a time
+
   return(
     <>
       <Container align="center" className="adminNew">
@@ -18,6 +22,7 @@ function AdminNewShift(){
             <Typography variant="h5" align="center">
               Create New Shift
             </Typography>
+            {/* Time picker comp */}
           </Box>
         </Paper>
       </Container>
