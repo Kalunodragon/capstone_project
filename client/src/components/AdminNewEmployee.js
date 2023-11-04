@@ -55,7 +55,7 @@ function AdminNewEmployee({ setEmployeesState }){
 
   function handleSubmit(e){
     e.preventDefault()
-    console.log(formData)
+    // console.log(formData)
     setSubmitClicked(true)
     if(errors) setErrors(null)
     if(success) setSuccess(null)
