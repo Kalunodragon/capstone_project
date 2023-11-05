@@ -44,7 +44,7 @@ function AdminNewShift({ handleAddShift }){
         res.json()
         .then((d)=>{
           console.log(d)
-          setErrors(d)
+          setErrors(d.errors)
           setSubmitClicked(false)
         })
       }

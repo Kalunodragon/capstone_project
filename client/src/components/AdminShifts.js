@@ -67,6 +67,10 @@ function AdminShifts(){
     setShifts([...shifts, shiftToAdd])
   }
 
+  function handleDeleteShift(shiftToDelete){
+    setShifts(shifts.filter((shift)=> shift.id !== shiftToDelete.id))
+  }
+
   return(
     <>
       <br/>
@@ -91,7 +95,7 @@ function AdminShifts(){
         </Container> : null}
         <allShiftsContext.Provider value={shifts}>
           <Routes>
-            <Route path="all" element={ <AllShifts loaded={loaded}/> }/>
+            <Route path="all" element={ <AllShifts loaded={loaded} handleDelete={handleDeleteShift}/> }/>
             <Route path="new" element={ <AdminNewShift handleAddShift={handleAddShift}/> }/>
           </Routes>
         </allShiftsContext.Provider>

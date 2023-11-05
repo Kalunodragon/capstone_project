@@ -1,15 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { allShiftsContext } from "./AdminShifts";
-import { Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Alert, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Loading from "./Loading";
 
-function AllShifts(){
+function AllShifts({ handleDelete }){
   const shifts = useContext(allShiftsContext)
+  const [errors, setErrors] = useState(null)
+  const [success, setSuccess] = useState(null)
+  // const color = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
 
   function handleRemoveClick(id){
     // Create confim delete action that takes in Admin password to actually delete the shift
     console.log(id)
+    if(errors) setErrors(null)
+    if(success) setSuccess(null)
+    fetch(`/shifts/${id}`,{method:"DELETE"})
+      .then((res)=>{
+        if(res.ok){
+          res.json()
+          .then((d)=>{
+            setSuccess(d)
+            console.log(d)
+            handleDelete(d)
+          })
+        } else {
+          res.json()
+          .then((d)=>{
+            setErrors(d.errors)
+          })
+        }
+      })
   }
 
   return(
@@ -17,6 +38,10 @@ function AllShifts(){
       <Container align="center">
         {!shifts ? <Loading /> : null}
         <TableContainer align="center" component={Paper} className="shiftTable">
+          {errors ? <><Alert severity="error" variant="filled" align="center" sx={{ margin: "10px" }}>{errors}</Alert><br/></> : null}
+          {success ? <><Alert severity="success" variant="filled" align="center" sx={{ margin: "10px" }}>
+              Success - {success.position} shift: {success.shift_start_time}-{success.shift_off_time} has been removed!
+            </Alert><br/></> : null}
           <Table sx={{ minWidth: 300, maxWidth: 750 }} size="small" aria-label="Shifts" className="shiftTable" style={{ tableLayout:"auto" }}>
             <TableHead>
               <TableRow>
