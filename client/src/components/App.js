@@ -14,6 +14,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import AppInfo from "./AppInfo";
 import AdminShifts from "./AdminShifts";
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('America/Denver');
+
 
 export const employeeContext = createContext(null)
 

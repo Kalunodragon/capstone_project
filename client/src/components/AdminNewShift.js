@@ -3,22 +3,55 @@ import { Box, Button, Container, Divider, Paper, TextField, Typography } from "@
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from "dayjs";
 
-
-function AdminNewShift(){
+function AdminNewShift({ handleAddShift }){
   const [errors, setErrors] = useState(null)
   const [success, setSuccess] = useState(null)
   const [clockStartTime, setClockStartTime] = useState(null)
   const [clockOffTime, setClockOffTime] = useState(null)
+  const [positionValue, setPositionValue] = useState("")
   const [submitClicked, setSubmitClicked] = useState(false)
-  const [active, setActive] = useState(false)
   const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
 
   // console.log(`${clockStartTime.$H}:${clockStartTime.$m}`)
 
+
   function handleSubmit(e){
     e.preventDefault()
-    setSubmitClicked(true)
+    if(errors) setErrors(null)
+    if(success) setSuccess(null)
+    const shiftInfo = {
+      "start_time": clockStartTime.$d,
+      "off_time": clockOffTime.$d,
+      "position":positionValue,
+      "day_off":false
+    }
+    fetch("/shifts",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(shiftInfo)
+    })
+    .then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          setSuccess(true)
+          setSubmitClicked(false)
+          handleAddShift(d)
+        })
+      } else {
+        res.json()
+        .then((d)=>{
+          console.log(d)
+          setErrors(d)
+          setSubmitClicked(false)
+        })
+      }
+    })
   }
+
+  console.log(new Date(clockStartTime))
 
   function handleTime(e,location){
     if(location === "S"){
@@ -56,6 +89,7 @@ function AdminNewShift(){
             </Typography>
             <Divider />
             <TimePicker
+              timezone="America/Denver"
               label="Start Time"
               minutesStep={15}
               value={clockStartTime}
@@ -64,6 +98,7 @@ function AdminNewShift(){
               sx={{ width:"80%", marginBottom: "12px", marginTop: "12px", flexGrow:1 }}
             />
             <TimePicker
+              timezone="America/Denver"
               label="Off Time"
               minutesStep={15}
               value={clockOffTime}
@@ -74,15 +109,17 @@ function AdminNewShift(){
             <TextField 
               label="Position"
               sx={{ flexGrow:1, width:"80%" }}
+              value={positionValue}
+              onChange={(e)=>setPositionValue(e.target.value)}
               margin="dense"
               required
               size="small"
               autoComplete="off"
-            />
+            /> <br/>
             <Button
               type="submit"
               variant="contained"
-              disabled={active}
+              disabled={!(positionValue !== "" && !submitClicked && clockStartTime !== null && clockOffTime !== null)}
               sx={{ marginTop: "8px"}}
             >
               {submitClicked ? "Submitting...":"Submit"}

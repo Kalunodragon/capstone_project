@@ -63,6 +63,10 @@ function AdminShifts(){
     }
   }
 
+  function handleAddShift(shiftToAdd){
+    setShifts([...shifts, shiftToAdd])
+  }
+
   return(
     <>
       <br/>
@@ -88,7 +92,7 @@ function AdminShifts(){
         <allShiftsContext.Provider value={shifts}>
           <Routes>
             <Route path="all" element={ <AllShifts loaded={loaded}/> }/>
-            <Route path="new" element={ <AdminNewShift /> }/>
+            <Route path="new" element={ <AdminNewShift handleAddShift={handleAddShift}/> }/>
           </Routes>
         </allShiftsContext.Provider>
     </>
