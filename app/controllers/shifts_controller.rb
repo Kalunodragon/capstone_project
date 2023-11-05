@@ -2,9 +2,8 @@ class ShiftsController < ApplicationController
 
   def create
     if(@current_employee.admin)
-      byebug
       created_shift = Shift.find_or_create_by(shift_params)
-      render json: created_shift, status: :created
+      render json: created_shift, serializer: ShiftWithConvertedTimesSerializer, status: :created
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end

@@ -20,8 +20,8 @@ function AdminNewShift({ handleAddShift }){
     if(errors) setErrors(null)
     if(success) setSuccess(null)
     const shiftInfo = {
-      "start_time": clockStartTime.$d,
-      "off_time": clockOffTime.$d,
+      "start_time": `${clockStartTime.$H}:${clockStartTime.$m}`,
+      "off_time": `${clockOffTime.$H}:${clockOffTime.$m}`,
       "position":positionValue,
       "day_off":false
     }
