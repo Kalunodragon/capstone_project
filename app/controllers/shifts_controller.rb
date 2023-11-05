@@ -30,7 +30,7 @@ class ShiftsController < ApplicationController
     end
   end
 
-  # FUTURE USE FOR WHEN OUT OF ALPHA TESTING
+  # FUTURE USE FOR WHEN OUT OF ALPHA TESTINGapp
   # def update
   #   if(@current_employee.admin)
   #     shift_to_update = Shift.find_by(id: params[:id])
