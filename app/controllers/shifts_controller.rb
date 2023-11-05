@@ -30,26 +30,27 @@ class ShiftsController < ApplicationController
     end
   end
 
-  def update
-    if(@current_employee.admin)
-      shift_to_update = Shift.find_by(params[:id])
-      if(shift_to_update)
-        shift_to_update.update!(shift_params)
-        render json: shift_to_update, status: :accepted
-      else
-        render json: { errors: "Sorry could not find a shift with that ID please try again!" }, status: :not_found
-      end
-    else
-      render json: { errors: "Sorry only Admin can preform this action!" }, status: :unauthorized
-    end
-  end
+  # FUTURE USE FOR WHEN OUT OF ALPHA TESTING
+  # def update
+  #   if(@current_employee.admin)
+  #     shift_to_update = Shift.find_by(id: params[:id])
+  #     if(shift_to_update)
+  #       shift_to_update.update!(shift_params)
+  #       render json: shift_to_update, status: :accepted
+  #     else
+  #       render json: { errors: "Sorry could not find a shift with that ID please try again!" }, status: :not_found
+  #     end
+  #   else
+  #     render json: { errors: "Sorry only Admin can preform this action!" }, status: :unauthorized
+  #   end
+  # end
 
   def destroy
     if(@current_employee.admin)
-      shift_to_delete = Shift.find_by(params[:id])
+      shift_to_delete = Shift.find_by(id: params[:id])
       if(shift_to_delete)
         shift_to_delete.destroy
-        render json: shift_to_delete, status: :ok
+        render json: shift_to_delete, serializer: ShiftWithConvertedTimesSerializer, status: :ok
       else
         render json: { errors: "Sorry could not find a shift with that ID please try again!" }, status: :not_found
       end
