@@ -31,7 +31,7 @@ function EmpTableRow({
             size="small"
             onClick={()=>mainCollapseClick(index)}
           >
-            {mainCollapseOpen === index ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {mainCollapseOpen === index ? <KeyboardArrowUpIcon htmlColor="#3453c4"/> : <KeyboardArrowDownIcon htmlColor="#f9b612"/>}
           </IconButton>
         </TableCell>
         <TableCell align="left" component="th" scope="row">
