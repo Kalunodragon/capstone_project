@@ -15,7 +15,8 @@ function AllShifts({ handleDelete }){
     console.log(id)
     if(errors) setErrors(null)
     if(success) setSuccess(null)
-    fetch(`/shifts/${id}`,{method:"DELETE"})
+    if(id !== 1){
+      fetch(`/shifts/${id}`,{method:"DELETE"})
       .then((res)=>{
         if(res.ok){
           res.json()
@@ -31,6 +32,7 @@ function AllShifts({ handleDelete }){
           })
         }
       })
+    }
   }
 
   return(
@@ -65,7 +67,7 @@ function AllShifts({ handleDelete }){
                       <Typography variant="p">{shift.shift_start_time ? `${shift.shift_start_time}-${shift.shift_off_time}` : "N/A"}</Typography>
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton
+                      {shift.id !== 1 ? <IconButton
                         onClick={()=>handleRemoveClick(shift.id)}
                         size="small"
                         aria-label="Delete"
@@ -73,7 +75,7 @@ function AllShifts({ handleDelete }){
                         color="warning"
                       >
                         <DeleteForeverIcon />
-                      </IconButton>
+                      </IconButton> : null}
                     </TableCell>
                   </TableRow>
                 )
