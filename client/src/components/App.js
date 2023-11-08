@@ -17,6 +17,7 @@ import AdminShifts from "./AdminShifts";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import AdminSchedules from "./AdminSchedules";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('America/Denver');
@@ -95,6 +96,7 @@ function App(){
             <Route path="/admin-employees/*" element={ <AdminEmployees /> }/>
             <Route path="/app-info" element={ <AppInfo /> }/>
             <Route path="/admin-shifts/*" element={ <AdminShifts /> }/>
+            <Route path="/admin-schedules/*" element={ <AdminSchedules /> }/>
           </Routes>
           <Footer />
         </employeeContext.Provider>

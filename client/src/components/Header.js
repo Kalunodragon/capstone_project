@@ -125,6 +125,10 @@ function Header({ onLogout, navigateTo }){
           </IconButton>
           <Divider />
           <IconButton
+            onClick={()=>{
+              setLeftDrawerOpen(false)
+              navigate("/admin-schedules")
+            }}
             size="large"
             color="inherit"
             sx={{ borderRadius: 0 }}

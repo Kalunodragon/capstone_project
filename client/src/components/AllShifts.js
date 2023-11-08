@@ -11,7 +11,6 @@ function AllShifts({ handleDelete }){
   // const color = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
 
   function handleRemoveClick(id){
-    // Create confim delete action that takes in Admin password to actually delete the shift
     console.log(id)
     if(errors) setErrors(null)
     if(success) setSuccess(null)
