@@ -65,6 +65,10 @@ body {
   padding: 0px 0px 0px 0px;
 }
 
+.scheduleDateTable {
+  max-width: max-content;
+}
+
 .editAlert {
   margin-bottom: 10px;
 }

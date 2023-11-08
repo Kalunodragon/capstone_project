@@ -1,8 +1,9 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 import { Alert, Button, Container, Divider, Paper, Stack, Typography } from "@mui/material";
+import AllSchedules from "./AllSchedules";
 
-export const allSchedules = createContext(null)
+export const allSchedulesContext = createContext(null)
 
 function AdminSchedules(){
   const navigate = useNavigate()
@@ -66,7 +67,7 @@ function AdminSchedules(){
     <>
       <br/>
       <Container align="center" maxWidth="xs">
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={0}>
           {displayButtons}
         </Stack>
       </Container>
@@ -83,6 +84,11 @@ function AdminSchedules(){
           </Typography>
         </Paper>
       </Container> : null}
+      <allSchedulesContext.Provider value={schedules}>
+        <Routes>
+          <Route path="all" element={ <AllSchedules loaded={loaded}/> }/>
+        </Routes>
+      </allSchedulesContext.Provider>
     </>
   )
 }
