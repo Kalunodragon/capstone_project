@@ -76,7 +76,7 @@ function AdminShifts(){
     <>
       <br/>
       <Container align="center" maxWidth="xs">
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={0}>
           {displayButtons}
         </Stack>
       </Container>

@@ -86,7 +86,7 @@ function AdminEmployees(){
     <>
       <br/>
       <Container align="center" maxWidth="xs">
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={0}>
           {displayButtons}
         </Stack>
         {removeSuccess ? <><br/><Alert severity="success" align="center" variant="filled">{removeSuccess}, Has been removed</Alert></> : null}
