@@ -27,7 +27,8 @@ function AdminShifts(){
       } else {
         res.json()
         .then((d)=>{
-          setErrors(d)
+          setErrors(d.errors)
+          setLoaded(true)
           console.log(d)
         })
       }
