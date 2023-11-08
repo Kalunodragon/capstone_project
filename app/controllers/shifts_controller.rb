@@ -49,8 +49,12 @@ class ShiftsController < ApplicationController
     if(@current_employee.admin)
       shift_to_delete = Shift.find_by(id: params[:id])
       if(shift_to_delete)
-        shift_to_delete.destroy
-        render json: shift_to_delete, serializer: ShiftWithConvertedTimesSerializer, status: :ok
+        if(shift_to_delete.id != 1)
+          shift_to_delete.destroy
+          render json: shift_to_delete, serializer: ShiftWithConvertedTimesSerializer, status: :ok
+        else
+          render json: { errors: "Can not delete day off shift" }, status: :forbidden
+        end
       else
         render json: { errors: "Sorry could not find a shift with that ID please try again!" }, status: :not_found
       end
