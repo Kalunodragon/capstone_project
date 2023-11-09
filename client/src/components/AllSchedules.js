@@ -3,9 +3,8 @@ import { allSchedulesContext } from "./AdminSchedules";
 import { Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import CircleIcon from '@mui/icons-material/Circle';
-import Loading from "./Loading";
 
-function AllSchedules({ loaded }){
+function AllSchedules(){
   const allSchedules = useContext(allSchedulesContext)
   const [selected, setSelected] = useState("")
   const [filteredSchedules, setFilteredSchedules] = useState(allSchedules)
@@ -44,12 +43,6 @@ function AllSchedules({ loaded }){
       </TableRow>
     )
   })
-
-  if(!loaded){
-    return(
-      <Loading/>
-    )
-  }
 
   return(
     <>
