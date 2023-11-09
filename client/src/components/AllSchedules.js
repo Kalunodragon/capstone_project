@@ -76,7 +76,7 @@ function AllSchedules({ loaded }){
           <Container align="center">
             <TableContainer align="center" component={Paper} className="scheduleListTable">
               <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
-                <TableHead>
+                <TableHead stickyHeader>
                   <TableRow>
                     <TableCell align="center" style={{ position:'sticky' ,left:0 ,zIndex:1000, background:"#e2e2e2" }}>Line</TableCell>
                     <TableCell align="center">Available</TableCell>
