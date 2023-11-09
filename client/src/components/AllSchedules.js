@@ -98,9 +98,14 @@ function AllSchedules(){
                         {schedule.shifts.map((shiftObj)=>{
                           tableCellNumber++
                           return(
-                            <TableCell align="center" key={tableCellNumber}>
+                            <TableCell align="center" key={tableCellNumber} sx={{ minWidth:"75px" }}>
                               <Typography align="center" variant="subtitle2">
-                                {shiftObj.shift.day_off ? "Off" : shiftObj.shift.position}
+                                {shiftObj.shift.day_off ? 
+                                  <Typography
+                                    variant="h6"
+                                    color="#3453c4"
+                                    sx={{ backgroundColor:"#e2e2e2" }}
+                                  >Off</Typography> : shiftObj.shift.position}
                               </Typography>
                                 {shiftObj.shift.day_off ? null : `${shiftObj.shift.start_time}-${shiftObj.shift.off_time}`}
                             </TableCell>
