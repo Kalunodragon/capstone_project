@@ -4,6 +4,7 @@ class ScheduleSerializer < ActiveModel::Serializer
   def shifts
     days = []
     days << {day:"Sunday", shift: formatted_shift(object.sunday_shift)}
+    days << {day:"Monday", shift: formatted_shift(object.monday_shift)}
     days << {day:"Tuesday", shift: formatted_shift(object.tuesday_shift)}
     days << {day:"Wednesday", shift: formatted_shift(object.wednesday_shift)}
     days << {day:"Thursday", shift: formatted_shift(object.thursday_shift)}
