@@ -9,6 +9,7 @@ function AllSchedules({ loaded }){
   const allSchedules = useContext(allSchedulesContext)
   const [selected, setSelected] = useState("")
   const [filteredSchedules, setFilteredSchedules] = useState(allSchedules)
+  // const [scheduleRunDates, setScheduleRunDates] = useState(null)
   let tableCellNumber = 0
 
   const scheduleRunDates = allSchedules.filter((schedule, index)=>{

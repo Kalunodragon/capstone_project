@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom"
 import { Alert, Button, Container, Divider, Paper, Stack, Typography } from "@mui/material";
 import AllSchedules from "./AllSchedules";
+import Loading from "./Loading";
 
 export const allSchedulesContext = createContext(null)
 
@@ -86,7 +87,7 @@ function AdminSchedules(){
       </Container> : null}
       <allSchedulesContext.Provider value={schedules}>
         <Routes>
-          <Route path="all" element={ <AllSchedules loaded={loaded}/> }/>
+          <Route path="all" element={ loaded ? <AllSchedules loaded={loaded}/> : <Loading /> }/>
         </Routes>
       </allSchedulesContext.Provider>
     </>
