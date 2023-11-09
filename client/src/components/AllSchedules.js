@@ -74,7 +74,7 @@ function AllSchedules({ loaded }){
           <Divider />
           <br/>
           <Container align="center">
-            <TableContainer align="center" component={Paper} className="scheduleListTable">
+            <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "100vh" }}>
               <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
                 <TableHead stickyHeader>
                   <TableRow>
