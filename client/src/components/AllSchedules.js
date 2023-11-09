@@ -3,8 +3,9 @@ import { allSchedulesContext } from "./AdminSchedules";
 import { Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import CircleIcon from '@mui/icons-material/Circle';
+import Loading from "./Loading";
 
-function AllSchedules(){
+function AllSchedules({ loaded }){
   const allSchedules = useContext(allSchedulesContext)
   const [selected, setSelected] = useState("")
   const [filteredSchedules, setFilteredSchedules] = useState(allSchedules)
@@ -43,6 +44,11 @@ function AllSchedules(){
     )
   })
 
+  if(!loaded){
+    return(
+      <Loading/>
+    )
+  }
 
   return(
     <>
@@ -99,14 +105,15 @@ function AllSchedules(){
                           tableCellNumber++
                           return(
                             <TableCell align="center" key={tableCellNumber} sx={{ minWidth:"75px" }}>
-                              <Typography align="center" variant="subtitle2">
                                 {shiftObj.shift.day_off ? 
                                   <Typography
                                     variant="h6"
                                     color="#3453c4"
                                     sx={{ backgroundColor:"#e2e2e2" }}
-                                  >Off</Typography> : shiftObj.shift.position}
-                              </Typography>
+                                  >OFF</Typography> :
+                                  <Typography align="center" variant="subtitle2">
+                                    {shiftObj.shift.position}
+                                  </Typography>}
                                 {shiftObj.shift.day_off ? null : `${shiftObj.shift.start_time}-${shiftObj.shift.off_time}`}
                             </TableCell>
                           )
