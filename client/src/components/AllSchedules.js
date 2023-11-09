@@ -10,8 +10,8 @@ function AllSchedules(){
 
   const scheduleRunDates = allSchedules.filter((schedule, index)=>{
     return allSchedules.findIndex((indexed)=>{
-      return indexed.start_date == schedule.start_date && indexed.end_date == schedule.end_date
-    }) == index
+      return indexed.start_date === schedule.start_date && indexed.end_date === schedule.end_date
+    }) === index
   })
 
   const runDates = scheduleRunDates.map((dateRange)=>{
@@ -29,7 +29,7 @@ function AllSchedules(){
               size="small"
               onClick={()=>setSelected(dateRange.start_date)}
             >
-              {selected == dateRange.start_date ? <CircleIcon htmlColor="#3453c4"/> : <PanoramaFishEyeIcon htmlColor="#f9b612"/>}
+              {selected === dateRange.start_date ? <CircleIcon htmlColor="#3453c4"/> : <PanoramaFishEyeIcon htmlColor="#f9b612"/>}
             </IconButton>
           </TableCell>
           <TableCell align="center" scope="row">
