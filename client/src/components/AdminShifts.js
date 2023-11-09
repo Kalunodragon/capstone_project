@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Paper, Stack, Typography } from "@mui/material";
+import { Alert, Button, Container, Divider, Paper, Stack, Typography } from "@mui/material";
 import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AllShifts from "./AllShifts";
@@ -87,7 +87,8 @@ function AdminShifts(){
             <Typography align="center" variant="h4">
               Shifts!
             </Typography>
-            <Divider />
+            {errors ? <><Alert align="center" variant="filled" severity="error">{errors}</Alert><br/></> : null}
+            <Divider /> 
             <Typography variant="p">
               Welcome to RADS-ADMIN Shifts section. This section will allow an Admin to View information about 
               all the Shifts, Add new Shifts, Update existing Shifts, and Remove Shifts that are no longer needed.
