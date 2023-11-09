@@ -2,8 +2,12 @@ class ShiftsController < ApplicationController
 
   def create
     if(@current_employee.admin)
-      created_shift = Shift.find_or_create_by(shift_params)
-      render json: created_shift, serializer: ShiftWithConvertedTimesSerializer, status: :created
+      if(!Shift.find_by(position:params[:position],start_time:Time.parse(params[:start_time]),off_time:Time.parse(params[:off_time]),day_off:false))
+        created_shift = Shift.create(position:params[:position],start_time:Time.parse(params[:start_time]),off_time:Time.parse(params[:off_time]),day_off:false)
+        render json: created_shift, serializer: ShiftWithConvertedTimesSerializer, status: :created
+      else
+        render json: { errors: "Shift has already been created, can not duplicate shifts" }, status: :forbidden
+      end
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
@@ -64,9 +68,5 @@ class ShiftsController < ApplicationController
   end
 
   private
-
-  def shift_params
-    params.permit(:position, :start_time, :off_time, :day_off)
-  end
 
 end
