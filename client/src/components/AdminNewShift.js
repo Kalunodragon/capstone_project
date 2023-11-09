@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Box, Button, Container, Divider, Paper, TextField, Typography } from "@mui/material"
+import { Alert, Box, Button, Container, Divider, Paper, TextField, Typography } from "@mui/material"
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import dayjs from "dayjs";
 
 function AdminNewShift({ handleAddShift }){
   const [errors, setErrors] = useState(null)
@@ -25,6 +24,7 @@ function AdminNewShift({ handleAddShift }){
       "position":positionValue,
       "day_off":false
     }
+    console.log(shiftInfo)
     fetch("/shifts",{
       method:"POST",
       headers:{
@@ -36,9 +36,12 @@ function AdminNewShift({ handleAddShift }){
       if(res.ok){
         res.json()
         .then((d)=>{
-          setSuccess(true)
+          setSuccess(d)
           setSubmitClicked(false)
           handleAddShift(d)
+          setClockStartTime(null)
+          setClockOffTime(null)
+          setPositionValue("")
         })
       } else {
         res.json()
@@ -51,9 +54,9 @@ function AdminNewShift({ handleAddShift }){
     })
   }
 
-  console.log(new Date(clockStartTime))
-
   function handleTime(e,location){
+    if(errors) setErrors(null)
+    if(success) setSuccess(null)
     if(location === "S"){
       setClockStartTime(e)
       if(e.$H + 8 <= 12){
@@ -87,6 +90,10 @@ function AdminNewShift({ handleAddShift }){
             <Typography variant="h5" align="center">
               Create New Shift
             </Typography>
+            {success ? <><Alert align="center" severity="success" variant="filled" sx={{ margin:1 }}>
+                Success - {success.position} shift: {success.shift_start_time}-{success.shift_off_time} has been added!
+              </Alert></>:null}
+            {errors ? <><Alert align="center" severity="error" variant="filled">{errors}</Alert></>:null}
             <Divider />
             <TimePicker
               timezone="America/Denver"
