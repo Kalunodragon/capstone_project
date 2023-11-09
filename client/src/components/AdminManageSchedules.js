@@ -1,10 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
+import { Box, Container, Divider, Paper, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers";
 
 function AdminManageSchedules(){
+  const [errors, setErrors] = useState(null)
+  const [success, setSuccess] = useState(null)
+  const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
 
   return(
     <>
-      <h1>TESTING MANAGE ROUTE</h1>
+      <Container align="center" className="adminManageUpper">
+        <Paper className="adminManageUpper" sx={{ backgroundColor:boxColor }}>
+          <Box sx={{ backgroundColor:"#fff" }}>
+            <br/>
+            <Typography variant="h5" align="center">
+              Schedule Management
+            </Typography>
+            <Divider />
+            <Stack direction="row" spacing={2} margin={1}>
+              <DatePicker 
+                label="Schedule Start"
+                required
+                valueDefault={null}
+                sx={{ width:"80%" }}
+                />
+              <DatePicker 
+                label="Schedule End"
+                required
+                valueDefault={null}
+                // value={dayjs(formData.date_of_birth)}
+                // onChange={(e)=>setFormData({...formData, "date_of_birth":e.$d})}
+                sx={{ width:"80%" }}
+              />
+            </Stack>
+            <Divider />
+            <Stack direction="row" spacing={2} margin={1}>
+              <DatePicker 
+                label="Bid Open"
+                required
+                valueDefault={null}
+                sx={{ width:"80%" }}
+                />
+              <DatePicker 
+                label="Bid Close"
+                required
+                valueDefault={null}
+                // value={dayjs(formData.date_of_birth)}
+                // onChange={(e)=>setFormData({...formData, "date_of_birth":e.$d})}
+                sx={{ width:"80%" }}
+              />
+            </Stack>
+            <Divider />
+          </Box>
+        </Paper>
+      </Container>
     </>
   )
 }

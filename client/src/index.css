@@ -56,6 +56,12 @@ body {
   padding: 10px;
 }
 
+.adminManageUpper{
+  max-width: 500px;
+  min-width: min-content;
+  padding: 10px;
+}
+
 .empTable {
   max-width: max-content;
 }
