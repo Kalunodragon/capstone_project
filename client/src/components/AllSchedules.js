@@ -24,16 +24,16 @@ function AllSchedules({ loaded }){
         key={dateRange.start_date}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         selected={selected === dateRange.start_date}
+        onClick={()=>{
+          setSelected(dateRange.start_date)
+          setFilteredSchedules(allSchedules.filter((s)=> s.start_date === dateRange.start_date && s.end_date === dateRange.end_date))
+        }}
       >
         <TableCell align="center">
           <IconButton
             align="center"
             aria-label="Select"
             size="small"
-            onClick={()=>{
-              setSelected(dateRange.start_date)
-              setFilteredSchedules(allSchedules.filter((s)=> s.start_date === dateRange.start_date && s.end_date === dateRange.end_date))
-            }}
           >
             {selected === dateRange.start_date ? <CircleIcon htmlColor="#3453c4"/> : <PanoramaFishEyeIcon htmlColor="#f9b612"/>}
           </IconButton>
@@ -59,7 +59,7 @@ function AllSchedules({ loaded }){
             <TableHead>
               <TableRow>
                 <TableCell align="center">Selected</TableCell>
-                <TableCell align="center">Date Range</TableCell>
+                <TableCell align="center">Schedule: Start Date | End Date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

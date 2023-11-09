@@ -5,7 +5,6 @@ import { Container, Divider, Paper, Typography } from "@mui/material";
 function Profile(){
   const employee = useContext(employeeContext)
 
-  console.log("From Profile element", employee)
   return(
     <>
       <Container align="center" className="profile">

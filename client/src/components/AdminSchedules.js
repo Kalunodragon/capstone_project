@@ -12,7 +12,7 @@ function AdminSchedules(){
   const [loaded, setLoaded] = useState(false)
   const [errors, setErrors] = useState(null)
   const [schedules, setSchedules] = useState(null)
-  const buttonNames = ["Main", "All", "New"]
+  const buttonNames = ["Main", "All", "Manage"]
 
   useEffect(()=>{
     fetch("/schedules")
@@ -22,7 +22,6 @@ function AdminSchedules(){
           .then((d)=>{
             setSchedules(d)
             setLoaded(true)
-            console.log(d)
           })
         } else {
           res.json()
@@ -52,14 +51,14 @@ function AdminSchedules(){
   })
 
   function handleNavigation(route){
-    if(route === "All" || route === "New"){
+    if(route === "All" || route === "Manage"){
       setCurrent(false)
     } else {
       setCurrent(true)
     }
     switch(route){
       case "All": navigate("all"); break;
-      case "New": navigate("new"); break;
+      case "Manage": navigate("manage"); break;
       default: navigate("/admin-schedules");
     }
   }

@@ -20,7 +20,6 @@ function AdminShifts(){
       if(res.ok){
         res.json()
         .then((d)=>{
-          console.log(d)
           setShifts(d)
           setLoaded(true)
         })
