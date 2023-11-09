@@ -40,7 +40,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <HomeIcon />
+            <HomeIcon htmlColor="#3453c4"/>
             <Typography>
               Home
             </Typography>
@@ -51,7 +51,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <FormatListNumberedIcon />
+            <FormatListNumberedIcon htmlColor="#3453c4"/>
             <Typography>
               Bidding
             </Typography>
@@ -62,7 +62,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <CalendarMonthIcon />
+            <CalendarMonthIcon htmlColor="#3453c4"/>
             <Typography>
               Calendar
             </Typography>
@@ -77,7 +77,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <InfoIcon />
+            <InfoIcon htmlColor="#3453c4"/>
             <Typography>
               App Info
             </Typography>
@@ -103,7 +103,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <HomeIcon />
+            <HomeIcon htmlColor="#3453c4"/>
             <Typography>
               Home
             </Typography>
@@ -118,7 +118,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <BadgeIcon />
+            <BadgeIcon htmlColor="#3453c4"/>
             <Typography>
               Employees
             </Typography>
@@ -133,7 +133,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <FormatListNumberedIcon />
+            <FormatListNumberedIcon htmlColor="#3453c4"/>
             <Typography>
               Schedules
             </Typography>
@@ -148,7 +148,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <ListIcon />
+            <ListIcon htmlColor="#3453c4"/>
             <Typography>
               Shifts
             </Typography>
@@ -163,7 +163,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <InfoIcon />
+            <InfoIcon htmlColor="#3453c4"/>
             <Typography>
               App Info
             </Typography>
@@ -221,7 +221,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            {showingProfile ? <EditIcon /> : <AccountCircle />}
+            {showingProfile ? <EditIcon htmlColor="#f9b612"/> : <AccountCircle htmlColor="#3453c4"/>}
             <Typography>
               {showingProfile ? "Edit Account":"Account"}
             </Typography>
@@ -233,7 +233,7 @@ function Header({ onLogout, navigateTo }){
             color="inherit"
             sx={{ borderRadius: 0 }}
           >
-            <LogoutIcon />
+            <LogoutIcon htmlColor="#e51d23"/>
             <Typography>
               Logout
             </Typography>
