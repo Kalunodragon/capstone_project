@@ -72,7 +72,7 @@ function AllSchedules(){
                 <TableHead>
                   <TableRow>
                     <TableCell align="center" style={{ position:'sticky' ,left:0 ,zIndex:1000, background:"#e2e2e2" }}>Line</TableCell>
-                    <TableCell align="center">Available</TableCell>
+                    <TableCell align="center">Limit</TableCell>
                     <TableCell align="center">Sunday</TableCell>
                     <TableCell align="center">Monday</TableCell>
                     <TableCell align="center">Tuesday</TableCell>

@@ -12,7 +12,7 @@ function AdminManageSchedules(){
     <>
       <Container align="center" className="adminManageUpper">
         <Paper className="adminManageUpper" sx={{ backgroundColor:boxColor }}>
-          <Box sx={{ backgroundColor:"#fff" }}>
+          <Box sx={{ backgroundColor:"#fff", padding:"5px" }}>
             <br/>
             <Typography variant="h5" align="center">
               Schedule Management

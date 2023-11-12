@@ -68,7 +68,7 @@ function AdminSchedules(){
     <>
       <br/>
       <Container align="center" maxWidth="xs">
-        <Stack direction="row" spacing={0}>
+        <Stack direction="row" spacing={0} sx={{ display:"flex",alignContent:"center",justifyContent:"center" }}>
           {displayButtons}
         </Stack>
       </Container>
