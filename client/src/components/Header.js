@@ -244,4 +244,6 @@ function Header({ onLogout, navigateTo }){
   )
 }
 
+// Add between 203 204 some sort of profile display to show who is logged in. or have it show in the right drawer
+
 export default Header
