@@ -6,6 +6,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 function AdminManageSchedules(){
   const [errors, setErrors] = useState(null)
   const [success, setSuccess] = useState(null)
+  const [fullWeek, setFullWeek] = useState(true)
   const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
 
   return(
@@ -18,6 +19,9 @@ function AdminManageSchedules(){
               Schedule Management
             </Typography>
             <Divider />
+            <Typography variant="subtitle1" align="center">
+              Schedule Date Selection
+            </Typography>
             <Stack direction="row" spacing={2} margin={1}>
               <DatePicker 
                 label="Schedule Start"
@@ -52,6 +56,12 @@ function AdminManageSchedules(){
               />
             </Stack>
             <Divider />
+            <Typography variant="subtitle1" align="center">
+              Weekly Schedule Section
+            </Typography>
+            {fullWeek ?
+              <h6>Full week</h6> : <h6>Each day</h6>
+            }
           </Box>
         </Paper>
       </Container>
