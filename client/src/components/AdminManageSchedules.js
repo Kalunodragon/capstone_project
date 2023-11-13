@@ -94,7 +94,7 @@ function AdminManageSchedules(){
     )
   })
 
-  function handleWeeklySchedule(value){
+  function handleWeeklySchedule(value,location,day){
     if(value === "Reset"){
       setShiftId(0)
       setFormDataDays({
@@ -106,7 +106,8 @@ function AdminManageSchedules(){
         "friday_shift": 0,
         "saturday_shift": 0
       })
-    } else {
+    }
+    if(location === "Same"){
       setShiftId(value)
       setFormDataDays({
         "sunday_shift": (daysOff === 1 || daysOff === 7 ? 1 : value),
@@ -117,6 +118,15 @@ function AdminManageSchedules(){
         "friday_shift": (daysOff === 5 || daysOff === 6 ? 1 : value),
         "saturday_shift": (daysOff === 6 || daysOff === 7 ? 1 : value)
       })
+    }
+    if(location === "Diff"){
+      if(day === "Sunday") setFormDataDays({...formDataDays, "sunday_shift":(value)})
+      if(day === "Monday") setFormDataDays({...formDataDays, "monday_shift":(value)})
+      if(day === "Tuesday") setFormDataDays({...formDataDays, "tuesday_shift":(value)})
+      if(day === "Wednesday") setFormDataDays({...formDataDays, "wednesday_shift":(value)})
+      if(day === "Thursday") setFormDataDays({...formDataDays, "thursday_shift":(value)})
+      if(day === "Friday") setFormDataDays({...formDataDays, "friday_shift":(value)})
+      if(day === "Saturday") setFormDataDays({...formDataDays, "saturday_shift":(value)})
     }
   }
 
@@ -190,6 +200,7 @@ function AdminManageSchedules(){
                     if(filterPosition !== "") setFilterPosition("")
                     if(shiftId !== 0) handleWeeklySchedule("Reset")
                     setDaysOff(e.target.value)
+                    handleWeeklySchedule(0,"Same")
                   }}
                 >
                   <MenuItem value={""}><em style={{ color:"#3453c4" }}>Select Days Off</em></MenuItem>
@@ -231,7 +242,7 @@ function AdminManageSchedules(){
                       disabled={daysOff === "" || filterPosition === ""}
                       value={shiftId === 0 ? "" : shiftId}
                       label="Time"
-                      onChange={(e)=>handleWeeklySchedule(e.target.value)}
+                      onChange={(e)=>handleWeeklySchedule(e.target.value,"Same")}
                     >
                       <MenuItem value={0}><em style={{ color:"#3453c4" }}>Select Time</em></MenuItem>
                       {shiftTimeDropdown}
@@ -258,5 +269,10 @@ function AdminManageSchedules(){
   // must include number available
   // shifts can show short day names with times directly under
   // shifts selected by dropdown/searchbar???
+
+  // Test out handleWeeklySchedule to see if it preforms correctly
+    // Should set days off after days off is picked
+  // Create full week schedule selection and test there as well
+  // Make sure each day can be set to a different shift besides the days off
 
 export default AdminManageSchedules
