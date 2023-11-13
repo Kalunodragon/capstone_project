@@ -1,14 +1,82 @@
-import React, { useState } from "react";
-import { Box, Container, Divider, FormControlLabel, Paper, Stack, Switch, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Paper, Select, Stack, Switch, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import Loading from "./Loading";
 
 function AdminManageSchedules(){
   const [errors, setErrors] = useState(null)
   const [success, setSuccess] = useState(null)
-  const [fullWeek, setFullWeek] = useState(true)
-  const [checked, setChecked] = useState(false)
+  const [fullWeek, setFullWeek] = useState(false)
+  const [daysOff, setDaysOff] = useState("")
+  const [loaded, setLoaded] = useState(false)
+  const [shifts, setShifts] = useState(null)
+  const [filterPosition, setFilterPosition] = useState("")
+  const [shiftId, setShiftId] = useState(0)
   const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
+
+  useEffect(()=>{
+    fetch("/shifts")
+    .then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          setShifts(d)
+          setLoaded(true)
+        })
+      } else {
+        res.json()
+        .then((d)=>{
+          setErrors(d.errors)
+          setLoaded(true)
+        })
+      }
+    })
+  },[])
+
+  if(!loaded){
+    return(
+      <Loading />
+    )
+  }
+
+  const shiftPositions = shifts.filter((shift, index)=>{
+    return shifts.findIndex((indexed)=>{
+      return indexed.position === shift.position
+    }) === index
+  })
+
+  const shiftPositionDropdown = shiftPositions.map((shift)=>{
+    if(shift.position === "Off"){
+      return(
+        <MenuItem key={shift.id} value={""}><em style={{ color:"#3453c4" }}>Select Position</em></MenuItem>
+      )
+    } else {
+      return(
+        <MenuItem
+          key={shift.id}
+          value={shift.position}
+        >
+          {shift.position}
+        </MenuItem>
+      )
+    }
+  })
+
+  const shiftTimes = shifts.filter((shift)=>{
+    return shift.position === filterPosition
+  })
+
+  const shiftTimeDropdown = shiftTimes.map((position)=>{
+    return(
+      <MenuItem
+        key={position.id}
+        value={position.id}
+      >
+        {position.shift_start_time}-{position.shift_off_time}
+      </MenuItem>
+    )
+  })
 
   return(
     <>
@@ -61,14 +129,70 @@ function AdminManageSchedules(){
               Weekly Schedule Section
             </Typography>
             <FormControlLabel
-              label="Same Shift Across Week"
+              label="Different Shifts? No|Yes"
               labelPlacement="start"
-              control={<Switch checked={checked} onChange={()=>setChecked(v=>!v)}/>}
+              control={<Switch checked={fullWeek} onChange={()=>setFullWeek(v=>!v)}/>}
             >
             </FormControlLabel>
+            <br/>
+            <FormControl sx={{ width:"80%" }}>
+                <InputLabel>Days Off</InputLabel>
+                <Select
+                  value={daysOff}
+                  label="Days Off"
+                  onChange={(e)=>{
+                    if(filterPosition !== "") setFilterPosition("")
+                    if(shiftId !== 0) setShiftId(0)
+                    setDaysOff(e.target.value)
+                  }}
+                >
+                  <MenuItem value={""}><em style={{ color:"#3453c4" }}>Select Days Off</em></MenuItem>
+                  <MenuItem value={1}>Sunday-Monday</MenuItem>
+                  <MenuItem value={2}>Monday-Tuesday</MenuItem>
+                  <MenuItem value={3}>Tuesday-Wednesday</MenuItem>
+                  <MenuItem value={4}>Wednesday-Thursday</MenuItem>
+                  <MenuItem value={5}>Thursday-Friday</MenuItem>
+                  <MenuItem value={6}>Friday-Saturday</MenuItem>
+                  <MenuItem value={7}>Saturday-Sunday</MenuItem>
+                </Select>
+              </FormControl>
             {fullWeek ?
-              <h6>Full week</h6> :
-              <h6>Each day</h6>}
+              <>
+                <h2>Yes</h2>
+              </>:
+              <>
+                <Typography align="center" variant="subtitle1">
+                  Same shift across week
+                </Typography>
+                <Stack direction="row" spacing={2} margin={1}>
+                  <FormControl sx={{ width:"80%" }}>
+                    <InputLabel>Position</InputLabel>
+                    <Select
+                      disabled={daysOff === ""}
+                      value={filterPosition}
+                      label="Position"
+                      onChange={(e)=>{
+                        if(shiftId !== 0) setShiftId(0)
+                        setFilterPosition(e.target.value)
+                      }}
+                    >
+                      {shiftPositionDropdown}
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{ width:"80%" }}>
+                    <InputLabel>Time</InputLabel>
+                    <Select
+                      disabled={daysOff === "" || filterPosition === ""}
+                      value={shiftId}
+                      label="Time"
+                      onChange={(e)=>setShiftId(e.target.value)}
+                    >
+                      <MenuItem value={0}><em style={{ color:"#3453c4" }}>Select Time</em></MenuItem>
+                      {shiftTimeDropdown}
+                    </Select>
+                  </FormControl>
+                </Stack>
+              </>}
           </Box>
         </Paper>
       </Container>
