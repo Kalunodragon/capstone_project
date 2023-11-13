@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container, Divider, Paper, Stack, Typography } from "@mui/material";
+import { Box, Container, Divider, FormControlLabel, Paper, Stack, Switch, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 
@@ -7,6 +7,7 @@ function AdminManageSchedules(){
   const [errors, setErrors] = useState(null)
   const [success, setSuccess] = useState(null)
   const [fullWeek, setFullWeek] = useState(true)
+  const [checked, setChecked] = useState(false)
   const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
 
   return(
@@ -59,9 +60,15 @@ function AdminManageSchedules(){
             <Typography variant="subtitle1" align="center">
               Weekly Schedule Section
             </Typography>
+            <FormControlLabel
+              label="Same Shift Across Week"
+              labelPlacement="start"
+              control={<Switch checked={checked} onChange={()=>setChecked(v=>!v)}/>}
+            >
+            </FormControlLabel>
             {fullWeek ?
-              <h6>Full week</h6> : <h6>Each day</h6>
-            }
+              <h6>Full week</h6> :
+              <h6>Each day</h6>}
           </Box>
         </Paper>
       </Container>
