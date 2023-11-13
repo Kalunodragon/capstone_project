@@ -95,4 +95,6 @@ function AdminSchedules(){
   )
 }
 
+// Sort schedules in table in a similar fashion as to how the shifts are sorted over in the AllShifts.js component
+
 export default AdminSchedules
