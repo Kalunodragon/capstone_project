@@ -12,10 +12,11 @@ class ShiftsController < ApplicationController
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
   end
-
+    
   def index
     if(@current_employee)
-      render json: Shift.all, each_serializer: ShiftWithConvertedTimesSerializer, status: :ok
+      ordered_shifts = Shift.all.order(day_off: :desc, position: :asc, start_time: :desc)
+      render json: ordered_shifts, each_serializer: ShiftWithConvertedTimesSerializer, status: :ok
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
