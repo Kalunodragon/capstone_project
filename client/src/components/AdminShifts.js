@@ -64,7 +64,9 @@ function AdminShifts(){
   }
 
   function handleAddShift(shiftToAdd){
-    setShifts([...shifts, shiftToAdd])
+    setShifts([...shifts, shiftToAdd].sort((a,b)=> {
+      return (b.day_off - a.day_off || a.position.localeCompare(b.position) || a.shift_start_time.localeCompare(b.shift_start_time))
+    }))
   }
 
   function handleDeleteShift(shiftToDelete){
