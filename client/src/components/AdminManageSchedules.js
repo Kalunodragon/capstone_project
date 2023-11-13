@@ -14,6 +14,22 @@ function AdminManageSchedules(){
   const [filterPosition, setFilterPosition] = useState("")
   const [shiftId, setShiftId] = useState(0)
   const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
+  const [formDataDates, setFormDataDates] = useState({
+    "start_date": null,
+    "end_date": null,
+    "bid_open": null,
+    "bid_close": null
+  })
+  const [formDataDays, setFormDataDays] = useState({
+    "sunday_shift": 0,
+    "monday_shift": 0,
+    "tuesday_shift": 0,
+    "wednesday_shift": 0,
+    "thursday_shift": 0,
+    "friday_shift": 0,
+    "saturday_shift": 0
+  })
+  const [formDataNumberAvailable, setFormDataNumberAvailable] = useState(0)
 
   useEffect(()=>{
     fetch("/shifts")
@@ -78,6 +94,32 @@ function AdminManageSchedules(){
     )
   })
 
+  function handleWeeklySchedule(value){
+    if(value === "Reset"){
+      setShiftId(0)
+      setFormDataDays({
+        "sunday_shift": 0,
+        "monday_shift": 0,
+        "tuesday_shift": 0,
+        "wednesday_shift": 0,
+        "thursday_shift": 0,
+        "friday_shift": 0,
+        "saturday_shift": 0
+      })
+    } else {
+      setShiftId(value)
+      setFormDataDays({
+        "sunday_shift": (daysOff === 1 || daysOff === 7 ? 1 : value),
+        "monday_shift": (daysOff === 1 || daysOff === 2 ? 1 : value),
+        "tuesday_shift": (daysOff === 2 || daysOff === 3 ? 1 : value),
+        "wednesday_shift": (daysOff === 3 || daysOff === 4 ? 1 : value),
+        "thursday_shift": (daysOff === 4 || daysOff === 5 ? 1 : value),
+        "friday_shift": (daysOff === 5 || daysOff === 6 ? 1 : value),
+        "saturday_shift": (daysOff === 6 || daysOff === 7 ? 1 : value)
+      })
+    }
+  }
+
   return(
     <>
       <Container align="center" className="adminManageUpper">
@@ -96,14 +138,16 @@ function AdminManageSchedules(){
                 label="Schedule Start"
                 required
                 valueDefault={null}
+                value={dayjs(formDataDates.start_date)}
+                onChange={(e)=>setFormDataDates({...formDataDates, "start_date":e.$d})}
                 sx={{ width:"80%" }}
                 />
               <DatePicker 
                 label="Schedule End"
                 required
                 valueDefault={null}
-                // value={dayjs(formData.date_of_birth)}
-                // onChange={(e)=>setFormData({...formData, "date_of_birth":e.$d})}
+                value={dayjs(formDataDates.end_date)}
+                onChange={(e)=>setFormDataDates({...formDataDates, "end_date":e.$d})}
                 sx={{ width:"80%" }}
               />
             </Stack>
@@ -113,14 +157,16 @@ function AdminManageSchedules(){
                 label="Bid Open"
                 required
                 valueDefault={null}
+                value={dayjs(formDataDates.bid_open)}
+                onChange={(e)=>setFormDataDates({...formDataDates, "bid_open":e.$d})}
                 sx={{ width:"80%" }}
                 />
               <DatePicker 
                 label="Bid Close"
                 required
                 valueDefault={null}
-                // value={dayjs(formData.date_of_birth)}
-                // onChange={(e)=>setFormData({...formData, "date_of_birth":e.$d})}
+                value={dayjs(formDataDates.bid_close)}
+                onChange={(e)=>setFormDataDates({...formDataDates, "bid_close":e.$d})}
                 sx={{ width:"80%" }}
               />
             </Stack>
@@ -142,7 +188,7 @@ function AdminManageSchedules(){
                   label="Days Off"
                   onChange={(e)=>{
                     if(filterPosition !== "") setFilterPosition("")
-                    if(shiftId !== 0) setShiftId(0)
+                    if(shiftId !== 0) handleWeeklySchedule("Reset")
                     setDaysOff(e.target.value)
                   }}
                 >
@@ -172,7 +218,7 @@ function AdminManageSchedules(){
                       value={filterPosition}
                       label="Position"
                       onChange={(e)=>{
-                        if(shiftId !== 0) setShiftId(0)
+                        if(shiftId !== 0) handleWeeklySchedule("Reset")
                         setFilterPosition(e.target.value)
                       }}
                     >
@@ -183,9 +229,9 @@ function AdminManageSchedules(){
                     <InputLabel>Time</InputLabel>
                     <Select
                       disabled={daysOff === "" || filterPosition === ""}
-                      value={shiftId}
+                      value={shiftId === 0 ? "" : shiftId}
                       label="Time"
-                      onChange={(e)=>setShiftId(e.target.value)}
+                      onChange={(e)=>handleWeeklySchedule(e.target.value)}
                     >
                       <MenuItem value={0}><em style={{ color:"#3453c4" }}>Select Time</em></MenuItem>
                       {shiftTimeDropdown}
