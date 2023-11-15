@@ -51,6 +51,26 @@ function AdminSchedules(){
     )
   })
 
+  const sortedSchedules = (schedules ? schedules.sort((a,b)=>{
+    const aPosition = a.shifts.filter((obj,index)=>{
+      return a.shifts.findIndex((currentObj)=>{
+        return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
+      }) === index
+    })[0].shift.position
+    const bPosition = b.shifts.filter((obj,index)=>{
+      return b.shifts.findIndex((currentObj)=>{
+        return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
+      }) === index
+    })[0].shift.position
+    
+    return (aPosition.localeCompare(bPosition))
+  }) : null)
+
+  if(schedules){
+    console.log("SCHEDULES",schedules)
+    console.log("SORTED", sortedSchedules)
+  }
+
   function handleNavigation(route){
     if(route === "All" || route === "Manage"){
       setCurrent(false)
