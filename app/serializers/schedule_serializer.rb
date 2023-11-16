@@ -1,6 +1,8 @@
 class ScheduleSerializer < ActiveModel::Serializer
   attributes :id, :bid_open, :bid_close, :start_date, :end_date, :number_available, :shifts
 
+  # Add position, start time, day off order... type attributes to top level for sorting
+
   def shifts
     days = []
     days << {day:"Sunday", shift: formatted_shift(object.sunday_shift)}
