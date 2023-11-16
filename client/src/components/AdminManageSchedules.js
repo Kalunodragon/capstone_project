@@ -41,6 +41,7 @@ function AdminManageSchedules({ handleNewSchedule }){
         .then((d)=>{
           setShifts(d)
           setLoaded(true)
+          setFullWeek(false)
         })
       } else {
         res.json()
