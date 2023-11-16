@@ -56,14 +56,17 @@ function AdminSchedules(){
       return a.shifts.findIndex((currentObj)=>{
         return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
       }) === index
-    })[0].shift.position
+    })
     const bPosition = b.shifts.filter((obj,index)=>{
       return b.shifts.findIndex((currentObj)=>{
         return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
       }) === index
-    })[0].shift.position
+    })
     
-    return (aPosition.localeCompare(bPosition))
+    return (aPosition[0].shift.position.localeCompare(bPosition[0].shift.position) ||
+      aPosition.shift.start_time - bPosition.shift.start_time ||
+      aPosition.length - bPosition.length
+      )
   }) : null)
 
   if(schedules){
