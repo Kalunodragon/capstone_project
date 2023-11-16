@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import AdminSchedules from "./AdminSchedules";
+import Bidding from "./Bidding";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('America/Denver');
@@ -92,6 +93,7 @@ function App(){
             <Route path="/main" element={ <MainPage/> }/>
             <Route path="/profile" element={ <Profile /> }/>
             <Route path="/edit-profile" element={ <EditProfile onUpdate={handleEmployeeUpdate}/> }/>
+            <Route path="/bidding" element={ <Bidding /> }/>
             <Route path="/admin-main" element={ <AdminMain/> }/>
             <Route path="/admin-employees/*" element={ <AdminEmployees /> }/>
             <Route path="/app-info" element={ <AppInfo /> }/>
