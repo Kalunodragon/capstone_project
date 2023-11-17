@@ -139,6 +139,7 @@ function AdminManageSchedules({ handleNewSchedule }){
     if(success) setSuccess(null)
     if(errors) setErrors(null)
     setSubmitClicked(v=>!v)
+
     const submissionData = {
       "start_date": formDataDates.start_date,
       "end_date": formDataDates.end_date,
@@ -153,7 +154,7 @@ function AdminManageSchedules({ handleNewSchedule }){
       "saturday_shift": formDataDays.saturday_shift,
       "number_available": formDataNumberAvailable
     }
-    console.log("Submission Clicked",submissionData)
+    
     fetch("/schedules",{
       method:"POST",
       headers:{
