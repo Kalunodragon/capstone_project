@@ -54,9 +54,13 @@ function AdminSchedules(){
     )
   })
 
-  // schedules.sort((a,b)=>{
-  //   return(a.sort_position.localeCompare(b.sort_position) || a.sort_day_position - b.sort_day_position || a.sort_time.localeCompare(b.sort_time))
-  // })
+  function handleNewSchedule(newSchedule){
+    setSchedules([...schedules,newSchedule].sort((a,b)=>{
+      return(a.sort_position.localeCompare(b.sort_position) ||
+                a.sort_day_position - b.sort_day_position ||
+                a.sort_time.localeCompare(b.sort_time))
+    }))
+  }
 
   function handleNavigation(route){
     if(route === "All" || route === "Manage"){
@@ -95,7 +99,7 @@ function AdminSchedules(){
       <allSchedulesContext.Provider value={schedules}>
         <Routes>
           <Route path="all" element={ loaded ? <AllSchedules/> : <Loading /> }/>
-          <Route path="manage" element={ loaded ? <AdminManageSchedules /> : <Loading /> }/>
+          <Route path="manage" element={ loaded ? <AdminManageSchedules handleNewSchedule={handleNewSchedule}/> : <Loading /> }/>
         </Routes>
       </allSchedulesContext.Provider>
     </>
