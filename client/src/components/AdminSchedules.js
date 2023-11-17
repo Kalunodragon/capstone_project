@@ -52,21 +52,22 @@ function AdminSchedules(){
   })
 
   const sortedSchedules = (schedules ? schedules.sort((a,b)=>{
-    const aPosition = a.shifts.filter((obj,index)=>{
-      return a.shifts.findIndex((currentObj)=>{
-        return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
-      }) === index
-    })
-    const bPosition = b.shifts.filter((obj,index)=>{
-      return b.shifts.findIndex((currentObj)=>{
-        return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
-      }) === index
-    })
+    return(a.sort_position.localeCompare(b.sort_position) || a.sort_time.localeCompare(b.sort_time) || a.sort_day_position - b.sort_day_position)
+    // const aPosition = a.shifts.filter((obj,index)=>{
+    //   return a.shifts.findIndex((currentObj)=>{
+    //     return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
+    //   }) === index
+    // })
+    // const bPosition = b.shifts.filter((obj,index)=>{
+    //   return b.shifts.findIndex((currentObj)=>{
+    //     return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
+    //   }) === index
+    // })
     
-    return (aPosition[0].shift.position.localeCompare(bPosition[0].shift.position) ||
-      aPosition.shift.start_time - bPosition.shift.start_time ||
-      aPosition.length - bPosition.length
-      )
+    // return (aPosition[0].shift.position.localeCompare(bPosition[0].shift.position) ||
+    //   aPosition.shift.start_time - bPosition.shift.start_time ||
+    //   aPosition.length - bPosition.length
+    //   )
   }) : null)
 
   if(schedules){
