@@ -1,11 +1,12 @@
 class ScheduleSerializer < ActiveModel::Serializer
-  attributes :id, :bid_open, :bid_close, :start_date, :end_date, :number_available, :shifts, :sort_position, :sort_time
+  attributes :id, :bid_open, :bid_close, :start_date, :end_date, :number_available, :shifts, :sort_position, :sort_time, :sort_day_position
 
   # Add position, start time, day off order... type attributes to top level for sorting
   # times and positions might need an array to hold multiple times and or positions (in this case they are automatically added to the bottom)
 
   @sort_position
   @sort_time
+  @sort_day_position
 
   def sort_position
     @sort_position unless @sort_position == nil
@@ -13,6 +14,25 @@ class ScheduleSerializer < ActiveModel::Serializer
 
   def sort_time
     @sort_time unless @sort_time == nil
+  end
+
+  def sort_day_position
+    sunday = Shift.find_by(id: object.sunday_shift)
+    monday = Shift.find_by(id: object.monday_shift)
+    tuesday = Shift.find_by(id: object.tuesday_shift)
+    wednesday = Shift.find_by(id: object.wednesday_shift)
+    thursday = Shift.find_by(id: object.thursday_shift)
+    friday = Shift.find_by(id: object.friday_shift)
+    saturday = Shift.find_by(id: object.saturday_shift)
+
+    @sort_day_position = 0 if saturday.day_off && sunday.day_off
+    @sort_day_position = 1 if sunday.day_off && monday.day_off
+    @sort_day_position = 2 if monday.day_off && tuesday.day_off
+    @sort_day_position = 3 if tuesday.day_off && wednesday.day_off
+    @sort_day_position = 4 if wednesday.day_off && thursday.day_off
+    @sort_day_position = 5 if thursday.day_off && friday.day_off
+    @sort_day_position = 6 if friday.day_off && saturday.day_off
+    @sort_day_position
   end
 
   def shifts
