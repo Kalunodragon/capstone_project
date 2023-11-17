@@ -2,6 +2,7 @@ class ScheduleSerializer < ActiveModel::Serializer
   attributes :id, :bid_open, :bid_close, :start_date, :end_date, :number_available, :shifts, :sort_position, :sort_time
 
   # Add position, start time, day off order... type attributes to top level for sorting
+  # times and positions might need an array to hold multiple times and or positions (in this case they are automatically added to the bottom)
 
   @sort_position
   @sort_time
