@@ -21,7 +21,10 @@ function AdminSchedules(){
         if(res.ok){
           res.json()
           .then((d)=>{
-            setSchedules(d)
+            setSchedules(d.sort((a,b)=>{
+              return(a.sort_position.localeCompare(b.sort_position) ||
+                a.sort_day_position - b.sort_day_position ||
+                a.sort_time.localeCompare(b.sort_time))}))
             setLoaded(true)
           })
         } else {
@@ -51,29 +54,9 @@ function AdminSchedules(){
     )
   })
 
-  const sortedSchedules = (schedules ? schedules.sort((a,b)=>{
-    return(a.sort_position.localeCompare(b.sort_position) || a.sort_time.localeCompare(b.sort_time) || a.sort_day_position - b.sort_day_position)
-    // const aPosition = a.shifts.filter((obj,index)=>{
-    //   return a.shifts.findIndex((currentObj)=>{
-    //     return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
-    //   }) === index
-    // })
-    // const bPosition = b.shifts.filter((obj,index)=>{
-    //   return b.shifts.findIndex((currentObj)=>{
-    //     return currentObj.shift.position === obj.shift.position && obj.shift.position !== "Off"
-    //   }) === index
-    // })
-    
-    // return (aPosition[0].shift.position.localeCompare(bPosition[0].shift.position) ||
-    //   aPosition.shift.start_time - bPosition.shift.start_time ||
-    //   aPosition.length - bPosition.length
-    //   )
-  }) : null)
-
-  if(schedules){
-    console.log("SCHEDULES",schedules)
-    console.log("SORTED", sortedSchedules)
-  }
+  // schedules.sort((a,b)=>{
+  //   return(a.sort_position.localeCompare(b.sort_position) || a.sort_day_position - b.sort_day_position || a.sort_time.localeCompare(b.sort_time))
+  // })
 
   function handleNavigation(route){
     if(route === "All" || route === "Manage"){
