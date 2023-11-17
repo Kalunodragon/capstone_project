@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Paper, Select, Stack, Switch, Typography } from "@mui/material";
+import { Box, Button, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Paper, Select, Stack, Switch, TextField, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 import Loading from "./Loading";
@@ -13,6 +13,7 @@ function AdminManageSchedules(){
   const [shifts, setShifts] = useState(null)
   const [filterPosition, setFilterPosition] = useState("")
   const [shiftId, setShiftId] = useState(0)
+  const [submitClicked, setSubmitClicked] = useState(false)
   const boxColor = (success ? "#66bb6a" : (errors ? "#f44336" : "#f9b612"))
   const [formDataDates, setFormDataDates] = useState({
     "start_date": null,
@@ -130,11 +131,36 @@ function AdminManageSchedules(){
     }
   }
 
+  function handleSubmit(e){
+    e.preventDefault()
+    setSubmitClicked(v=>!v)
+    const submissionData = {
+      "start_date": formDataDates.start_date,
+      "end_date": formDataDates.end_date,
+      "bid_open": formDataDates.bid_open,
+      "bid_close": formDataDates.bid_close,
+      "sunday_shift": formDataDays.sunday_shift,
+      "monday_shift": 0,
+      "tuesday_shift": 0,
+      "wednesday_shift": 0,
+      "thursday_shift": 0,
+      "friday_shift": 0,
+      "saturday_shift": 0
+    }
+    fetch("/schedules",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify()
+    })
+  }
+
   return(
     <>
       <Container align="center" className="adminManageUpper">
         <Paper className="adminManageUpper" sx={{ backgroundColor:boxColor }}>
-          <Box sx={{ backgroundColor:"#fff", padding:"5px" }}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ backgroundColor:"#fff", padding:"5px" }}>
             <br/>
             <Typography variant="h5" align="center">
               Schedule Management
@@ -184,12 +210,12 @@ function AdminManageSchedules(){
             <Typography variant="subtitle1" align="center">
               Weekly Schedule Section
             </Typography>
-            <FormControlLabel
+            {/* <FormControlLabel
               label="Different Shifts? No|Yes"
               labelPlacement="start"
               control={<Switch checked={fullWeek} onChange={()=>setFullWeek(v=>!v)}/>}
             >
-            </FormControlLabel>
+            </FormControlLabel> */}
             <br/>
             <FormControl sx={{ width:"80%" }}>
                 <InputLabel>Days Off</InputLabel>
@@ -250,6 +276,37 @@ function AdminManageSchedules(){
                   </FormControl>
                 </Stack>
               </>}
+            <TextField
+              label="Number Available"
+              sx={{ flexGrow:1, width:"80%" }}
+              margin="dense"
+              value={formDataNumberAvailable}
+              onChange={(e)=>{
+                if(e.target.value >= 0){
+                  setFormDataNumberAvailable(e.target.value)
+                } else {
+                  setFormDataNumberAvailable(0)
+                }
+              }}
+              type="number"
+              required
+              size="small"
+              autoComplete="off"
+            /> <br/>
+            <Button 
+              type="submit"
+              variant="contained"
+              sx={{ margin: "8px"}}
+              disabled={ formDataDates.start_date === null ||
+                formDataDates.end_date === null ||
+                formDataDates.bid_open === null ||
+                formDataDates.bid_close === null ||
+                daysOff === "" ||
+                filterPosition === "" ||
+                shiftId === 0}
+            >
+              {submitClicked ? "Adding to Schedule" : "Add to schedule"}
+            </Button>
           </Box>
         </Paper>
       </Container>
