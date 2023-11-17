@@ -37,11 +37,11 @@ function AdminNewShift({ handleAddShift }){
         res.json()
         .then((d)=>{
           setSuccess(d)
-          setSubmitClicked(false)
           handleAddShift(d)
           setClockStartTime(null)
           setClockOffTime(null)
           setPositionValue("")
+          setSubmitClicked(false)
         })
       } else {
         res.json()
