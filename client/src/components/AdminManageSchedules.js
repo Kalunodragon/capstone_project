@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Paper, Select, Stack, Switch, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Divider, FormControl, InputLabel, MenuItem, Paper, Select, Stack, TextField, Typography } from "@mui/material";
+// import { FormControlLabel, Switch } from "@mui/material";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 import Loading from "./Loading";
 
-function AdminManageSchedules(){
+function AdminManageSchedules({ handleNewSchedule }){
   const [errors, setErrors] = useState(null)
   const [success, setSuccess] = useState(null)
   const [fullWeek, setFullWeek] = useState(false)
@@ -96,6 +97,8 @@ function AdminManageSchedules(){
   })
 
   function handleWeeklySchedule(value,location,day){
+    if(success) setSuccess(null)
+    if(errors) setErrors(null)
     if(value === "Reset"){
       setShiftId(0)
       setFormDataDays({
@@ -133,6 +136,8 @@ function AdminManageSchedules(){
 
   function handleSubmit(e){
     e.preventDefault()
+    if(success) setSuccess(null)
+    if(errors) setErrors(null)
     setSubmitClicked(v=>!v)
     const submissionData = {
       "start_date": formDataDates.start_date,
@@ -140,19 +145,43 @@ function AdminManageSchedules(){
       "bid_open": formDataDates.bid_open,
       "bid_close": formDataDates.bid_close,
       "sunday_shift": formDataDays.sunday_shift,
-      "monday_shift": 0,
-      "tuesday_shift": 0,
-      "wednesday_shift": 0,
-      "thursday_shift": 0,
-      "friday_shift": 0,
-      "saturday_shift": 0
+      "monday_shift": formDataDays.monday_shift,
+      "tuesday_shift": formDataDays.tuesday_shift,
+      "wednesday_shift": formDataDays.wednesday_shift,
+      "thursday_shift": formDataDays.thursday_shift,
+      "friday_shift": formDataDays.friday_shift,
+      "saturday_shift": formDataDays.saturday_shift,
+      "number_available": formDataNumberAvailable
     }
+    console.log("Submission Clicked",submissionData)
     fetch("/schedules",{
       method:"POST",
       headers:{
         "Content-Type":"application/json"
       },
-      body: JSON.stringify()
+      body: JSON.stringify(submissionData)
+    })
+    .then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          setSuccess(d)
+          handleNewSchedule(d)
+          setFormDataNumberAvailable(0)
+          setShiftId(0)
+          setFilterPosition("")
+          setDaysOff("")
+          handleWeeklySchedule("Reset")
+          setSubmitClicked(false)
+        })
+      } else {
+        res.json()
+        .then((d)=>{
+          setErrors(d.errors)
+          setSubmitClicked(false)
+          console.log(d)
+        })
+      }
     })
   }
 
@@ -166,6 +195,12 @@ function AdminManageSchedules(){
               Schedule Management
             </Typography>
             <Divider />
+            {success ? <><Alert align="center" severity="success" variant="filled" sx={{ margin:1 }}>
+              Success - New line was added to "{success.start_date} | {success.end_date}" schedule!
+            </Alert><Divider /></>:null}
+            {errors ? <><Alert align="center" severity="error" variant="filled" sx={{ margin:1 }}>
+              {errors}
+            </Alert><Divider /></>:null}
             <Typography variant="subtitle1" align="center">
               Schedule Date Selection
             </Typography>
@@ -175,7 +210,11 @@ function AdminManageSchedules(){
                 required
                 valueDefault={null}
                 value={dayjs(formDataDates.start_date)}
-                onChange={(e)=>setFormDataDates({...formDataDates, "start_date":e.$d})}
+                onChange={(e)=>{
+                  if(success) setSuccess(null)
+                  if(errors) setErrors(null)
+                  setFormDataDates({...formDataDates, "start_date":e.$d})
+                }}
                 sx={{ width:"80%" }}
                 />
               <DatePicker 
@@ -183,7 +222,11 @@ function AdminManageSchedules(){
                 required
                 valueDefault={null}
                 value={dayjs(formDataDates.end_date)}
-                onChange={(e)=>setFormDataDates({...formDataDates, "end_date":e.$d})}
+                onChange={(e)=>{
+                  if(success) setSuccess(null)
+                  if(errors) setErrors(null)
+                  setFormDataDates({...formDataDates, "end_date":e.$d})
+                }}
                 sx={{ width:"80%" }}
               />
             </Stack>
@@ -194,7 +237,11 @@ function AdminManageSchedules(){
                 required
                 valueDefault={null}
                 value={dayjs(formDataDates.bid_open)}
-                onChange={(e)=>setFormDataDates({...formDataDates, "bid_open":e.$d})}
+                onChange={(e)=>{
+                  if(success) setSuccess(null)
+                  if(errors) setErrors(null)
+                  setFormDataDates({...formDataDates, "bid_open":e.$d})
+                }}
                 sx={{ width:"80%" }}
                 />
               <DatePicker 
@@ -202,7 +249,11 @@ function AdminManageSchedules(){
                 required
                 valueDefault={null}
                 value={dayjs(formDataDates.bid_close)}
-                onChange={(e)=>setFormDataDates({...formDataDates, "bid_close":e.$d})}
+                onChange={(e)=>{
+                  if(success) setSuccess(null)
+                  if(errors) setErrors(null)
+                  setFormDataDates({...formDataDates, "bid_close":e.$d})
+                }}
                 sx={{ width:"80%" }}
               />
             </Stack>
@@ -244,9 +295,9 @@ function AdminManageSchedules(){
                 <h2>Yes</h2>
               </>:
               <>
-                <Typography align="center" variant="subtitle1">
+                {/* <Typography align="center" variant="subtitle1">
                   Same shift across week
-                </Typography>
+                </Typography> */}
                 <Stack direction="row" spacing={2} margin={1}>
                   <FormControl sx={{ width:"80%" }}>
                     <InputLabel>Position</InputLabel>
