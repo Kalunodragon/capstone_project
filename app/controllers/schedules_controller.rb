@@ -2,7 +2,7 @@ class SchedulesController < ApplicationController
 
   def create
     if(@current_employee.admin)
-      created_schedule = Schedule.find_or_create_by!(schedule_params)
+      created_schedule = Schedule.create(schedule_params)
       render json: created_schedule, serializer: ScheduleSerializer, status: :created
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
