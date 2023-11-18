@@ -3,6 +3,7 @@ import Loading from "./Loading";
 import { Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import CircleIcon from '@mui/icons-material/Circle';
+import FlightIcon from '@mui/icons-material/Flight';
 import dayjs from 'dayjs';
 
 function Bidding(){
@@ -60,7 +61,9 @@ function Bidding(){
             aria-label="Select"
             size="small"
           >
-            {selected === dateRange.start_date ? <CircleIcon htmlColor="#3453c4"/> : <PanoramaFishEyeIcon htmlColor="#f9b612"/>}
+            {selected === dateRange.start_date ? 
+              openBid === dateRange ? <FlightIcon htmlColor="#3453c4"/> : <CircleIcon htmlColor="#3453c4"/> : 
+              openBid === dateRange ? <FlightIcon htmlColor="#66bb6a"/> : <PanoramaFishEyeIcon htmlColor="#f9b612"/> }
           </IconButton>
         </TableCell>
         <TableCell align="center" scope="row">
@@ -80,7 +83,7 @@ function Bidding(){
         return undefined
       }
     })
-    if(scheduleFound){
+    if(scheduleFound !== null && openBid === null){
       setOpenBid(scheduleFound)
     }
   }
