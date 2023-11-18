@@ -109,9 +109,10 @@ function Bidding(){
           </Typography>
           <Divider />
           <Typography variant="p">
-            The section below is for viewing bids as well as creating a bid. If a Schedule is in its window for being open 
-            to bid on then a "Create Bid" button will be shown after this section. If you have already submitted a bid then 
-            this button will no longer appear. Instead check the Edit bid section.
+            WIP TEXT: Secion below is for viewing bids. If a schedule is out of the "Bidding timeframe" then 
+            it will now allow you to create a bid for that schedule. If the schedule is within its "Bidding 
+            timeframe" then there will be a "Create Bid" button that will be shown inside of that selected 
+            schedule.
           </Typography>
           {}
         </Paper>
