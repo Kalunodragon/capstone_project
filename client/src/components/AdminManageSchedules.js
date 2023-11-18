@@ -356,7 +356,8 @@ function AdminManageSchedules({ handleNewSchedule }){
                 formDataDates.bid_close === null ||
                 daysOff === "" ||
                 filterPosition === "" ||
-                shiftId === 0}
+                shiftId === 0 ||
+                submitClicked}
             >
               {submitClicked ? "Adding to Schedule" : "Add to schedule"}
             </Button>
