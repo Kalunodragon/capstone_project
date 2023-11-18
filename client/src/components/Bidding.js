@@ -83,7 +83,7 @@ function Bidding(){
         return undefined
       }
     })
-    if(scheduleFound !== null && openBid === null){
+    if(scheduleFound !== undefined && openBid === null){
       setOpenBid(scheduleFound)
     }
   }
