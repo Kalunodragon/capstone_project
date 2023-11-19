@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Loading from "./Loading";
-import { Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import CircleIcon from '@mui/icons-material/Circle';
 import FlightIcon from '@mui/icons-material/Flight';
 import dayjs from 'dayjs';
+import EmployeePastSchedule from "./EmployeePastSchedule";
+import EmployeeBidCreate from "./EmployeeBidCreate";
 
 function Bidding(){
   const [loading, setLoading] = useState(false)
@@ -56,11 +58,7 @@ function Bidding(){
         selected={selected === dateRange.start_date}
         onClick={()=>{
           setSelected(dateRange.start_date)
-          // setFilteredSchedules(schedules.filter((s)=> s.start_date === dateRange.start_date && s.end_date === dateRange.end_date))
-          // onClick have this open a new route with the current schedule info
-              // If past schedule, show schedule along with awarded line.
-              // If current schedule, show create bid page
-          // On this page have a back button that takes you back to this parent component
+          setFilteredSchedules(schedules.filter((s)=> s.start_date === dateRange.start_date && s.end_date === dateRange.end_date))
         }}
       >
         <TableCell align="center">
@@ -70,8 +68,8 @@ function Bidding(){
             size="small"
           >
             {selected === dateRange.start_date ? 
-              openBid === dateRange ? <FlightIcon htmlColor="#3453c4"/> : <CircleIcon htmlColor="#3453c4"/> : 
-              openBid === dateRange ? <FlightIcon htmlColor="#66bb6a"/> : <PanoramaFishEyeIcon htmlColor="#f9b612"/> }
+              openBid === dateRange.id ? <FlightIcon htmlColor="#3453c4"/> : <CircleIcon htmlColor="#3453c4"/> : 
+              openBid === dateRange.id ? <FlightIcon htmlColor="#66bb6a"/> : <PanoramaFishEyeIcon htmlColor="#f9b612"/> }
           </IconButton>
         </TableCell>
         <TableCell align="center" scope="row">
@@ -81,29 +79,25 @@ function Bidding(){
     )
   })
 
+  const pastOrCurrent = (filteredSchedules ?
+    dayjs(filteredSchedules[0].bid_close).endOf('day') < today ?
+      <EmployeePastSchedule scheduleArray={filteredSchedules}/> :
+      <EmployeeBidCreate scheduleArray={filteredSchedules} />
+      : null)
+
   function checkForOpenBid(){
-    const scheduleFound = listOfScheduleDates.find((schedule) => {
-      const open = dayjs(schedule.bid_open).startOf('day')
-      const close = dayjs(schedule.bid_close).endOf('day')
-      if(open < today && today < close){
-        return schedule
-      } else {
+    if(openBid === null){
+      const scheduleFound = sortedList.find((schedule) => {
+        const open = dayjs(schedule.bid_open).startOf('day')
+        const close = dayjs(schedule.bid_close).endOf('day')
+        if(open < today && today < close){
+          return schedule
+        }
         return undefined
-      }
-    })
-    if(scheduleFound !== undefined && openBid === null){
-      setOpenBid(scheduleFound)
+      })
+      setOpenBid(scheduleFound ? scheduleFound.id : scheduleFound)
     }
   }
-
-  // Check if todays date is within the range of any schedules bid_open/bid_close
-  // if yes:
-  // if Employee does not have bid submitted for same schedule date ranges show Create Bid button
-      // else show Manage button
-      // else:
-      // Have a info page telling the Employee that there isnt a bid currently open.
-
-  // FUTURE GOAL: Use React-DND or variant drag and drop library to help with reorganization of bid lines
 
   checkForOpenBid()
   
@@ -116,13 +110,25 @@ function Bidding(){
             Bidding
           </Typography>
           <Divider />
-          <Typography variant="p">
-            WIP TEXT: Secion below is for viewing bids. If a schedule is out of the "Bidding timeframe" then 
-            it will now allow you to create a bid for that schedule. If the schedule is within its "Bidding 
-            timeframe" the selected section will show a green airplane for that option. This shows that you 
-            are able to bid for that schedule time frame.
-          </Typography>
-          {}
+          {!filteredSchedules ? 
+            <Typography variant="p">
+              WIP TEXT: Secion below is for viewing bids. If a schedule is out of the "Bidding timeframe" then 
+              it will now allow you to create a bid for that schedule. If the schedule is within its "Bidding 
+              timeframe" the selected section will show a green airplane for that option. This shows that you 
+              are able to bid for that schedule time frame.
+            </Typography> : null}
+          {filteredSchedules ? 
+            <Button
+              onClick={()=>{
+                setSelected(null)
+                setFilteredSchedules(null)
+              }}
+              variant="contained"
+              align="center"
+              sx={{ marginTop: "10px"}}
+            >
+              Main Bid Page
+            </Button> : null}
         </Paper>
       </Container>
       <br/>
@@ -141,8 +147,12 @@ function Bidding(){
           </Table>
         </TableContainer>
       </Container>
+      <br/>
+      {filteredSchedules ? pastOrCurrent : null}
     </>
   )
 }
+
+// FUTURE GOAL: Use React-DND or variant drag and drop library to help with reorganization of bid lines
 
 export default Bidding
