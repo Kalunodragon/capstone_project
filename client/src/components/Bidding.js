@@ -56,7 +56,11 @@ function Bidding(){
         selected={selected === dateRange.start_date}
         onClick={()=>{
           setSelected(dateRange.start_date)
-          setFilteredSchedules(schedules.filter((s)=> s.start_date === dateRange.start_date && s.end_date === dateRange.end_date))
+          // setFilteredSchedules(schedules.filter((s)=> s.start_date === dateRange.start_date && s.end_date === dateRange.end_date))
+          // onClick have this open a new route with the current schedule info
+              // If past schedule, show schedule along with awarded line.
+              // If current schedule, show create bid page
+          // On this page have a back button that takes you back to this parent component
         }}
       >
         <TableCell align="center">
