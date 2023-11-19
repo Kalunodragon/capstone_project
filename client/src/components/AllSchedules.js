@@ -3,6 +3,7 @@ import { allSchedulesContext } from "./AdminSchedules";
 import { Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import CircleIcon from '@mui/icons-material/Circle';
+import dayjs from "dayjs";
 
 function AllSchedules(){
   const allSchedules = useContext(allSchedulesContext)
@@ -17,7 +18,11 @@ function AllSchedules(){
     }) === index
   })
 
-  const runDates = scheduleRunDates.map((dateRange)=>{
+  const sortedRunDates = scheduleRunDates.sort((a,b)=>{
+    return(a.id - b.id)
+  })
+
+  const runDates = sortedRunDates.map((dateRange)=>{
     return(
       <TableRow
         key={dateRange.start_date}
@@ -38,7 +43,7 @@ function AllSchedules(){
           </IconButton>
         </TableCell>
         <TableCell align="center" scope="row">
-          {dateRange.start_date} | {dateRange.end_date}
+        {dayjs(dateRange.start_date).format("MMM - MM/DD/YYYY")} | {dayjs(dateRange.end_date).format("MMM - MM/DD/YYYY")}
         </TableCell>
       </TableRow>
     )
