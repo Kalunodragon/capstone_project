@@ -127,7 +127,7 @@ function Bidding(){
               align="center"
               sx={{ marginTop: "10px"}}
             >
-              Main Bid Page
+              Bidding Main
             </Button> : null}
         </Paper>
       </Container>
