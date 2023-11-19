@@ -40,11 +40,15 @@ function Bidding(){
 
   const listOfScheduleDates = schedules.filter((schedule, index)=>{
     return schedules.findIndex((currentSchedule)=>{
-      return currentSchedule.start_date === schedule.start_date && currentSchedule.end_date === schedule.end_date
+      return currentSchedule.start_date === schedule.start_date && currentSchedule.end_date === schedule.end_date && dayjs(schedule.bid_open).startOf('day') < today
     }) === index
   })
 
-  const listDates = listOfScheduleDates.map((dateRange)=>{
+  const sortedList = listOfScheduleDates.sort((a,b)=>{
+    return(a.id - b.id)
+  })
+
+  const listDates = sortedList.map((dateRange)=>{
     return(
       <TableRow
         key={dateRange.start_date}
@@ -67,7 +71,7 @@ function Bidding(){
           </IconButton>
         </TableCell>
         <TableCell align="center" scope="row">
-          {dateRange.start_date} | {dateRange.end_date}
+          {dayjs(dateRange.start_date).format("MMM - MM/DD/YYYY")} | {dayjs(dateRange.end_date).format("MMM - MM/DD/YYYY")}
         </TableCell>
       </TableRow>
     )
@@ -88,20 +92,17 @@ function Bidding(){
     }
   }
 
-  checkForOpenBid()
-
-  console.log("This is from openBid",openBid)
-
-
   // Check if todays date is within the range of any schedules bid_open/bid_close
-    // if yes:
-      // if Employee does not have bid submitted for same schedule date ranges show Create Bid button
+  // if yes:
+  // if Employee does not have bid submitted for same schedule date ranges show Create Bid button
       // else show Manage button
-    // else:
+      // else:
       // Have a info page telling the Employee that there isnt a bid currently open.
 
   // FUTURE GOAL: Use React-DND or variant drag and drop library to help with reorganization of bid lines
 
+  checkForOpenBid()
+  
   return(
     <>
       <br/>
