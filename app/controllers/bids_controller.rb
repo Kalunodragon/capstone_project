@@ -22,10 +22,19 @@ class BidsController < ApplicationController
     end
   end
 
+  # def index
+  #   if(@current_employee)
+  #     all_bids = @current_employee.bids.map{|b| b.schedule}
+  #     render json: all_bids, each_serializer: ScheduleSerializer, status: :ok
+  #   else
+  #     render json: { errors: "Please login to preform this action!" }, status: :unauthorized
+  #   end
+  # end
+
   def index
     if(@current_employee)
-      all_bids = @current_employee.bids.map{|b| b.schedule}
-      render json: all_bids, each_serializer: ScheduleSerializer, status: :ok
+      all_bids = @current_employee.bids.all
+      render json: all_bids, each_serializer: BidSerializer, status: :ok
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
     end
