@@ -10,9 +10,9 @@ class BidsController < ApplicationController
           render json: { errors: "There is an issue with dupicates in your bid please fix and resubmit!" }, status: :unprocessable_entity
         else
           dups_removed.each do |b|
-            @current_employee.bids.create!(choice_number: b[:choice_number], schedule_id: b[:schedule_id], awarded: false)
+            @current_employee.bids.create(choice_number: b[:choice_number], schedule_id: b[:schedule_id], awarded: false)
           end
-          render json: @current_employee.bids.map{|b| b.schedule}, serializer: ScheduleSerializer, status: :created
+          render json: @current_employee.bids.all, serializer: BidSerializer, status: :created
         end
       else
         render json: { errors: "Out of time frame for Bid. Please try again while Bid is open." }, status: :unauthorized
@@ -44,8 +44,8 @@ class BidsController < ApplicationController
     if(@current_employee)
       if(check_times)
         line_to_update = @current_employee.bids.find_by(id: params[:bid_id])
-        line_to_update.update!(choice_number: params[:choice_number], schedule_id: params[:schedule_id])
-        render json: line_to_update, serializer: ScheduleSerializer, status: :ok
+        line_to_update.update(choice_number: params[:choice_number], schedule_id: params[:schedule_id])
+        render json: line_to_update, serializer: BidSerializer, status: :ok
       else
         render json: { errors: "Sorry out of time frame to update this bid!" }, status: :forbidden
       end
@@ -64,7 +64,7 @@ class BidsController < ApplicationController
         else
           @current_employee.bids.find_by(id: params[:bid_id]).destroy
         end
-        render json: @current_employee.bids.map{|b| b.schedule}, each_serializer: ScheduleSerializer, status: :ok
+        render json: @current_employee.bids.all, each_serializer: BidSerializer, status: :ok
       else
         render json: { errors: "Sorry out of timeframe to delete from this bid!" }, status: :forbidden
       end
