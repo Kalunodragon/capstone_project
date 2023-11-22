@@ -34,7 +34,7 @@ function EmployeePastSchedule({ scheduleArray }){
 
   return(
     <Container align="center">
-      <TableContainer align="center" component={Paper} className="scheuduleListTable" sx={{ maxHeight: "70vh" }}>
+      <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
         <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
           <TableHead>
             <TableRow>
@@ -67,7 +67,7 @@ function EmployeePastSchedule({ scheduleArray }){
                     {index + 1}
                   </TableCell>
                   <TableCell align="center">
-                    {!!idExsits(schedule.id) ? idExsits(schedule.id).choice_number : "-"}
+                    {!!idExsits(schedule.id) ? idExsits(schedule.id).awarded ? "Got" + idExsits(schedule.id).choice_number : idExsits(schedule.id).choice_number : "-"}
                   </TableCell>
                 </TableRow>
               )
