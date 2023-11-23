@@ -51,7 +51,7 @@ function EmployeePastSchedule({ scheduleArray }){
           </TableHead>
           <TableBody>
             {scheduleArray.map((schedule, index)=>{
-              const idExsits = (num) => bids.find(bid => {
+              const bidFoundByID = (num) => bids.find(bid => {
                 if(bid.schedule_id === num){
                   return(bid.choice_number)
                 } else {
@@ -67,7 +67,7 @@ function EmployeePastSchedule({ scheduleArray }){
                     {index + 1}
                   </TableCell>
                   <TableCell align="center">
-                    {!!idExsits(schedule.id) ? idExsits(schedule.id).awarded ? "Got" + idExsits(schedule.id).choice_number : idExsits(schedule.id).choice_number : "-"}
+                    {!!bidFoundByID(schedule.id) ? bidFoundByID(schedule.id).awarded ? "Got" + bidFoundByID(schedule.id).choice_number : bidFoundByID(schedule.id).choice_number : "-"}
                   </TableCell>
                 </TableRow>
               )

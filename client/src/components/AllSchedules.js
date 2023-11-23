@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { allSchedulesContext } from "./AdminSchedules";
-import { Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import CircleIcon from '@mui/icons-material/Circle';
 import dayjs from "dayjs";
@@ -9,6 +9,7 @@ function AllSchedules(){
   const allSchedules = useContext(allSchedulesContext)
   const [selected, setSelected] = useState("")
   const [filteredSchedules, setFilteredSchedules] = useState(allSchedules)
+  const [awardClicked, setAwardClicked] = useState(false)
   // const [scheduleRunDates, setScheduleRunDates] = useState(null)
   let tableCellNumber = 0
 
@@ -49,6 +50,58 @@ function AllSchedules(){
     )
   })
 
+  const bidClosed = dayjs().format("YYYY-MM-DD") > filteredSchedules[0].bid_close ?
+    <>
+      <Container align="center">
+        <Button
+          variant="contained"
+          size="large"
+          align="center"
+          sx={{ marginTop:"15px" }}
+          color="error"
+          disabled={awardClicked}
+          onClick={(e)=> {
+            setAwardClicked(true)
+            console.log(filteredSchedules[0].bid_close)
+            handleAwardBidClick(e)
+          }}
+        >
+          Award Bid
+        </Button> 
+      </Container>
+      <br/>
+      <Divider />
+    </>
+    : null
+
+  function handleAwardBidClick(e){
+    e.preventDefault()
+    fetch("/award_bid",{
+      method: "POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        "bid_close":filteredSchedules[0].bid_close,
+        "start_date":filteredSchedules[0].start_date
+      })
+    }).then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          console.log(d)
+          setAwardClicked(false)
+        })
+      } else {
+        res.json()
+        .then((d)=>{
+          console.log(d)
+          setAwardClicked(false)
+        })
+      }
+    })
+  }
+
   return(
     <>
       <Container align="center">
@@ -70,6 +123,7 @@ function AllSchedules(){
         <>
           <br/>
           <Divider />
+          {bidClosed}
           <br/>
           <Container align="center">
             <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
