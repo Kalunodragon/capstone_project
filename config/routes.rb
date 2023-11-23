@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
-  get "/award_bid", to: "bids#award_bid"
+  post "/award_bid", to: "bids#award_bid"
   get "/test", to: "employees#test"
   get "/employee", to: "employees#show"
 

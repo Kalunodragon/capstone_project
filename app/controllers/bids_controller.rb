@@ -73,23 +73,59 @@ class BidsController < ApplicationController
     end
   end
 
+  # def award_bid
+  #   if(@current_employee.admin)
+  #     if(Date.today.to_fs > Schedule.first.bid_close.to_fs)
+  #       Bid.execute_bid
+  #       Employee.seniority_list.each do |e|
+  #         if(e.bids.all.find_by(awarded:true))
+  #             awarded_message(e)
+  #         else
+  #             not_enough_lines(e)
+  #         end
+  #       end
+  #       render json: ["The bid has been executed, awards and not enough lines are going out now."], status: :ok
+  #     else
+  #       render json: { errors: "The bid has not yet closed. This bid closes #{Schedule.first.bid_close}" }, status: :forbidden
+  #     end
+  #   else
+  #     render json: { errors: "You are not authorized to award the bid." }, status: :unauthorized
+  #   end
+  # end
+
   def award_bid
     if(@current_employee.admin)
-      if(Date.today.to_fs > Schedule.first.bid_close.to_fs)
-        Bid.execute_bid
-        Employee.seniority_list.each do |e|
-          if(e.bids.all.find_by(awarded:true))
-              awarded_message(e)
-          else
-              not_enough_lines(e)
+      if(check_if_awarded(start: params[:start_date],close: params[:bid_close]))
+        param_date_formatted = Date.parse(params[:bid_close]).to_fs
+        if(Date.today.to_fs > param_date_formatted)
+          Employee.seniority_list.each do |employee|
+            if(!employee.admin)
+              # Fuigure out how to check all bids based on association of schedule.bid_close
+              current_bids = employee.bids.all.select { |bid| bid.schedule.bid_close.to_fs == param_date_formatted}
+              check = current_bids.detect do |bid|
+                if(bid.schedule.number_available > 0)
+                  # p "#{employee.first_name} #{employee.last_name} ------------- SUCCESS THIS BID WAS AWARDED"
+                  current = bid.schedule.number_available
+                  bid.schedule.update(number_available: current - 1)
+                  bid.update(awarded: true)
+                  awarded_message(employee)
+                end unless current_bids == nil
+              end
+              if(check == nil)
+                # p "#{employee.first_name} Gat not enough lines"
+                not_enough_lines(employee)
+              end
+            end
           end
+          render json: { success: "Bid has been executed, messages have ben sent out!" }, status: :ok
+        else
+          render json: { errors: "This bid has not yet closed, please try again after the closing date." }, status: :forbidden
         end
-        render json: ["The bid has been executed, awards and not enough lines are going out now."], status: :ok
       else
-        render json: { errors: "The bid has not yet closed. This bid closes #{Schedule.first.bid_close}" }, status: :forbidden
+        render json: { errors: "This bid has already been awarded, Schedules can not be awarded more than once!" }, status: :forbidden
       end
     else
-      render json: { errors: "You are not authorized to award the bid." }, status: :unauthorized
+      render json: { errors: "Only and Admin can preform this action!" }, status: :unauthorized
     end
   end
 
@@ -99,17 +135,23 @@ class BidsController < ApplicationController
     params[:time_now].to_date > params[:bid_open].to_date && params[:time_now].to_date < params[:bid_close].to_date.end_of_day
   end
 
+  def check_if_awarded (start:, close:)
+    all_schedules_for_current_bid = Schedule.all.where(start_date: Date.parse(start), bid_close: Date.parse(close))
+    search = all_schedules_for_current_bid.all.detect { |schedule| schedule.bids.find_by(awarded:true) }
+    search ? false : true
+  end
+
   def awarded_message(employee)
     @client = Twilio::REST::Client.new ENV["ACCOUNT_SID"], ENV["AUTH_TOKEN"]
 
-    schedule_info = employee.bids.find_by(awarded:true).schedule
+    schedule_info = employee.bids.all.where(awarded:true).last.schedule
     shift_days = schedule_info.shift_info
     day_array = []
     shift_days.each do |d|
         if(d.day_off)
             day_array << "Off"
         else
-            day_array << "#{d.position}: #{d.start_time.strftime("%R")}-#{d.off_time.strftime("%R")}"
+            day_array << "#{d.position}: #{Time.at(d.start_time).strftime("%R")}-#{Time.at(d.off_time).strftime("%R")}"
         end
     end
 
