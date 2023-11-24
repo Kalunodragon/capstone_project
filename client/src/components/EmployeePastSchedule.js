@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loading from "./Loading"
-import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-// import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { Container, FormLabel, InputLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 // Create awarded section using icon and have the icon be colored as well
   // The icon should be the EmojiEventIcon
 
@@ -71,7 +71,7 @@ function EmployeePastSchedule({ scheduleArray }){
                     {index + 1}
                   </TableCell>
                   <TableCell align="center">
-                    {!!bidFoundByID(schedule.id) ? bidFoundByID(schedule.id).awarded ? "Award " + bidFoundByID(schedule.id).choice_number : bidFoundByID(schedule.id).choice_number : "---"}
+                    {!!bidFoundByID(schedule.id) ? bidFoundByID(schedule.id).awarded ? <><EmojiEventsIcon /> {bidFoundByID(schedule.id).choice_number}</> : bidFoundByID(schedule.id).choice_number : "---"}
                   </TableCell>
                   {schedule.shifts.map((shiftObj)=>{
                     tableCellNumber++
