@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loading from "./Loading"
-import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 // import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 // Create awarded section using icon and have the icon be colored as well
   // The icon should be the EmojiEventIcon
@@ -8,6 +8,7 @@ import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHea
 function EmployeePastSchedule({ scheduleArray }){
   const [loading, setLoading] = useState(false)
   const [bids, setBids] = useState(null)
+  let tableCellNumber = 0
 
   useEffect(()=>{
     fetch("/bids")
@@ -70,8 +71,25 @@ function EmployeePastSchedule({ scheduleArray }){
                     {index + 1}
                   </TableCell>
                   <TableCell align="center">
-                    {!!bidFoundByID(schedule.id) ? bidFoundByID(schedule.id).awarded ? "AWARD" + " " + bidFoundByID(schedule.id).choice_number : bidFoundByID(schedule.id).choice_number : "-"}
+                    {!!bidFoundByID(schedule.id) ? bidFoundByID(schedule.id).awarded ? "Award " + bidFoundByID(schedule.id).choice_number : bidFoundByID(schedule.id).choice_number : "---"}
                   </TableCell>
+                  {schedule.shifts.map((shiftObj)=>{
+                    tableCellNumber++
+                      return(
+                        <TableCell align="center" key={tableCellNumber} sx={{ minWidth:"75px" }}>
+                          {shiftObj.shift.day_off ? 
+                            <Typography
+                              variant="h6"
+                              color="#3453c4"
+                              sx={{ backgroundColor:"#e2e2e2" }}
+                            >OFF</Typography> :
+                            <Typography align="center" variant="subtitle2">
+                              {shiftObj.shift.position}
+                            </Typography>}
+                              {shiftObj.shift.day_off ? null : `${shiftObj.shift.start_time}-${shiftObj.shift.off_time}`}
+                        </TableCell>
+                      )
+                  })}
                 </TableRow>
               )
             })}
