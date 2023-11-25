@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loading from "./Loading"
-import { Container, FormLabel, InputLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Alert, Container, FormLabel, InputLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 // Create awarded section using icon and have the icon be colored as well
   // The icon should be the EmojiEventIcon
@@ -8,6 +8,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 function EmployeePastSchedule({ scheduleArray }){
   const [loading, setLoading] = useState(false)
   const [bids, setBids] = useState(null)
+  const [errors, setErrors] = useState(null)
   let tableCellNumber = 0
 
   useEffect(()=>{
@@ -17,13 +18,12 @@ function EmployeePastSchedule({ scheduleArray }){
         res.json()
         .then((d)=>{
           setBids(d)
-          console.log(d)
           setLoading(true)
         })
       } else {
         res.json()
         .then((d)=>{
-
+          setErrors(d.errors)
           setLoading(true)
         })
       }
@@ -33,6 +33,12 @@ function EmployeePastSchedule({ scheduleArray }){
   if(!loading){
     return(
       <Loading />
+    )
+  }
+
+  if(errors){
+    return(
+      <Alert severity="error" variant="filled" align="center">{errors}</Alert>
     )
   }
 

@@ -1,9 +1,18 @@
+import { Container, Divider } from "@mui/material";
 import React from "react";
 
 function EmployeeBidCreate(){
 
   return(
-    <h1>CREATE BID COMP</h1>
+    <>
+      <Container align="center">
+        <h1>LIST OF BIDDED LINES</h1>
+      </Container>
+      <Divider />
+      <Container align="center">
+        <h1>SCHEDULE LIST</h1>
+      </Container>
+    </>
   )
 }
 
