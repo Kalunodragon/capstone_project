@@ -9,7 +9,7 @@ function EmployeeBidCreate({ scheduleArray }){
     // LOBL (List of bidded lines) array
     // This function or variable will take in a schedule line and add this line to an array of bidded lines
     // these lines will then be (map)ped through and given the ability to move the line up or down
-    // Main thing needed is the schedule.id for subbmiting the list of lines.
+    // Main thing needed is the schedule.id for submitting the list of lines.
     // These lines in here will also have a delete button that allows an Employee to remove the line from the
       // LOBL.
 
@@ -28,15 +28,80 @@ function EmployeeBidCreate({ scheduleArray }){
     if(found){
       window.alert(`Line ${lineNumber} has already been added to your current bid.`)
     } else {
-      setBid([...bid,schedule])
+      setBid([...bid,{l:lineNumber, s:scheduleToAdd}])
     }
   }
 
+  console.log(bid)
+
   return(
     <>
+      {bid.length !== 0 ? <> 
       <Container align="center">
-        <h1>LIST OF BIDDED LINES</h1>
-      </Container>
+        <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "30vh" }}>
+          <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" style={{ position:"sticky", left:0, zIndex:1000, background:"#e2e2e2" }}>Choice</TableCell>
+                <TableCell align="center">Line</TableCell>
+                <TableCell />
+                <TableCell align="center">Sunday</TableCell>
+                <TableCell align="center">Monday</TableCell>
+                <TableCell align="center">Tuesday</TableCell>
+                <TableCell align="center">Wednesday</TableCell>
+                <TableCell align="center">Thursday</TableCell>
+                <TableCell align="center">Friday</TableCell>
+                <TableCell align="center">Saturday</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {bid.map((sObj, index)=>{
+                return(
+                  <TableRow
+                    key={sObj.s.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:5, background:"#e2e2e2" }}>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="center">
+                      {sObj.l}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        align="center"
+                        variant="contained"
+                        size="small"
+                        color="error"
+                        onClick={()=>setBid(bid.filter((b)=>b.l !== sObj.l))}
+                      >
+                        delete
+                      </Button>
+                    </TableCell>
+                    {sObj.s.shifts.map((shiftObj)=>{
+                          tableCellNumber++
+                          return(
+                            <TableCell align="center" key={tableCellNumber} sx={{ minWidth:"75px" }}>
+                                {shiftObj.shift.day_off ? 
+                                  <Typography
+                                    variant="h6"
+                                    color="#3453c4"
+                                    sx={{ backgroundColor:"#e2e2e2" }}
+                                  >OFF</Typography> :
+                                  <Typography align="center" variant="subtitle2">
+                                    {shiftObj.shift.position}
+                                  </Typography>}
+                                {shiftObj.shift.day_off ? null : `${shiftObj.shift.start_time}-${shiftObj.shift.off_time}`}
+                            </TableCell>
+                          )
+                        })}
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container><br/></> : null}
       <Container align="center">
         <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
           <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
@@ -65,7 +130,7 @@ function EmployeeBidCreate({ scheduleArray }){
                     <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:5, background:"#e2e2e2" }}>
                       {lineNumber}
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       {schedule.number_available}
                     </TableCell>
                     <TableCell align="center">
@@ -75,7 +140,7 @@ function EmployeeBidCreate({ scheduleArray }){
                         size="small"
                         onClick={()=>handleLineAdd(schedule, lineNumber)}
                       >
-                        ADD
+                        add
                       </Button>
                     </TableCell>
                     {schedule.shifts.map((shiftObj)=>{
