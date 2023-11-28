@@ -23,6 +23,7 @@ function Bidding(){
         res.json()
         .then((d)=>{
           setSchedules(d)
+          console.log(d)
           setLoading(true)
         })
       } else {
@@ -42,7 +43,7 @@ function Bidding(){
 
   const listOfScheduleDates = schedules.filter((schedule, index)=>{
     return schedules.findIndex((currentSchedule)=>{
-      return currentSchedule.start_date === schedule.start_date && currentSchedule.end_date === schedule.end_date && dayjs(schedule.bid_open).startOf('day') < today
+      return currentSchedule.start_date === schedule.start_date && currentSchedule.end_date === schedule.end_date && dayjs(schedule.bid_open).startOf('day') <= today
     }) === index
   })
 

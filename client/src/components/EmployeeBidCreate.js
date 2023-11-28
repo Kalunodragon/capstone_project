@@ -1,7 +1,8 @@
-import { Container, Divider } from "@mui/material";
+import { Container, Paper, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React from "react";
 
-function EmployeeBidCreate(){
+function EmployeeBidCreate({ scheduleArray }){
+
 
   // Create a function or variable that creates biddedLines(lineToAdd)
     // LOBL (List of bidded lines) array
@@ -26,7 +27,24 @@ function EmployeeBidCreate(){
         <h1>LIST OF BIDDED LINES</h1>
       </Container>
       <Container align="center">
-        <h1>SCHEDULE LIST</h1>
+        <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
+          <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" style={{ position:"sticky", left:0, zIndex:1000, background:"#e2e2e2" }}>Line</TableCell>
+                <TableCell align="center">Limit</TableCell>
+                <TableCell align="center"></TableCell>
+                <TableCell align="center">/Sunday</TableCell>
+                <TableCell align="center">Monday</TableCell>
+                <TableCell align="center">Tuesday</TableCell>
+                <TableCell align="center">Wednesday</TableCell>
+                <TableCell align="center">Thursday</TableCell>
+                <TableCell align="center">Friday</TableCell>
+                <TableCell align="center">Saturday</TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+        </TableContainer>
       </Container>
     </>
   )
