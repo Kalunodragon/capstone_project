@@ -22,9 +22,14 @@ function EmployeeBidCreate({ scheduleArray }){
     // choice_number will be the index value + 1 from the array of lines from the frontend
     // awarded will always be false from the backend
 
-  function handleLineAdd(scheduleToAdd, line){
-    console.log(line, scheduleToAdd)
-    // cont. building out adding lines to the array in state then map through it and display those lines
+  function handleLineAdd(scheduleToAdd, lineNumber){
+    console.log(lineNumber, scheduleToAdd)
+    const found = bid.find((line)=>line.id === scheduleToAdd.id)
+    if(found){
+      window.alert(`Line ${lineNumber} has already been added to your current bid.`)
+    } else {
+      setBid([...bid,schedule])
+    }
   }
 
   return(
