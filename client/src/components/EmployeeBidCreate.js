@@ -1,8 +1,8 @@
-import { Container, Paper, Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import React from "react";
+import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import React, { useState } from "react";
 
 function EmployeeBidCreate({ scheduleArray }){
-
+  const [bid, setBid] = useState([])
 
   // Create a function or variable that creates biddedLines(lineToAdd)
     // LOBL (List of bidded lines) array
@@ -33,7 +33,7 @@ function EmployeeBidCreate({ scheduleArray }){
               <TableRow>
                 <TableCell align="center" style={{ position:"sticky", left:0, zIndex:1000, background:"#e2e2e2" }}>Line</TableCell>
                 <TableCell align="center">Limit</TableCell>
-                <TableCell align="center"></TableCell>
+                <TableCell></TableCell>
                 <TableCell align="center">Sunday</TableCell>
                 <TableCell align="center">Monday</TableCell>
                 <TableCell align="center">Tuesday</TableCell>
@@ -43,6 +43,20 @@ function EmployeeBidCreate({ scheduleArray }){
                 <TableCell align="center">Saturday</TableCell>
               </TableRow>
             </TableHead>
+            <TableBody>
+              {scheduleArray.map((schedule, index)=>{
+                return(
+                  <TableRow
+                    key={schedule.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:0, background:"#e2e2e2" }}>
+                      {index + 1}
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
           </Table>
         </TableContainer>
       </Container>
