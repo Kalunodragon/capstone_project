@@ -1,8 +1,9 @@
-import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 function EmployeeBidCreate({ scheduleArray }){
   const [bid, setBid] = useState([])
+  let tableCellNumber = 0
 
   // Create a function or variable that creates biddedLines(lineToAdd)
     // LOBL (List of bidded lines) array
@@ -21,6 +22,10 @@ function EmployeeBidCreate({ scheduleArray }){
     // choice_number will be the index value + 1 from the array of lines from the frontend
     // awarded will always be false from the backend
 
+  function handleLineAdd(scheduleToAdd, line){
+    console.log(line, scheduleToAdd)
+  }
+
   return(
     <>
       <Container align="center">
@@ -33,7 +38,7 @@ function EmployeeBidCreate({ scheduleArray }){
               <TableRow>
                 <TableCell align="center" style={{ position:"sticky", left:0, zIndex:1000, background:"#e2e2e2" }}>Line</TableCell>
                 <TableCell align="center">Limit</TableCell>
-                <TableCell></TableCell>
+                <TableCell />
                 <TableCell align="center">Sunday</TableCell>
                 <TableCell align="center">Monday</TableCell>
                 <TableCell align="center">Tuesday</TableCell>
@@ -45,14 +50,45 @@ function EmployeeBidCreate({ scheduleArray }){
             </TableHead>
             <TableBody>
               {scheduleArray.map((schedule, index)=>{
+                const lineNumber = index + 1
                 return(
                   <TableRow
                     key={schedule.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:0, background:"#e2e2e2" }}>
-                      {index + 1}
+                    <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:5, background:"#e2e2e2" }}>
+                      {lineNumber}
                     </TableCell>
+                    <TableCell>
+                      {schedule.number_available}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        align="center"
+                        variant="contained"
+                        size="small"
+                        onClick={()=>handleLineAdd(schedule, lineNumber)}
+                      >
+                        ADD
+                      </Button>
+                    </TableCell>
+                    {schedule.shifts.map((shiftObj)=>{
+                          tableCellNumber++
+                          return(
+                            <TableCell align="center" key={tableCellNumber} sx={{ minWidth:"75px" }}>
+                                {shiftObj.shift.day_off ? 
+                                  <Typography
+                                    variant="h6"
+                                    color="#3453c4"
+                                    sx={{ backgroundColor:"#e2e2e2" }}
+                                  >OFF</Typography> :
+                                  <Typography align="center" variant="subtitle2">
+                                    {shiftObj.shift.position}
+                                  </Typography>}
+                                {shiftObj.shift.day_off ? null : `${shiftObj.shift.start_time}-${shiftObj.shift.off_time}`}
+                            </TableCell>
+                          )
+                        })}
                   </TableRow>
                 )
               })}
