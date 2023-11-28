@@ -69,5 +69,3 @@ p "Generating Bids"
 p "Finished generating Bids"
 p " "
 p "--- Finished Seed Generator ---"
-
-byebug
