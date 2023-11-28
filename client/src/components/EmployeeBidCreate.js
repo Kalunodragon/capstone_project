@@ -24,6 +24,7 @@ function EmployeeBidCreate({ scheduleArray }){
 
   function handleLineAdd(scheduleToAdd, line){
     console.log(line, scheduleToAdd)
+    // cont. building out adding lines to the array in state then map through it and display those lines
   }
 
   return(
