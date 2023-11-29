@@ -2,6 +2,7 @@ class BidsController < ApplicationController
   skip_before_action :auth, only: :test
 
   def create
+    @current_bids = []
     if(@current_employee)
       # currentTime = new Date(Date.now()).toJSON() from front
       if(check_times)
@@ -11,9 +12,9 @@ class BidsController < ApplicationController
             render json: { errors: "There is an issue with dupicates in your bid please fix and resubmit!" }, status: :unprocessable_entity
           else
             dups_removed.each do |b|
-              @current_employee.bids.create(choice_number: b[:choice_number], schedule_id: b[:schedule_id], awarded: false)
+              @current_bids << @current_employee.bids.create(choice_number: b[:choice_number], schedule_id: b[:schedule_id], awarded: false)
             end
-            render json: @current_employee.bids.all, serializer: BidSerializer, status: :created
+            render json: @current_bids, each_serializer: BidSerializer, status: :created
           end
         else
           render json: { errors: "Error - A bid has already been submitted for this bid" }, status: :forbidden
