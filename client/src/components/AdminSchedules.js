@@ -69,8 +69,8 @@ function AdminSchedules(){
       setCurrent(true)
     }
     switch(route){
-      case "All": navigate("all"); break;
-      case "Manage": navigate("manage"); break;
+      case "All": navigate("/admin-schedules/all"); break;
+      case "Manage": navigate("/admin-schedules/manage"); break;
       default: navigate("/admin-schedules");
     }
   }
