@@ -116,7 +116,7 @@ function Bidding(){
           <Divider />
           {!filteredSchedules ? 
             <Typography variant="p">
-              WIP TEXT: Secion below is for viewing bids. If a schedule is out of the "Bidding timeframe" then 
+              WIP TEXT: Section below is for viewing bids. If a schedule is out of the "Bidding timeframe" then 
               it will now allow you to create a bid for that schedule. If the schedule is within its "Bidding 
               timeframe" the selected section will show a green airplane for that option. This shows that you 
               are able to bid for that schedule time frame.
