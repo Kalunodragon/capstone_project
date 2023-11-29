@@ -85,7 +85,7 @@ function Bidding(){
   const pastOrCurrent = (filteredSchedules ?
     dayjs(filteredSchedules[0].bid_close).endOf('day') < today ?
       <EmployeePastSchedule scheduleArray={filteredSchedules}/> :
-      <EmployeeBidCreate scheduleArray={filteredSchedules} />
+      <EmployeeBidCreate scheduleArray={filteredSchedules} month={dayjs(selected).format("MMMM")}/>
       : null)
 
   function checkForOpenBid(){
