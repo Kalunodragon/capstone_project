@@ -5,14 +5,18 @@ class BidsController < ApplicationController
     if(@current_employee)
       # currentTime = new Date(Date.now()).toJSON() from front
       if(check_times)
-        dups_removed = params[:bids].uniq { |b| b[:schedule_id] }
-        if(dups_removed.size != params[:bids].size)
-          render json: { errors: "There is an issue with dupicates in your bid please fix and resubmit!" }, status: :unprocessable_entity
-        else
-          dups_removed.each do |b|
-            @current_employee.bids.create(choice_number: b[:choice_number], schedule_id: b[:schedule_id], awarded: false)
+        if(bid_check)
+          dups_removed = params[:bids].uniq { |b| b[:schedule_id] }
+          if(dups_removed.size != params[:bids].size)
+            render json: { errors: "There is an issue with dupicates in your bid please fix and resubmit!" }, status: :unprocessable_entity
+          else
+            dups_removed.each do |b|
+              @current_employee.bids.create(choice_number: b[:choice_number], schedule_id: b[:schedule_id], awarded: false)
+            end
+            render json: @current_employee.bids.all, serializer: BidSerializer, status: :created
           end
-          render json: @current_employee.bids.all, serializer: BidSerializer, status: :created
+        else
+          render json: { errors: "Error - A bid has already been submitted for this bid" }, status: :forbidden
         end
       else
         render json: { errors: "Out of time frame for Bid. Please try again while Bid is open." }, status: :unauthorized
@@ -114,7 +118,7 @@ class BidsController < ApplicationController
                 end unless current_bids == nil
               end
               if(check == nil)
-                # Removed twilio method due to trial exhaustion
+                
                 p "#{employee.first_name} Gat not enough lines"
                 # not_enough_lines(employee)
               end
@@ -136,6 +140,11 @@ class BidsController < ApplicationController
 
   def check_times
     params[:time_now].to_date > params[:bid_open].to_date && params[:time_now].to_date < params[:bid_close].to_date.end_of_day
+  end
+
+  def bid_check
+    check = @current_employee.bids.find { |bid| bid.schedule.bid_open.to_date == params[:bid_open].to_date && bid.schedule.bid_close.to_date == params[:bid_close].to_date}
+    check ? false : true
   end
 
   def check_if_awarded (start:, close:)
