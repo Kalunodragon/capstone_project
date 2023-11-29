@@ -104,16 +104,19 @@ class BidsController < ApplicationController
               current_bids = employee.bids.all.select { |bid| bid.schedule.bid_close.to_fs == param_date_formatted}
               check = current_bids.detect do |bid|
                 if(bid.schedule.number_available > 0)
-                  # p "#{employee.first_name} #{employee.last_name} ------------- SUCCESS THIS BID WAS AWARDED"
                   current = bid.schedule.number_available
                   bid.schedule.update(number_available: current - 1)
                   bid.update(awarded: true)
-                  awarded_message(employee)
+
+                  # Removed twilio method due to trial exhaustion
+                  p "#{employee.first_name} #{employee.last_name} ------------- SUCCESS THIS BID WAS AWARDED"
+                  # awarded_message(employee)
                 end unless current_bids == nil
               end
               if(check == nil)
-                # p "#{employee.first_name} Gat not enough lines"
-                not_enough_lines(employee)
+                # Removed twilio method due to trial exhaustion
+                p "#{employee.first_name} Gat not enough lines"
+                # not_enough_lines(employee)
               end
             end
           end

@@ -12,7 +12,10 @@ class EmployeesController < ApplicationController
                 number_gen = (Employee.maximum("employee_number")[1..-1].to_i + 1)
                 params[:employee_number] = "E#{number_gen}"
                 employee = Employee.create!(employee_params)
-                message_employee_password(password_gen, employee)
+
+                # Removed twilio method due to trial exhaustion
+                p password_gen, employee
+                # message_employee_password(password_gen, employee)
                 render json: employee, status: :created
             else
                 render json: { errors: "Error - Incorrect password, please try again" }, status: :unauthorized
@@ -43,7 +46,10 @@ class EmployeesController < ApplicationController
             if(@current_employee.authenticate(params[:admin_password]))
                 employee = Employee.find_by(id:params[:id])
                 employee.update!(admin_params)
-                message_admin_update(employee)
+
+                # Removed twilio method due to trial exhaustion
+                p employee
+                # message_admin_update(employee)
                 render json: employee, status: :accepted
             else
                 render json: { errors: "Error - Incorrect password, try again" }, status: :unauthorized
@@ -54,7 +60,10 @@ class EmployeesController < ApplicationController
                     if(params[:new_password] == params[:new_password_confirmation])
                         params[:password] = params[:new_password]
                         @current_employee.update(new_password_update_params)
-                        message_employee_update(employee)
+
+                        # Removed twilio method due to trial exhaustion
+                        p @current_employee
+                        # message_employee_update(employee)
                         render json: @current_employee, status: :accepted
                     else
                         render json: { errors: "Error - New passwords must match" }, status: :not_acceptable
