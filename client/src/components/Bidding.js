@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Loading from "./Loading";
-import { Button, Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Alert, Button, Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import CircleIcon from '@mui/icons-material/Circle';
 import FlightIcon from '@mui/icons-material/Flight';
 import dayjs from 'dayjs';
 import EmployeePastSchedule from "./EmployeePastSchedule";
 import EmployeeBidCreate from "./EmployeeBidCreate";
+import { splitFieldInternalAndForwardedProps } from "@mui/x-date-pickers/internals";
 
 function Bidding(){
   const [loading, setLoading] = useState(false)
@@ -14,6 +15,7 @@ function Bidding(){
   const [selected, setSelected] = useState(null)
   const [filteredSchedules, setFilteredSchedules] = useState(null)
   const [openBid, setOpenBid] = useState(null)
+  const [errors, setErrors] = useState(null)
   const today = dayjs()
 
   useEffect(()=>{
@@ -23,13 +25,13 @@ function Bidding(){
         res.json()
         .then((d)=>{
           setSchedules(d)
-          console.log(d)
           setLoading(true)
         })
       } else {
         res.json()
         .then((d)=>{
           setLoading(true)
+          setErrors(d.errors)
         })
       }
     })
@@ -110,6 +112,7 @@ function Bidding(){
           <Typography variant="h4" align="center">
             Bidding
           </Typography>
+          {errors ? <><Divider /><br/><Alert severity="error" align="center" variant="filled">{errors}</Alert><br/></> : null}
           <Divider />
           {!filteredSchedules ? 
             <Typography variant="p">
