@@ -24,7 +24,7 @@ function EmployeeBidCreate({ scheduleArray }){
 
   function handleLineAdd(scheduleToAdd, lineNumber){
     console.log(lineNumber, scheduleToAdd)
-    const found = bid.find((line)=>line.id === scheduleToAdd.id)
+    const found = bid.find((line)=>line.s.id === scheduleToAdd.id)
     if(found){
       window.alert(`Line ${lineNumber} has already been added to your current bid.`)
     } else {
