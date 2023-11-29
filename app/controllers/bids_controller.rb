@@ -29,11 +29,11 @@ class BidsController < ApplicationController
 
   def current_exists
     if(@current_employee)
-      if(bid_check)
-        render json: { info: "No bids created for this time period yet!" }, status: :ok
-      else
+      if(!bid_check)
         current_bids = @current_employee.bids.select { |bid| bid.schedule.bid_close.to_date == params[:bid_close].to_date && bid.schedule.bid_open.to_date == params[:bid_open].to_date }
-        render json: current_bids, each_serializer: BidSerializer, status: :forbidden
+        render json: current_bids, each_serializer: BidSerializer, status: :ok
+      else
+        render json: { info: "No Bids created for current Bid time frame." }, status: :ok
       end
     else
       render json: { errors: "Please login to preform this action!" }, status: :unauthorized
