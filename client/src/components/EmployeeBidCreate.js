@@ -1,30 +1,44 @@
-import { Button, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Button, Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import ForwardIcon from '@mui/icons-material/Forward';
+import Loading from "./Loading";
 
-function EmployeeBidCreate({ scheduleArray }){
+function EmployeeBidCreate({ scheduleArray, month }){
   const [bid, setBid] = useState([])
   const [clicked, setClicked] = useState(false)
   const [errors, setErrors] = useState(null)
   const [success, setSuccess] = useState(null)
+  const [loaded, setLoaded] = useState(false)
+  const [previous, setPrevious] = useState(null)
   let tableCellNumber = 0
 
-  // Create a function or variable that creates biddedLines(lineToAdd)
-    // LOBL (List of bidded lines) array
-    // This function or variable will take in a schedule line and add this line to an array of bidded lines
-    // these lines will then be (map)ped through and given the ability to move the line up or down
-    // Main thing needed is the schedule.id for submitting the list of lines.
-    // These lines in here will also have a delete button that allows an Employee to remove the line from the
-      // LOBL.
-
-  // Have a list of all schedule lines on current bid. These lines will show similar to the AllSchedules.js
-    // The main difference will be an add line feature if you click on a line have it added to the LOBL
-
-  // For the backend once submitted
-    // employee_id will come from backend @current_employee
-    // awarded will always be false from the backend
-
-  // Work on making lines move up or down in the list of bidded lines
+  useEffect(()=>{
+    const dateInfo = {
+      "bid_open": scheduleArray[0].bid_open,
+      "bid_close": scheduleArray[0].bid_close
+    }
+    fetch("/bid_check",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(dateInfo)
+    })
+    .then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          setLoaded(true)
+        })
+      } else {
+        res.json()
+        .then((d)=>{
+          setPrevious(d)
+          console.log(d)
+          setLoaded(true)
+        })
+      }})
+  },[])
 
   function handleLineAdd(scheduleToAdd, lineNumber){
     const found = bid.find((line)=>line.s.id === scheduleToAdd.id)
@@ -76,6 +90,7 @@ function EmployeeBidCreate({ scheduleArray }){
         .then((d)=>{
           console.log(d)
           setSuccess(d)
+          setPrevious(d)
           setClicked(false)
         })
       } else {
@@ -89,13 +104,90 @@ function EmployeeBidCreate({ scheduleArray }){
     })
   }
 
+  if(!loaded){
+    return(
+      <Loading />
+    )
+  }
+
+  if(previous){
+    return(
+      <>
+      <Container align="center">
+        <Paper align="center" className="profile">
+          <Typography variant="h4" align="center">Current Submitted Bid</Typography>
+          <Typography variant="p">
+            You have already submitted a Bid for this current Bid. That Bid is as follows.
+          </Typography>
+          <br/>
+        </Paper>
+      </Container>
+      <br/>
+      <Container align="center">
+        <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
+          <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" style={{ position:"sticky", left:0, zIndex:1000, background:"#f9b612" }}>Choice</TableCell>
+                <TableCell align="center">Line</TableCell>
+                <TableCell align="center">Sunday</TableCell>
+                <TableCell align="center">Monday</TableCell>
+                <TableCell align="center">Tuesday</TableCell>
+                <TableCell align="center">Wednesday</TableCell>
+                <TableCell align="center">Thursday</TableCell>
+                <TableCell align="center">Friday</TableCell>
+                <TableCell align="center">Saturday</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {previous.map((line, index)=>{
+                return(
+                  <TableRow
+                    key={line.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:5, background:"#f9b612" }}>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="center">
+                      {line.id}
+                    </TableCell>
+                    {line.schedule.shifts.map((shiftObj)=>{
+                          tableCellNumber++
+                          return(
+                            <TableCell align="center" key={tableCellNumber} sx={{ minWidth:"75px" }}>
+                                {shiftObj.shift.day_off ? 
+                                  <Typography
+                                    variant="h6"
+                                    color="#3453c4"
+                                    sx={{ backgroundColor:"#e2e2e2" }}
+                                  >OFF</Typography> :
+                                  <Typography align="center" variant="subtitle2">
+                                    {shiftObj.shift.position}
+                                  </Typography>}
+                                {shiftObj.shift.day_off ? null : `${shiftObj.shift.start_time}-${shiftObj.shift.off_time}`}
+                            </TableCell>
+                          )
+                        })}
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
+      <br/>
+      </>
+    )
+  }
+
   return(
     <>
       <Container align="center">
         <Paper align="center" className="profile">
-          <Typography variant="h4" align="center">Bid</Typography>
+          <Typography variant="h4" align="center">Your Bid</Typography>
           <Typography variant="p">
-            This is your current Bid. When finished press the "SUBMIT" button at the bottom of this section.
+            Your current Bid is below this section with the Yellow Choice numbers. When finished press the "SUBMIT" button.
             CAUTION: A Bid can only be submitted once! Make sure your lines are as you want them before submitting!
           </Typography>
           <br/>
@@ -197,7 +289,14 @@ function EmployeeBidCreate({ scheduleArray }){
         </TableContainer>
       </Container>
       <br/>
+      <Divider />
       </> : null}
+      <Container align="center">
+        <Paper align="center" className="profile">
+          <Typography variant="h4" align="center">{month} Bid</Typography>
+        </Paper>
+      </Container>
+      <br/>
       <Container align="center">
         <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
           <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
