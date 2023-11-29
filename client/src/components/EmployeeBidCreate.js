@@ -5,6 +5,8 @@ import ForwardIcon from '@mui/icons-material/Forward';
 function EmployeeBidCreate({ scheduleArray }){
   const [bid, setBid] = useState([])
   const [clicked, setClicked] = useState(false)
+  const [errors, setErrors] = useState(null)
+  const [success, setSuccess] = useState(null)
   let tableCellNumber = 0
 
   // Create a function or variable that creates biddedLines(lineToAdd)
@@ -20,8 +22,6 @@ function EmployeeBidCreate({ scheduleArray }){
 
   // For the backend once submitted
     // employee_id will come from backend @current_employee
-    // schedule_id's will come from an array of lines from the frontend
-    // choice_number will be the index value + 1 from the array of lines from the frontend
     // awarded will always be false from the backend
 
   // Work on making lines move up or down in the list of bidded lines
@@ -52,6 +52,41 @@ function EmployeeBidCreate({ scheduleArray }){
   function handleSubmit(e){
     e.preventDefault()
     setClicked(true)
+    // console.log(bid.map((line,index)=>{
+    //   return {"choice_number":index+1, "schedule_id":line.s.id}
+    // }))
+    const bidInfo = {
+      "time_now": new Date(Date.now()).toJSON(),
+      "bid_open": scheduleArray[0].bid_open,
+      "bid_close": scheduleArray[0].bid_close,
+      "bids": bid.map((line,index)=>{
+        return {"choice_number":index+1, "schedule_id":line.s.id}
+      })
+    }
+    fetch("/bids",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(bidInfo)
+    })
+    .then((res)=>{
+      if(res.ok){
+        res.json()
+        .then((d)=>{
+          console.log(d)
+          setSuccess(d)
+          setClicked(false)
+        })
+      } else {
+        res.json()
+        .then((d)=>{
+          console.log(d)
+          setErrors(d.errors)
+          setClicked(false)
+        })
+      }
+    })
   }
 
   return(
