@@ -1,4 +1,4 @@
-import { Button, Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Alert, Button, Container, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ForwardIcon from '@mui/icons-material/Forward';
 import Loading from "./Loading";
@@ -28,12 +28,14 @@ function EmployeeBidCreate({ scheduleArray, month }){
       if(res.ok){
         res.json()
         .then((d)=>{
+          if(d.constructor === Array){
+            setPrevious(d)
+          }
           setLoaded(true)
         })
       } else {
         res.json()
         .then((d)=>{
-          setPrevious(d)
           console.log(d)
           setLoaded(true)
         })
@@ -66,9 +68,6 @@ function EmployeeBidCreate({ scheduleArray, month }){
   function handleSubmit(e){
     e.preventDefault()
     setClicked(true)
-    // console.log(bid.map((line,index)=>{
-    //   return {"choice_number":index+1, "schedule_id":line.s.id}
-    // }))
     const bidInfo = {
       "time_now": new Date(Date.now()).toJSON(),
       "bid_open": scheduleArray[0].bid_open,
@@ -88,7 +87,6 @@ function EmployeeBidCreate({ scheduleArray, month }){
       if(res.ok){
         res.json()
         .then((d)=>{
-          console.log(d)
           setSuccess(d)
           setPrevious(d)
           setClicked(false)
@@ -96,7 +94,6 @@ function EmployeeBidCreate({ scheduleArray, month }){
       } else {
         res.json()
         .then((d)=>{
-          console.log(d)
           setErrors(d.errors)
           setClicked(false)
         })
@@ -116,9 +113,13 @@ function EmployeeBidCreate({ scheduleArray, month }){
       <Container align="center">
         <Paper align="center" className="profile">
           <Typography variant="h4" align="center">Current Submitted Bid</Typography>
-          <Typography variant="p">
-            You have already submitted a Bid for this current Bid. That Bid is as follows.
-          </Typography>
+          {success ?
+            <Typography>
+              Your Bid has been submitted successfully. Your Bid is as follows.
+            </Typography> :
+            <Typography variant="p">
+              You have already submitted a Bid for this current Bid. That Bid is as follows.
+            </Typography>}
           <br/>
         </Paper>
       </Container>
@@ -129,7 +130,6 @@ function EmployeeBidCreate({ scheduleArray, month }){
             <TableHead>
               <TableRow>
                 <TableCell align="center" style={{ position:"sticky", left:0, zIndex:1000, background:"#f9b612" }}>Choice</TableCell>
-                <TableCell align="center">Line</TableCell>
                 <TableCell align="center">Sunday</TableCell>
                 <TableCell align="center">Monday</TableCell>
                 <TableCell align="center">Tuesday</TableCell>
@@ -148,9 +148,6 @@ function EmployeeBidCreate({ scheduleArray, month }){
                   >
                     <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:5, background:"#f9b612" }}>
                       {index + 1}
-                    </TableCell>
-                    <TableCell align="center">
-                      {line.id}
                     </TableCell>
                     {line.schedule.shifts.map((shiftObj)=>{
                           tableCellNumber++
@@ -248,19 +245,17 @@ function EmployeeBidCreate({ scheduleArray, month }){
                     </TableCell>
                     <TableCell>
                       {index === 0 ? null : <IconButton
-                      
+                        onClick={()=>handleMoveUpDown(index, "U")}
                       >
                         <ForwardIcon 
                           style={{ transform: "rotate(-90deg)" }}
-                          onClick={()=>handleMoveUpDown(index, "U")}
                         />
                       </IconButton>}
                       {index === bid.length - 1 ? null : <IconButton
-                      
+                        onClick={()=>handleMoveUpDown(index, "D")}
                       >
                         <ForwardIcon 
                           style={{ transform: "rotate(90deg)" }}
-                          onClick={()=>handleMoveUpDown(index, "D")}
                         />
                       </IconButton>}
                     </TableCell>
