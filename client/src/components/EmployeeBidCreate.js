@@ -52,7 +52,6 @@ function EmployeeBidCreate({ scheduleArray }){
   function handleSubmit(e){
     e.preventDefault()
     setClicked(true)
-    console.log(bid.map((line) => line.s.id))
   }
 
   return(
