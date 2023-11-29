@@ -27,14 +27,18 @@ class BidsController < ApplicationController
     end
   end
 
-  # def index
-  #   if(@current_employee)
-  #     all_bids = @current_employee.bids.map{|b| b.schedule}
-  #     render json: all_bids, each_serializer: ScheduleSerializer, status: :ok
-  #   else
-  #     render json: { errors: "Please login to preform this action!" }, status: :unauthorized
-  #   end
-  # end
+  def current_exists
+    if(@current_employee)
+      if(bid_check)
+        render json: { info: "No bids created for this time period yet!" }, status: :ok
+      else
+        current_bids = @current_employee.bids.select { |bid| bid.schedule.bid_close.to_date == params[:bid_close].to_date && bid.schedule.bid_open.to_date == params[:bid_open].to_date }
+        render json: current_bids, each_serializer: BidSerializer, status: :forbidden
+      end
+    else
+      render json: { errors: "Please login to preform this action!" }, status: :unauthorized
+    end
+  end
 
   def index
     if(@current_employee)

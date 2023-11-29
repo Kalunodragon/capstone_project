@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   post "/award_bid", to: "bids#award_bid"
   get "/test", to: "employees#test"
   get "/employee", to: "employees#show"
+  post "/bid_check", to: "bids#current_exists"
 
   resources :schedules, only: [:create, :index, :show, :update, :destroy]
   resources :shifts, only: [:create, :index, :show, :update, :destroy]
