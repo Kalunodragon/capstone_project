@@ -57,8 +57,8 @@ function AdminShifts(){
       setCurrent("main")
     }
     switch(route){
-      case "All": navigate("all"); break;
-      case "New": navigate("new"); break;
+      case "All": navigate("/admin-shifts/all"); break;
+      case "New": navigate("/admin-shifts/new"); break;
       default: navigate("/admin-shifts");
     }
   }

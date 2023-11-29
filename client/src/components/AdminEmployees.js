@@ -76,8 +76,8 @@ function AdminEmployees(){
       setCurrent("main")
     }
     switch(route){
-      case "All": navigate("all"); break;
-      case "New": navigate("new"); break;
+      case "All": navigate("/admin-employees/all"); break;
+      case "New": navigate("/admin-employees/new"); break;
       default: navigate("/admin-employees");
     }
   }
