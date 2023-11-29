@@ -11,35 +11,35 @@ require 'date'
 p Date.today
 
 p "--- Starting Seed Generator ---"
-# p " "
-# p "Generating Employees"
-#     Employee.create(first_name:"Andrew", last_name:"Onulak", department:"Ramp", phone_number:7325759043, email:"test@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1992,5,2), admin:false, password:"testing", employee_number: "E2")
-#     Employee.create(first_name:"Drew", last_name:"Jordan", department:"Ramp", phone_number:7325759043, email:"test2@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1990,8,12), admin:true, password:"testing", employee_number: "E1")
-#     Employee.create(first_name:"Deletable", last_name:"Delete-Me", department:"Ramp", phone_number:7325759043, email:"delete@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.yesterday.yesterday, admin:false, password:"testing", employee_number: "E199998")
-#     Employee.create(first_name:"Willson", last_name:"Shouldget", department:"Ramp", phone_number:7325759043, email:"delete2@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.yesterday, admin:false, password:"testing", employee_number: "E199999")
-#     Employee.create(first_name:"Deletable3", last_name:"Delete-Me3", department:"Ramp", phone_number:7325759043, email:"delete3@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.today, admin:false, password:"testing", employee_number: "E200000")
+p " "
+p "Generating Employees"
+    Employee.create(first_name:"Andrew", last_name:"Onulak", department:"Ramp", phone_number:7325759043, email:"test@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1992,5,2), admin:false, password:"testing", employee_number: "E2")
+    Employee.create(first_name:"Drew", last_name:"Jordan", department:"Ramp", phone_number:7325759043, email:"test2@test.com", station:"DEN", seniority_date: Date.new(2016,5,19), date_of_birth: Date.new(1990,8,12), admin:true, password:"testing", employee_number: "E1")
+    Employee.create(first_name:"Deletable", last_name:"Delete-Me", department:"Ramp", phone_number:7325759043, email:"delete@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.yesterday.yesterday, admin:false, password:"testing", employee_number: "E199998")
+    Employee.create(first_name:"Willson", last_name:"Shouldget", department:"Ramp", phone_number:7325759043, email:"delete2@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.yesterday, admin:false, password:"testing", employee_number: "E199999")
+    Employee.create(first_name:"Deletable3", last_name:"Delete-Me3", department:"Ramp", phone_number:7325759043, email:"delete3@test.com", station:"NONE", seniority_date: Date.today, date_of_birth: Date.today, admin:false, password:"testing", employee_number: "E200000")
 
-#     n = 11500
-#     100.times do |emp|
-#         f = Faker::Name.first_name
-#         l = Faker::Name.last_name
-#         h = Faker::Date.between(from: '1970-01-10', to: '2023-01-10')
-#         dob = h.next_year(-18)
-#         e = f + l + rand(1..999).to_s + "@test.com"
-#         en = "E" + n.to_s
-#         Employee.create(first_name:f,last_name:l,department:"Ramp",phone_number:7325759043,email:e,station:"DEN",seniority_date:Date.parse(h.to_s),date_of_birth:Date.parse(dob.to_s),admin:false,password:"testing",employee_number:en)
-#     end
+    n = 11500
+    10.times do |emp|
+        f = Faker::Name.first_name
+        l = Faker::Name.last_name
+        h = Faker::Date.between(from: '1970-01-10', to: '2023-01-10')
+        dob = h.next_year(-18)
+        e = f + l + rand(1..999).to_s + "@test.com"
+        en = "E" + n.to_s
+        Employee.create(first_name:f,last_name:l,department:"Ramp",phone_number:7325759043,email:e,station:"DEN",seniority_date:Date.parse(h.to_s),date_of_birth:Date.parse(dob.to_s),admin:false,password:"testing",employee_number:en)
+    end
 
-#     Employee.seniority_list.each do |emp|
-#         n += rand(1..3)
-#         if(emp.last_name == "Onulak")
-#             p n
-#         end
-#         num = "E"+n.to_s
-#         emp.update(password:"testing",employee_number:num)
-#     end
+    Employee.seniority_list.each do |emp|
+        n += rand(1..3)
+        if(emp.last_name == "Onulak")
+            p n
+        end
+        num = "E"+n.to_s
+        emp.update(password:"testing",employee_number:num)
+    end
 
-# p "Finished generating Employees"
+p "Finished generating Employees"
 p " "
 p "Generating Shifts"
     Shift.create(position: "Off", day_off: true, start_time: nil, off_time: nil)
