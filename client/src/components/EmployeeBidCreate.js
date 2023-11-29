@@ -1,5 +1,6 @@
-import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useState } from "react";
+import ForwardIcon from '@mui/icons-material/Forward';
 
 function EmployeeBidCreate({ scheduleArray }){
   const [bid, setBid] = useState([])
@@ -22,14 +23,30 @@ function EmployeeBidCreate({ scheduleArray }){
     // choice_number will be the index value + 1 from the array of lines from the frontend
     // awarded will always be false from the backend
 
+  // Work on making lines move up or down in the list of bidded lines
+
   function handleLineAdd(scheduleToAdd, lineNumber){
     console.log(lineNumber, scheduleToAdd)
     const found = bid.find((line)=>line.s.id === scheduleToAdd.id)
     if(found){
-      window.alert(`Line ${lineNumber} has already been added to your current bid.`)
+      window.alert(`Line ${lineNumber} has already been added to your current bid. Can not add duplicate lines.`)
     } else {
       setBid([...bid,{l:lineNumber, s:scheduleToAdd}])
     }
+  }
+
+  function reorder(event, currentBid){
+    const lineToMove = currentBid.find((item, index)=> index === event.currentIndex)
+    const otherLines = currentBid.filter((item, index)=> index !== event.currentIndex)
+    return [
+      ...otherLines.slice(0, event.movingToIndex),
+      lineToMove,
+      ...otherLines.slice(event.movingToIndex)
+    ]
+  }
+
+  function handleMoveUpDown(indexValue, direction){
+    setBid(reorder({currentIndex: indexValue, movingToIndex: indexValue + (direction === "U" ? (-1) : 1)}, bid))
   }
 
   console.log(bid)
@@ -38,13 +55,14 @@ function EmployeeBidCreate({ scheduleArray }){
     <>
       {bid.length !== 0 ? <> 
       <Container align="center">
-        <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "30vh" }}>
+        <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
           <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
             <TableHead>
               <TableRow>
-                <TableCell align="center" style={{ position:"sticky", left:0, zIndex:1000, background:"#e2e2e2" }}>Choice</TableCell>
+                <TableCell align="center" style={{ position:"sticky", left:0, zIndex:1000, background:"#f9b612" }}>Choice</TableCell>
                 <TableCell align="center">Line</TableCell>
                 <TableCell />
+                <TableCell>Move</TableCell>
                 <TableCell align="center">Sunday</TableCell>
                 <TableCell align="center">Monday</TableCell>
                 <TableCell align="center">Tuesday</TableCell>
@@ -61,7 +79,7 @@ function EmployeeBidCreate({ scheduleArray }){
                     key={sObj.s.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:5, background:"#e2e2e2" }}>
+                    <TableCell align="center" style={{ position:'sticky' ,left:0, zIndex:5, background:"#f9b612" }}>
                       {index + 1}
                     </TableCell>
                     <TableCell align="center">
@@ -77,6 +95,24 @@ function EmployeeBidCreate({ scheduleArray }){
                       >
                         delete
                       </Button>
+                    </TableCell>
+                    <TableCell>
+                      {index === 0 ? null : <IconButton
+                      
+                      >
+                        <ForwardIcon 
+                          style={{ transform: "rotate(-90deg)" }}
+                          onClick={()=>handleMoveUpDown(index, "U")}
+                        />
+                      </IconButton>}
+                      {index === bid.length - 1 ? null : <IconButton
+                      
+                      >
+                        <ForwardIcon 
+                          style={{ transform: "rotate(90deg)" }}
+                          onClick={()=>handleMoveUpDown(index, "D")}
+                        />
+                      </IconButton>}
                     </TableCell>
                     {sObj.s.shifts.map((shiftObj)=>{
                           tableCellNumber++
