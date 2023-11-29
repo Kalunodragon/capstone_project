@@ -4,6 +4,7 @@ import ForwardIcon from '@mui/icons-material/Forward';
 
 function EmployeeBidCreate({ scheduleArray }){
   const [bid, setBid] = useState([])
+  const [clicked, setClicked] = useState(false)
   let tableCellNumber = 0
 
   // Create a function or variable that creates biddedLines(lineToAdd)
@@ -26,7 +27,6 @@ function EmployeeBidCreate({ scheduleArray }){
   // Work on making lines move up or down in the list of bidded lines
 
   function handleLineAdd(scheduleToAdd, lineNumber){
-    console.log(lineNumber, scheduleToAdd)
     const found = bid.find((line)=>line.s.id === scheduleToAdd.id)
     if(found){
       window.alert(`Line ${lineNumber} has already been added to your current bid. Can not add duplicate lines.`)
@@ -49,10 +49,34 @@ function EmployeeBidCreate({ scheduleArray }){
     setBid(reorder({currentIndex: indexValue, movingToIndex: indexValue + (direction === "U" ? (-1) : 1)}, bid))
   }
 
-  console.log(bid)
+  function handleSubmit(e){
+    e.preventDefault()
+    setClicked(true)
+    console.log(bid.map((line) => line.s.id))
+  }
 
   return(
     <>
+      <Container align="center">
+        <Paper align="center" className="profile">
+          <Typography variant="h4" align="center">Bid</Typography>
+          <Typography variant="p">
+            This is your current Bid. When finished press the "SUBMIT" button at the bottom of this section.
+            CAUTION: A Bid can only be submitted once! Make sure your lines are as you want them before submitting!
+          </Typography>
+          <br/>
+          {bid.length === 0 ? null : <Button
+            sx={{ marginTop:1 }}
+            variant="contained"
+            size="large"
+            disabled={clicked}
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>}
+        </Paper>
+      </Container>
+      <br/>
       {bid.length !== 0 ? <> 
       <Container align="center">
         <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
@@ -137,7 +161,9 @@ function EmployeeBidCreate({ scheduleArray }){
             </TableBody>
           </Table>
         </TableContainer>
-      </Container><br/></> : null}
+      </Container>
+      <br/>
+      </> : null}
       <Container align="center">
         <TableContainer align="center" component={Paper} className="scheduleListTable" sx={{ maxHeight: "70vh" }}>
           <Table stickyHeader sx={{ minWidth:350, maxWidth:900 }} size="small" aria-label="ScheduleList">
