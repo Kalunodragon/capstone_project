@@ -26,6 +26,10 @@ Things you may want to cover:
 
 <!-- Comments on where to pick back up -->
 <!--
-    -Final testing phase for BACKEND, going through testing each route
-    -Will add serializers where needed, and will tweek things where needed
+    -Test full application
+    -Record video
+    -Create better README for the full application
+    -Start Cleaning up code.
+        -Create new components if needed to help break apart larger components (single functionality mindset)
+    -DRY out Backend
 -->
