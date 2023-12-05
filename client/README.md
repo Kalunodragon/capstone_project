@@ -1,3 +1,6 @@
+## THIS IS THE INNER README, PLEASE CHECK THE MAIN README FOR ALL INFO ON THIS APP
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
